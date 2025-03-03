@@ -4,7 +4,10 @@ session_start();
 
 require_once '../config/conn.php';
 
-if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+if (
+    !isset($_SESSION['user'])
+    || empty($_SESSION['user'])
+) {
     header('location: ../index.php');
     exit;
 }

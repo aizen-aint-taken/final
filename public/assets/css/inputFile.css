@@ -1,4 +1,3 @@
-
 .d-flex {
     display: flex;
 }
@@ -79,3 +78,36 @@
         padding: 10px;
     }
 }
+
+  * {
+            animation: none !important;
+            transform: none !important;
+        }
+
+
+
+        .modal,
+        .modal-dialog,
+        .modal-content,
+        .modal-header,
+        .close {
+            animation: initial important;
+            transform: initial important;
+        }
+
+        .card-container {
+            display: none;
+        }
+
+      
+
+        .book {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+
+        .filter {
+            font-size: 15px;
+            font-weight: normal;
+        }

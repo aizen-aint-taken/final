@@ -1,0 +1,109 @@
+ body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9fafc;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: '';
+            background: url('https://via.placeholder.com/1920x400') no-repeat center/cover;
+            opacity: 0.1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        p{
+            justify-content: flex-end;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        .content {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #007bff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content ul li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .content ul li::before {
+            content: '\f058';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        .footer {
+            background-color: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ffcc00;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }

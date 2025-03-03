@@ -1,0 +1,40 @@
+ * {
+            animation: none !important;
+            transform: none !important;
+        }
+
+
+
+        .modal,
+        .modal-dialog,
+        .modal-content,
+        .modal-header,
+        .close {
+            animation: initial important;
+            transform: initial important;
+        }
+
+        .card-container {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                display: none;
+            }
+
+            .card-container {
+                display: block;
+            }
+        }
+
+        .book {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+
+        .filter {
+            font-size: 15px;
+            font-weight: normal;
+        }

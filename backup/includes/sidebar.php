@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light elevation-4">
   <!-- Brand Logo -->
-  <a href="index.php" class="brand-link text-center py-3">
+  <a href="../admin/index.php" class="brand-link text-center py-3">
     <span class="brand-text font-weight-bold text-primary">Inventory Dashboard</span>
   </a>
 

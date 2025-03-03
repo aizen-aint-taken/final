@@ -4,6 +4,9 @@ include("../config/conn.php");
 
 require_once '../vendor/autoload.php';
 
+
+
+
 use PhpMqtt\Client\MqttClient;
 use PhpMqtt\Client\ConnectionSettings;
 
@@ -13,21 +16,20 @@ if (isset($_POST['return'])) {
     $name = $_SESSION['username'];
     $returnDate = date('Y-m-d H:i:s');
 
-    // Check if the student has reserved the book
     $stmt = $conn->prepare("SELECT * FROM reservations WHERE BookID = ? AND StudentID = ? AND ReturnDate IS NULL");
     $stmt->bind_param("ii", $bookID, $studentID);
     $stmt->execute();
     $stmt->store_result();
+    var_dump($stmt);
 
     if ($stmt->num_rows > 0) {
 
-        // Update the reservations table to set the return date
         $stmt = $conn->prepare("UPDATE reservations SET ReturnDate = ? WHERE BookID = ? AND StudentID = ?");
         $stmt->bind_param("sii", $returnDate, $bookID, $studentID);
 
         if ($stmt->execute()) {
 
-            // Update the stock to increase when the book is returned
+
             $stmt = $conn->prepare("UPDATE books SET Stock = Stock + 1 WHERE BookID = ?");
             $stmt->bind_param("i", $bookID);
             $stmt->execute();

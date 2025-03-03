@@ -1,19 +1,30 @@
- /* Global Styles */
- body {
+/* Global Styles */
+body {
     font-family: 'Poppins', sans-serif;
     background-color: #f5f7fa;
     margin: 0;
     padding: 0;
+    color: #333;
+    line-height: 1.6;
 }
 
 .content-wrapper {
     padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    border-bottom: 2px solid #ddd;
 }
 
 .nav-tabs .nav-link {
     color: #555;
     font-weight: bold;
-    transition: 0.3s;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
 }
 
 .nav-tabs .nav-link.active {
@@ -21,30 +32,52 @@
     color: white;
     border: none;
     border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.nav-tabs .nav-link:hover {
+    background-color: #f0f0f0;
+    color: #5b86e5;
+}
+
+/* Cards */
 .card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card-header {
-    background: linear-gradient(90deg, #6a11cb, #2575fc);
     color: white;
     font-size: 1.25rem;
     font-weight: bold;
+    text-align: center;
+    padding: 15px;
 }
 
 .card-body {
     min-height: 150px;
+    padding: 20px;
+    background-color: #ffffff;
 }
 
+/* Placeholder for Empty States */
 .empty-placeholder {
     text-align: center;
     color: #888;
     font-size: 1.1rem;
+    font-style: italic;
+    margin-top: 20px;
 }
 
+/* Tab Content Animation */
 .tab-content {
     animation: fadeIn 0.5s ease-in-out;
 }
@@ -58,13 +91,49 @@
     }
 }
 
+/* Buttons */
 .btn-primary {
     background-color: #5b86e5;
     border: none;
-    transition: background-color 0.3s ease;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-primary:hover {
     background-color: #36d1dc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+
+#notifications .alert {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #36d1dc;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#notifications .alert strong {
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-tabs .nav-link {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}

@@ -1,46 +1,34 @@
 <?php
 include "../config/conn.php";
 
-// Validate input
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['author'], $_POST['publisher'], $_POST['genre'], $_POST['published_date'], $_POST['language'], $_POST['stock'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['author'], $_POST['publisher'], $_POST['sourceOfAcquisition'], $_POST['published_date'], $_POST['language'], $_POST['stock'])) {
     $title = trim($_POST['title']);
     $author = trim($_POST['author']);
     $publisher = trim($_POST['publisher']);
-    $genre = trim($_POST['genre']);
+    $sourceOfAcquisition = trim($_POST['sourceOfAcquisition']);
     $published_date = trim($_POST['published_date']);
     $language = trim($_POST['language']);
     $stock = (int)$_POST['stock'];
 
-    // Ensure all fields are valid
-    if (empty($title) || empty($author) || empty($publisher) || empty($genre) || empty($published_date) || empty($language) || $stock < 0) {
-        die("Invalid input! Please ensure all fields are filled correctly.");
+    if (empty($title) || empty($author) || empty($publisher) || empty($sourceOfAcquisition) || empty($published_date) || empty($language) || $stock < 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid input. Please ensure all fields are filled correctly.']);
+        exit;
     }
 
     try {
-        // Insert into database
-        $sql = "INSERT INTO books (Title, Author, Publisher, Genre, PublishedDate, Language, Stock) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
-        if ($stmt->execute([$title, $author, $publisher, $genre, $published_date, $language, $stock])) {
-            // Reorganize BookID sequence
-            $conn->query("SET @new_id = 0;");
-            $conn->query("
-                UPDATE books
-                SET BookID = (@new_id := @new_id + 1)
-                ORDER BY BookID;
-            ");
-
-            // Redirect after successful operation
-            header('Location: ../admin/index.php');
-            exit;
+        if ($stmt->execute([$title, $author, $publisher, $sourceOfAcquisition, $published_date, $language, $stock])) {
+            echo json_encode(['status' => 'success', 'message' => 'Book added successfully!']);
         } else {
-            throw new Exception("Failed to insert book into the database.");
+            echo json_encode(['status' => 'error', 'message' => 'Failed to add the book. Please try again.']);
         }
     } catch (Exception $e) {
-        // Log error and display user-friendly message
         error_log($e->getMessage());
-        die("An error occurred while adding the book. Please try again later.");
+        echo json_encode(['status' => 'error', 'message' => 'An error occurred while adding the book.']);
     }
 } else {
-    die("Invalid request!");
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request!']);
 }

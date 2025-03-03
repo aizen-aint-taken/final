@@ -1,5 +1,5 @@
 <?php
-
+// echo "hello";
 
 session_start();
 include("../config/conn.php");
@@ -14,6 +14,7 @@ if (isset($_POST['reserve'])) {
     $studentID = $_SESSION['student_id'];
     $name = $_SESSION['username'];
     $reserveDate = date('Y-m-d H:i:s');
+    date_default_timezone_set("Asia/Manila");
 
 
     $stmt = $conn->prepare("SELECT Stock FROM books WHERE BookID = ?");
@@ -38,7 +39,7 @@ if (isset($_POST['reserve'])) {
             $mqtt = new MqttClient('broker.hivemq.com', 1883, uniqid());
 
             $settings = (new ConnectionSettings)->setUsername(null)->setPassword(null);
-            var_dump($settings);
+            // var_dump($settings);
             $mqtt->connect($settings, true);
 
             $notification = [
@@ -50,6 +51,8 @@ if (isset($_POST['reserve'])) {
                 'title' => $_POST['book_title'],
                 'author' => $_POST['book_author']
             ];
+
+            // var_dump($notification);
 
 
             $mqtt->publish('library/admin/notifications', json_encode($notification), MqttClient::QOS_AT_MOST_ONCE);

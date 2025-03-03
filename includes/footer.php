@@ -14,13 +14,11 @@
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <script>
   document.getElementById("current-year").textContent = new Date().getFullYear();
-
-
   document.querySelectorAll('.main-footer a').forEach(link => {
     link.addEventListener('click', function(event) {
       event.preventDefault();
       const targetUrl = event.target.getAttribute('href');
-      console.log(`Navigate to: ${targetUrl}`); // Replace with actual navigation logic
+      console.log(`Navigate to: ${targetUrl}`);
     });
   });
 </script>
