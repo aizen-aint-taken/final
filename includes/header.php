@@ -69,9 +69,6 @@
         </li>
       </ul>
 
-
-
-
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a href="index.php" class="nav-link">Home</a>
@@ -82,7 +79,6 @@
         <li class="nav-item">
           <a href="../admin/reservations.php" class="nav-link">Reservations</a>
         </li>
-        <!-- User Dropdown -->
         <!-- User Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,39 +91,12 @@
             </span>
           </a>
 
-
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <!-- <li><a class="dropdown-item" href="profile.php">Profile</a></li> -->
-            <!-- <li>
-              <hr class="dropdown-divider">
-            </li> -->
             <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
           </ul>
         </li>
-
-        <script>
-          // Check session data on page load and update if necessary
-          document.addEventListener('DOMContentLoaded', function() {
-            function fetchSessionData() {
-              fetch('getSession.php')
-                .then(response => response.json())
-                .then(data => {
-                  const usernameDisplay = document.getElementById('usernameDisplay');
-                  if (usernameDisplay && usernameDisplay.innerText !== data.user) {
-                    usernameDisplay.innerText = data.user;
-                  }
-                })
-                .catch(error => console.error('Error fetching session data:', error));
-            }
-
-            // Fetch session info periodically (e.g., every 5 seconds)
-            setInterval(fetchSessionData, 5000);
-            fetchSessionData(); // initial fetch
-          });
-        </script>
-
+      </ul>
     </nav>
-
 
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -147,30 +116,6 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-
-    <script>
-      // setInterval(() => {
-      //   const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-      //   console.log(cookies);
-      //   const loggedOut = cookies.find(cookie => cookie.startsWith('loggedOut='));
-      //   if (loggedOut && loggedOut.split('=')[1] === 'true') {
-      //     alert('You have been logged out. Redirecting to login...');
-      //     window.location.href = 'login.php';
-      //   }
-      // }, 2000);
-
-      // setInterval(() => {
-      //   fetch('check_auth.php')
-      //     .then(response => response.json())
-      //     .then(data => {
-      //       if (data.logged_out) {
-      //         alert('You have been logged out. Redirecting to login...');
-      //         window.location.href = 'login.php';
-      //       }
-      //     })
-      //     .catch(err => console.error('Error checking auth:', err));
-      // }, 2000); // Check every 2 seconds
-    </script>
   </div>
 </body>
 

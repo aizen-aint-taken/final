@@ -1,109 +1,114 @@
- body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f9fafc;
-            color: #333;
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
         }
 
-        .header {
-            background: linear-gradient(90deg, #007bff, #0056b3);
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
-            padding: 60px 0;
-            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .header::after {
+        .hero-section::before {
             content: '';
-            background: url('https://via.placeholder.com/1920x400') no-repeat center/cover;
-            opacity: 0.1;
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
+            background: url('../maharlika/logo.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
         }
 
-        p{
-            justify-content: flex-end;
-        }
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
-        .header p {
-            font-size: 1.25rem;
-            margin-bottom: 0;
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
         }
 
-        .content {
-            padding: 40px 20px;
-            max-width: 900px;
-            margin: 20px auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        .section-card:hover {
+            transform: translateY(-5px);
         }
 
-        .content h2 {
-            color: #007bff;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-        }
-
-        .content ul {
+        .feature-list {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
         }
 
-        .content ul li {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
+        .feature-list li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #1e3c72;
+            background: #f8f9fa;
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s ease;
         }
 
-        .content ul li::before {
-            content: '\f058';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            color: #007bff;
+        .feature-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .feature-list li i {
+            color: #1e3c72;
             margin-right: 10px;
         }
 
-        .footer {
-            background-color: #0056b3;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .footer a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: #ffcc00;
-        }
-
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
             }
 
-            .content {
-                padding: 20px;
+            .hero-section {
+                padding: 2rem 1rem;
+                margin-top: 60px;
+            }
+
+            .section-card {
+                padding: 1.5rem;
             }
         }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: #1e3c72;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #2a5298;
+            transform: translateY(-3px);
+        }
+  

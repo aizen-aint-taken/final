@@ -2,6 +2,14 @@
 session_start();
 include("../config/conn.php");
 
+// if ($_SESSION['usertype'] == 'a') {
+//     header("Location: ../index.php");
+// } elseif ($_SESSION['usertype'] == 'sa') {
+//     header("Location: ../index.php");
+//     exit;
+// }
+
+
 $studentId = isset($_SESSION['student_id']) ? $_SESSION['student_id'] : null;
 $selectedUserId = isset($_GET['user_id']) ? $_GET['user_id'] : 'all';
 $selectedStatus = isset($_GET['status']) ? $_GET['status'] : 'all';
@@ -12,7 +20,7 @@ $query = "
     SELECT
         R.id AS ReserveID,  
         U.name AS USERNAME,
-        R.ReserveDate AS RESERVEDATE,
+        DATE_FORMAT(R.ReserveDate, '%m-%d-%Y') AS RESERVEDATE,
         B.Title AS BOOK_TITLE,
         COALESCE(R.STATUS, 'Pending') AS STATUS,
         R.DueDate,
@@ -78,128 +86,196 @@ include('../includes/sidebar.php');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Reservation List</title>
+    <title>Reservation Management</title>
     <style>
         body {
-            background-color: #f8f9fa;
             font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
             padding: 20px;
             margin-left: 250px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: auto;
             background: #fff;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 2rem;
+            border-radius: 20px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #343a40;
-            font-weight: 700;
+        .page-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .filter-container {
-            background: #fff;
+            background: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
         .filter-container label {
             font-weight: 600;
-            color: #495057;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
         }
 
-        .filter-container select,
-        .filter-container button {
-            border-radius: 8px;
-            border: 1px solid #ced4da;
-            padding: 10px;
-            font-size: 14px;
+        .form-select {
+            border-radius: 10px;
+            padding: 0.8rem;
+            border: 1px solid #dee2e6;
             transition: all 0.3s ease;
         }
 
-        .filter-container select:focus,
-        .filter-container button:focus {
-            border-color: #6a11cb;
-            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        .form-select:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
         }
 
-        .filter-container button {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: white;
+        .btn-primary {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
             border: none;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        .filter-container button:hover {
-            opacity: 0.9;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .table {
-            border-radius: 10px;
-            overflow: hidden;
-            font-size: 14px;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
         }
 
-        .table thead {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: white;
+        .table thead th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            color: #1e3c72;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
         }
 
-        .table-hover tbody tr:hover {
-            background-color: rgba(106, 17, 203, 0.05);
-            transition: 0.3s;
+        .table tbody tr {
+            transition: all 0.3s ease;
         }
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(106, 17, 203, 0.02);
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
         }
 
         .status-dropdown {
-            width: 130px;
-            font-size: 14px;
+            width: 140px;
+            padding: 0.5rem;
             border-radius: 8px;
-            padding: 5px;
-            border: 1px solid #ced4da;
+            border: 1px solid #dee2e6;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
         .status-dropdown:focus {
-            border-color: #6a11cb;
-            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
         }
 
         .badge {
-            font-size: 12px;
-            padding: 5px 10px;
+            padding: 0.5rem 1rem;
             border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
         }
 
-        .badge.bg-warning {
-            background-color: #ffc107 !important;
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        .badge.bg-danger {
-            background-color: #dc3545 !important;
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
+        .due-date-input {
+            width: 140px;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .due-date-input:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+        }
+
+        .alert-info {
+            background: linear-gradient(45deg, #0dcaf0, #0d6efd);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+                padding: 10px;
             }
 
-            to {
-                opacity: 1;
+            .container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .filter-container {
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                border-radius: 15px;
+                overflow: hidden;
+            }
+
+            .status-dropdown,
+            .due-date-input {
+                width: 100%;
+            }
+
+            .table td {
+                padding: 1rem;
             }
         }
     </style>
@@ -207,11 +283,15 @@ include('../includes/sidebar.php');
 
 <body>
     <div class="container">
-        <h1>📚 Borrowed Book List</h1>
+        <div class="page-header">
+            <h1 class="h3 mb-0 text-center">Borrowed Books </h1>
+            <p class="mb-0 text-center">Track and manage borrowed books</p>
+        </div>
+
         <div class="filter-container">
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-md-6">
-                    <label for="user-filter" class="form-label fw-bold">Filter by Student</label>
+                    <label for="user-filter">Filter by Student</label>
                     <div class="d-flex gap-2">
                         <select id="user-filter" class="form-select">
                             <option value="all" <?= $selectedUserId === 'all' ? 'selected' : '' ?>>All Users</option>
@@ -221,79 +301,101 @@ include('../includes/sidebar.php');
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <button id="filter-btn" class="btn btn-primary">Apply</button>
+                        <button id="filter-btn" class="btn btn-primary">
+                            <i class="fas fa-filter me-2"></i>Apply
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="status-filter" class="form-label fw-bold">Filter by Status</label>
-                    <div class="d-flex gap-2">
-                        <select id="status-filter" class="form-select">
-                            <option value="all" <?= isset($_GET['status']) && $_GET['status'] === 'all' ? 'selected' : '' ?>>All Status</option>
-                            <option value="Pending" <?= isset($_GET['status']) && $_GET['status'] === 'Pending' ? 'selected' : '' ?>>Pending</option>
-                            <option value="Approved" <?= isset($_GET['status']) && $_GET['status'] === 'Approved' ? 'selected' : '' ?>>Approved</option>
-                            <option value="Rejected" <?= isset($_GET['status']) && $_GET['status'] === 'Rejected' ? 'selected' : '' ?>>Rejected</option>
-                            <option value="Returned" <?= isset($_GET['status']) && $_GET['status'] === 'Returned' ? 'selected' : '' ?>>Returned</option>
-                        </select>
-                    </div>
+                    <label for="status-filter">Filter by Status</label>
+                    <select id="status-filter" class="form-select">
+                        <option value="all" <?= isset($_GET['status']) && $_GET['status'] === 'all' ? 'selected' : '' ?>>All Status</option>
+                        <option value="Pending" <?= isset($_GET['status']) && $_GET['status'] === 'Pending' ? 'selected' : '' ?>>Pending</option>
+                        <option value="Approved" <?= isset($_GET['status']) && $_GET['status'] === 'Approved' ? 'selected' : '' ?>>Approved</option>
+                        <option value="Rejected" <?= isset($_GET['status']) && $_GET['status'] === 'Rejected' ? 'selected' : '' ?>>Rejected</option>
+                        <option value="Returned" <?= isset($_GET['status']) && $_GET['status'] === 'Returned' ? 'selected' : '' ?>>Returned</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <hr style="border: 2px solid #6a11cb; opacity: 0.2;">
-
         <?php if (!empty($selectedUserName) && $selectedUserId != 'all'): ?>
-            <h3 style="color: #6a11cb;" class="text-center">Showing Reservations for: <?= htmlspecialchars($selectedUserName) ?></h3>
-        <?php elseif ($selectedUserId == 'all'): ?>
-            <h3 class="text-center" style="color: #6a11cb;">Showing All Reservations</h3>
-        <?php elseif (empty($selectedUserName)): ?>
-            <h3 class="text-center" style="color: #dc3545;">Username <?= $selectedStatus ?> has no status yet </h3>
+            <div class="alert alert-info mb-4">
+                <i class="fas fa-user me-2"></i>Showing reservations for: <strong><?= htmlspecialchars($selectedUserName) ?></strong>
+            </div>
         <?php endif; ?>
 
-        <div class="table-responsive">
-            <table class="table table-striped table-hover text-center">
-                <thead>
-                    <tr>
-                        <th colspan="5" class="text-end">
-                            <button id="sendNotificationsBtn" class="btn btn-danger">Send Due Notifications</button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>👤 Student Name</th>
-                        <th>📅 Borrowed Date</th>
-                        <th>📖 Book Title</th>
-                        <th>🔖 Status</th>
-                        <th>📅 Return Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($reservations as $reserve): ?>
-                        <tr id="row-<?= $reserve['ReserveID'] ?>">
-                            <td><?= htmlspecialchars($reserve['USERNAME']) ?></td>
-                            <td><?= htmlspecialchars($reserve['RESERVEDATE']) ?></td>
-                            <td><?= htmlspecialchars($reserve['BOOK_TITLE']) ?></td>
-                            <td>
-                                <select class="form-select status-dropdown" data-id="<?= $reserve['ReserveID'] ?>" data-previous="<?= $reserve['STATUS'] ?>">
-                                    <option style="color: orange;" value="Pending" <?= $reserve['STATUS'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
-                                    <option style="color: cyan;" value="Approved" <?= $reserve['STATUS'] == 'Approved' ? 'selected' : '' ?>>Approved</option>
-                                    <option style="color: red" value="Rejected" <?= $reserve['STATUS'] == 'Rejected' ? 'selected' : '' ?>>Rejected</option>
-                                    <option style="color: blue;" value="Returned" <?= $reserve['STATUS'] == 'Returned' ? 'selected' : '' ?>>Returned</option>
-                                </select>
-
-                                <!-- Add a date input for DueDate (only visible when status is "Approved") -->
-                                <input type="date" class="form-control due-date-input" data-id="<?= $reserve['ReserveID'] ?>" style="display: none;">
-                            </td>
-                            <td>
-                                <?= $reserve['DueDate'] ? htmlspecialchars($reserve['DueDate']) : 'Not Set' ?>
-                                <?php if ($reserve['DueDate'] && $reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0): ?>
-                                    <span class="badge bg-warning">⚠ Due in <?= $reserve['DaysLeft'] ?> days</span>
-                                <?php elseif ($reserve['DueDate'] && $reserve['DaysLeft'] <= 0): ?>
-                                    <!-- <span class="badge bg-danger">❌ Overdue</span> -->
-                                <?php endif; ?>
-                            </td>
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="5" class="text-end">
+                                <button id="sendNotificationsBtn" class="btn btn-danger">
+                                    <i class="fas fa-bell me-2"></i>Send Due Notifications
+                                </button>
+                            </th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                        <tr>
+                            <th><i class="fas fa-user me-2"></i>Student Name</th>
+                            <th><i class="fas fa-calendar me-2"></i>Borrowed Date</th>
+                            <th><i class="fas fa-book me-2"></i>Book Title</th>
+                            <th><i class="fas fa-tasks me-2"></i>Status</th>
+                            <th><i class="fas fa-calendar-check me-2"></i>Return Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($reservations as $reserve): ?>
+                            <tr id="row-<?= $reserve['ReserveID'] ?>">
+                                <td data-label="Student Name"><?= htmlspecialchars($reserve['USERNAME']) ?></td>
+                                <td data-label="Borrowed Date"><?= htmlspecialchars($reserve['RESERVEDATE']) ?></td>
+                                <td data-label="Book Title"><?= htmlspecialchars($reserve['BOOK_TITLE']) ?></td>
+                                <td data-label="Status">
+                                    <select class="form-select status-dropdown" data-id="<?= $reserve['ReserveID'] ?>" data-previous="<?= $reserve['STATUS'] ?>">
+                                        <option value="Pending" <?= $reserve['STATUS'] == 'Pending' ? 'selected' : '' ?>>
+                                            Pending
+                                        </option>
+                                        <option value="Approved" <?= $reserve['STATUS'] == 'Approved' ? 'selected' : '' ?>>
+                                            Approved
+                                        </option>
+                                        <option value="Rejected" <?= $reserve['STATUS'] == 'Rejected' ? 'selected' : '' ?>>
+                                            Rejected
+                                        </option>
+                                        <option value="Returned" <?= $reserve['STATUS'] == 'Returned' ? 'selected' : '' ?>
+                                            <?= ($reserve['STATUS'] != 'Approved' && $reserve['STATUS'] != 'Returned') ? 'disabled' : '' ?>>
+                                            Returned
+                                        </option>
+                                    </select>
+
+                                    <?php if ($reserve['STATUS'] == 'Approved'): ?>
+                                        <input type="date"
+                                            class="form-control due-date-input mt-2"
+                                            data-id="<?= $reserve['ReserveID'] ?>"
+                                            value="<?= $reserve['DueDate'] ?? '' ?>"
+                                            min="<?= date('Y-m-d') ?>">
+                                    <?php endif; ?>
+                                </td>
+                                <td data-label="Return Date">
+                                    <?php
+                                    if ($reserve['DueDate']) {
+                                        $formattedDueDate = date('m-d-Y', strtotime($reserve['DueDate']));
+                                        echo htmlspecialchars($formattedDueDate);
+
+                                        if ($reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0) {
+                                            echo '<span class="badge bg-warning ms-2">⚠ Due in ' . $reserve['DaysLeft'] . ' days</span>';
+                                        } elseif ($reserve['DaysLeft'] <= 0) {
+                                            echo '<span class="badge bg-danger ms-2">❌ Overdue</span>';
+                                        }
+                                    } else {
+                                        echo 'Not Set';
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -317,9 +419,17 @@ include('../includes/sidebar.php');
                     let dropdownElement = event.target;
                     let reservationId = dropdownElement.getAttribute("data-id");
                     let newStatus = dropdownElement.value;
+                    let previousStatus = dropdownElement.dataset.previous;
+
+                    // Special validation for Returned status
+                    if (newStatus === 'Returned' && previousStatus !== 'Approved') {
+                        alert("❌ Can only mark approved books as returned.");
+                        dropdownElement.value = previousStatus;
+                        return;
+                    }
 
                     if (!confirm(`Are you sure you want to change the status to "${newStatus}"?`)) {
-                        dropdownElement.value = dropdownElement.dataset.previous;
+                        dropdownElement.value = previousStatus;
                         return;
                     }
 
@@ -334,39 +444,67 @@ include('../includes/sidebar.php');
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert("✅ Status updated successfully!");
+                                alert(`✅ ${data.message}`);
                                 dropdownElement.dataset.previous = newStatus;
+
+                                // Update the row display
+                                const row = dropdownElement.closest('tr');
+
+                                // If marking as Returned, hide the due date input
+                                if (newStatus === 'Returned') {
+                                    const dueDateInput = row.querySelector('.due-date-input');
+                                    if (dueDateInput) {
+                                        dueDateInput.style.display = 'none';
+                                    }
+                                }
+
+                                // Update due date display if status is Approved
+                                if (newStatus === 'Approved' && data.dueDate) {
+                                    const dueDateCell = row.querySelector('[data-label="Return Date"]');
+                                    if (dueDateCell) {
+                                        dueDateCell.innerHTML = data.dueDate;
+
+                                        // Add the "Due in 7 days" badge
+                                        const badge = document.createElement('span');
+                                        badge.className = 'badge bg-warning ms-2';
+                                        badge.textContent = '⚠ Due in 7 days';
+                                        dueDateCell.appendChild(badge);
+                                    }
+                                }
+
+                                // Refresh the page to update all statuses
+                                location.reload();
                             } else {
-                                alert("❌ Error updating status.");
-                                dropdownElement.value = dropdownElement.dataset.previous;
+                                alert(`❌ ${data.message}`);
+                                dropdownElement.value = previousStatus;
                             }
                         })
                         .catch(error => {
                             console.error("Error:", error);
-                            dropdownElement.value = dropdownElement.dataset.previous;
+                            alert("❌ Error updating status.");
+                            dropdownElement.value = previousStatus;
                         });
                 });
 
+                // Store initial status
                 dropdown.dataset.previous = dropdown.value;
             });
         });
 
         document.getElementById("sendNotificationsBtn").addEventListener("click", function() {
             fetch('notification.php')
-                .then(response => response.text())
-                .then(data => alert(data))
-                .catch(error => alert("Error sending notifications."));
-        });
-
-        document.querySelectorAll(".status-dropdown").forEach(dropdown => {
-            dropdown.addEventListener("change", function(event) {
-                const dueDateInput = document.querySelector(`.due-date-input[data-id="${this.dataset.id}"]`);
-                if (this.value === 'Approved') {
-                    dueDateInput.style.display = 'block';
-                } else {
-                    dueDateInput.style.display = 'none';
-                }
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`✅ ${data.message}`);
+                    } else {
+                        alert("❌ Error sending notifications.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("❌ Error sending notifications.");
+                });
         });
     </script>
 </body>

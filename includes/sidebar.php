@@ -1,3 +1,13 @@
+<?php
+include '../config/conn.php';
+function adminSidebar($conn)
+{
+  $result = $conn->query("SELECT COUNT(*) as count FROM admin WHERE role = 'sa'");
+  $row = $result->fetch_assoc();
+  return $row['count'] > 0;
+}
+?>
+
 <aside class="main-sidebar sidebar-light-secondary elevation-5">
   <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
   <div class="d-flex justify-content-center align-items-center">
@@ -12,18 +22,17 @@
         </li>
 
         <li class="nav-item">
-          <a href="index.php" class="nav-link">
+          <a href="../admin/index.php" class="nav-link">
             <i class="nav-icon fas fa-home"></i>
             <p>Home</p>
             <!-- <span class="badge badge-pill badge-danger">New</span> Notification Badge -->
           </a>
+        </li>
 
         <li class="nav-item">
           <hr class="sidebar-divider">
         </li>
 
-
-        </li>
         <li class="nav-item">
           <a href="../analysis/displayStats.php" class="nav-link">
             <i class="nav-icon fas fa-chart-line"></i>
@@ -51,6 +60,30 @@
           <a href="../admin/student.php" class="nav-link">
             <i class="nav-icon fa-regular fa-circle-user"></i>
             <p>Add Student</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <hr class="sidebar-divider">
+        </li>
+
+        <?php if (adminSidebar($conn)) : ?>
+          <li class="nav-item">
+            <a href="../admin/admin.php" class="nav-link">
+              <i class="fa-solid fa-user-tie"></i>
+              <p>Add Librarian</p>
+            </a>
+          </li>
+        <?php endif; ?>
+
+        <li class="nav-item">
+          <hr class="sidebar-divider">
+        </li>
+
+        <li class="nav-item">
+          <a href="../aboutUs/index.php" class="nav-link">
+            <i class="nav-icon fas fa-info-circle"></i>
+            <p>About Us</p>
           </a>
         </li>
 
@@ -107,7 +140,6 @@
     border-radius: 10px;
   }
 
-
   .nav-link:hover {
     background-color: #1c74b0;
     color: #fff;
@@ -123,9 +155,7 @@
   .nav-link:hover i {
     transform: scale(1.2);
     color: #ffd700;
-    /* Gold color on hover */
   }
-
 
   .nav-item.active .nav-link {
     background-color: #007bff;
@@ -134,7 +164,6 @@
     animation: pulse 1s infinite;
   }
 
-  /* Badge Styling */
   .badge {
     position: absolute;
     top: 10px;
@@ -144,7 +173,6 @@
     border-radius: 50%;
   }
 
-  /* Sidebar Divider */
   .sidebar-divider {
     border-top: 3px solid rgba(25, 116, 206, 0.8);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -200,7 +228,6 @@
     background: #6c757d;
   }
 
-
   .sidebar-backdrop {
     position: fixed;
     top: 0;
@@ -215,7 +242,6 @@
   .sidebar-backdrop.show {
     display: block;
   }
-
 
   @keyframes pulse {
     0% {
@@ -240,7 +266,6 @@
     backdrop.classList.toggle('show');
   }
 
-  // Close sidebar when clicking outside
   document.addEventListener('click', function(event) {
     const sidebar = document.querySelector('.main-sidebar');
     const backdrop = document.querySelector('.sidebar-backdrop');

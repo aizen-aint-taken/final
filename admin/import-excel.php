@@ -63,6 +63,7 @@ if (isset($_POST['import'])) {
             $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
         }
 
+
         if (!empty($placeholders)) {
             $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock) VALUES " . implode(", ", $placeholders);
             $stmt = $conn->prepare($sql);
@@ -71,12 +72,19 @@ if (isset($_POST['import'])) {
             if ($stmt->execute()) {
                 $_SESSION['success'][] = "Books imported successfully.";
 
-                // Reset AUTO_INCREMENT value
+                // Reorder all BookIDs sequentially
+                $conn->query("SET @new_id = 0;");
+                $conn->query("
+                    UPDATE books
+                    SET BookID = (@new_id := @new_id + 1)
+                    ORDER BY BookID;
+                ");
 
-                $result = $conn->query("SELECT MAX(BookId) AS max_BookId FROM books");
+                // Reset AUTO_INCREMENT to next available ID
+                $result = $conn->query("SELECT COUNT(*) AS total FROM books");
                 $row = $result->fetch_assoc();
-                $maxId = $row['max_id'];
-                $conn->query("ALTER TABLE books AUTO_INCREMENT = " . ($maxId + 1));
+                $nextId = $row['total'] + 1;
+                $conn->query("ALTER TABLE books AUTO_INCREMENT = $nextId");
             } else {
                 $_SESSION['error'][] = "Error: " . $stmt->error;
             }

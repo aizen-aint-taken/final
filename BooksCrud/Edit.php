@@ -18,7 +18,7 @@ if (isset($_POST['update'])) {
                 Publisher = ?, 
                 `Source of Acquisition` = ?, 
                 PublishedDate = ?, 
-                Language = ?, 
+                Subject = ?, 
                 Stock = ? 
             WHERE BookID = ?";
 

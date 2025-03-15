@@ -14,7 +14,7 @@
                     <a href="about.php" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="contact.php" class="nav-link">Contact</a>
+                    <a href="reservations.php" class="nav-link">Borrowed</a>
                 </li>
                 <!-- User Dropdown -->
                 <li class="nav-item dropdown">
@@ -58,6 +58,7 @@
     .navbar {
         transition: all 0.3s ease-in-out;
         position: relative;
+        background-color: #007bff;
     }
 
     .navbar-nav .nav-item .nav-link {

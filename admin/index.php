@@ -2,21 +2,35 @@
 
 session_start();
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Debug session data
+error_log("Admin page - Session data: " . print_r($_SESSION, true));
+
 include('../config/conn.php');
 
 if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
+    error_log("No user session found - redirecting to login");
     header('location: ../index.php');
     exit;
 }
-// restrict access to admin only 
-if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'a') {
+
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['a', 'sa'])) {
+    error_log("Invalid role: " . (isset($_SESSION['role']) ? $_SESSION['role'] : 'not set'));
     header('location: ../index.php');
-    //     exit;
+    exit;
 }
+
+// restrict access to admin only 
+// if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'a') {
+//     header('location: ../index.php');
+//     exit;
+// }
 
 $subject = isset($_GET['subject']) ? $_GET['subject'] : '';
 
-// Modify the query to filter by subject if one is selected
+
 if ($subject) {
     $stmt = $conn->prepare("SELECT * FROM books WHERE Genre = :subject");
     $stmt->execute(['subject' => $subject]);
@@ -28,7 +42,7 @@ $books = $stmt->fetch_all();
 
 include('../includes/header.php');
 include('../includes/sidebar.php');
-// include('../admin/displayStats.html');
+
 ?>
 
 <!DOCTYPE html>
@@ -42,74 +56,18 @@ include('../includes/sidebar.php');
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/assets/css/font-awesome.css">
     <link rel="stylesheet" href="../public/assets/css/admin_index.css">
+    <link rel="stylesheet" href="../public/assets/css/useradmin.css">
     <title>Library Inventory</title>
 </head>
 <style>
     body {
-        background: url('../maharlika/2nd pic.jpg') no-repeat center center fixed;
+        background: url('../maharlika/login image.jpg') no-repeat center center fixed;
         background-size: cover;
         color: #fff;
     }
-
-    .content-wrapper {
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 20px;
-        border-radius: 10px;
-    }
-
-    /* Notification Bell Styles */
-    .notification-bell {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .notification-bell .badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: red;
-        color: white;
-        border-radius: 50%;
-        padding: 5px 8px;
-        font-size: 12px;
-    }
-
-    .notification-dropdown {
-        display: none;
-        /* position: fixed; */
-        top: 70px;
-        right: 20px;
-        background-color: white;
-        color: black;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        width: 300px;
-        max-height: 400px;
-        overflow-y: auto;
-        z-index: 1000;
-        padding: 10px;
-    }
-
-    .notification-dropdown .notification-item {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .notification-dropdown .notification-item:last-child {
-        border-bottom: none;
-    }
-
-    .notification-dropdown .notification-item strong {
-        display: block;
-        font-size: 14px;
-    }
-
-    .notification-dropdown .notification-item small {
-        color: #666;
-    }
 </style>
+
+
 
 <body>
     <div class="content-wrapper">
@@ -158,7 +116,7 @@ include('../includes/sidebar.php');
 
     <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
     <script>
         fetch('getSession.php')
             .then(response => {

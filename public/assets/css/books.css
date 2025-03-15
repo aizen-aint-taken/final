@@ -1,0 +1,154 @@
+    body {
+        background: url '../maharlika/2nd pic.jpg' no-repeat center center fixed;
+        background-size: cover;
+        font-family: Arial, sans-serif;
+    }
+
+    .btn {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .container {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px) saturate(150%) brightness(120%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%) brightness(120%);
+        border-radius: 15px;
+        /* border: 1px solid rgba(255, 255, 255, 0.4); */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+
+    /* Alerts with enhanced glassy feel */
+    .alert {
+        background: rgba(255, 255, 255, 0.3);
+        /* Slightly transparent */
+        backdrop-filter: blur(12px);
+        /* Softer, noticeable blur */
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        /* Thin, frosty border */
+        padding: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        /* Makes alerts pop */
+    }
+
+    .alert .handler-message,
+    .alert .handler-message-success {
+        color: #000;
+
+    }
+
+
+    .card-container .card {
+        /* background: rgba(255, 255, 255, 0.25); */
+
+        backdrop-filter: blur(12px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+
+        padding: 15px;
+        margin: 10px 0;
+    }
+
+    .card-container .card-title,
+    .card-container .card-text {
+        color: #333;
+
+    }
+
+
+    table {
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border-collapse: separate;
+        overflow: hidden;
+        margin: 20px 0;
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    thead {
+        background: rgba(0, 0, 0, 0.7);
+
+        color: #fff;
+    }
+
+    tbody tr {
+        background: rgba(255, 255, 255, 0.4);
+
+        transition: background 0.3s ease;
+    }
+
+    tbody tr:hover {
+        background: rgba(200, 200, 200, 0.4);
+
+    }
+
+    .input-group {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        padding: 8px 12px;
+        margin: 0 5px;
+        text-decoration: none;
+        background-color: #f1f1f1;
+        border-radius: 4px;
+        color: #333;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination a:hover {
+        background-color: #ddd;
+    }
+
+    .container-fluid {
+        max-width: 1400px;
+    }
+
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 0.5rem;
+    }
+
+    .card-title {
+        color: #2c3e50;
+    }
+
+    .table-responsive {
+        border-radius: 0.25rem;
+    }
+
+    .pagination .page-link {
+        color: #2c3e50;
+    }
+
+    .pagination .active .page-link {
+        background-color: #2c3e50;
+        border-color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+        .card-container {
+            margin-top: 1rem;
+        }
+    }

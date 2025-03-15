@@ -54,252 +54,217 @@ if (isset($_POST['filter'])) {
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/assets/css/inputFile.css">
     <link rel="stylesheet" href="../public/assets/css/modalFix.css">
+    <link rel="stylesheet" href="../public/assets/css/books.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
 </head>
-<style>
-    body {
-        background: url('../maharlika/2nd pic.jpg') no-repeat center center fixed;
-        background-size: cover;
-        font-family: Arial, sans-serif;
-    }
-
-    .btn {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-
-
-    .container {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px) saturate(150%) brightness(120%);
-        -webkit-backdrop-filter: blur(10px) saturate(150%) brightness(120%);
-        border-radius: 15px;
-        /* border: 1px solid rgba(255, 255, 255, 0.4); */
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-    }
-
-    /* Alerts with enhanced glassy feel */
-    .alert {
-        background: rgba(255, 255, 255, 0.3);
-        /* Slightly transparent */
-        backdrop-filter: blur(12px);
-        /* Softer, noticeable blur */
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        /* Thin, frosty border */
-        padding: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        /* Makes alerts pop */
-    }
-
-    .alert .handler-message,
-    .alert .handler-message-success {
-        color: #000;
-
-    }
-
-
-    .card-container .card {
-        /* background: rgba(255, 255, 255, 0.25); */
-
-        backdrop-filter: blur(12px) saturate(160%);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-
-        padding: 15px;
-        margin: 10px 0;
-    }
-
-    .card-container .card-title,
-    .card-container .card-text {
-        color: #333;
-
-    }
-
-
-    table {
-        background: rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        border-collapse: separate;
-        overflow: hidden;
-        margin: 20px 0;
-        width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    thead {
-        background: rgba(0, 0, 0, 0.7);
-
-        color: #fff;
-    }
-
-    tbody tr {
-        background: rgba(255, 255, 255, 0.4);
-
-        transition: background 0.3s ease;
-    }
-
-    tbody tr:hover {
-        background: rgba(200, 200, 200, 0.4);
-
-    }
-
-    .input-group {
-        background: rgba(255, 255, 255, 0.25);
-        /* Transparent white */
-        backdrop-filter: blur(10px);
-        /* Pronounced blur */
-        border-radius: 10px;
-        padding: 5px;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .pagination a {
-        padding: 8px 12px;
-        margin: 0 5px;
-        text-decoration: none;
-        background-color: #f1f1f1;
-        border-radius: 4px;
-        color: #333;
-    }
-
-    .pagination a.active {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .pagination a:hover {
-        background-color: #ddd;
-    }
-</style>
 
 <body>
-    <div class="message-holder">
-        <?php if (isset($_SESSION['exists']) && !empty($_SESSION['exists'])) : ?>
-            <div class="alert alert-danger">
-                <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
-                <div class="handler-message">
-                    <div style='color: red;'>
-                        <h2>Record Already Exists</h2>
-                        <h2>If existed you can just edit </h2>
-                        <?php foreach ($_SESSION['exists'] as $message) : ?>
-                            <p><?= $message ?></p>
-                        <?php endforeach; ?>
+    <div class="container-fluid py-4">
+        <!-- Message Alerts Section -->
+        <div class="message-holder mb-4">
+            <?php if (isset($_SESSION['exists']) && !empty($_SESSION['exists'])) : ?>
+                <div class="alert alert-danger">
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
+                    <div class="handler-message">
+                        <div style='color: red;'>
+                            <h2>Record Already Exists</h2>
+                            <h2>If existed you can just edit </h2>
+                            <?php foreach ($_SESSION['exists'] as $message) : ?>
+                                <p><?= $message ?></p>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <?php unset($_SESSION['exists']); ?>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])) : ?>
-            <div class="alert alert-success">
-                <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
-                <div class=" handler-message-success">
-                    <div style='color: green;'>
-                        <h2>Successfully Imported</h2>
-                        <?php foreach ($_SESSION['success'] as $message) : ?>
-                            <p><?= $message ?></p>
-                        <?php endforeach; ?>
+                <?php unset($_SESSION['exists']); ?>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])) : ?>
+                <div class="alert alert-success">
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
+                    <div class=" handler-message-success">
+                        <div style='color: green;'>
+                            <h2>Successfully Imported</h2>
+                            <?php foreach ($_SESSION['success'] as $message) : ?>
+                                <p><?= $message ?></p>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <?php unset($_SESSION['success']); ?>
-        <?php endif; ?>
-        <!-- error handling -->
-        <?php if (isset($_SESSION['error']) && !empty($_SESSION['error'])) : ?>
-            <div class="alert alert-danger">
-                <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
-                <div class="">
-                    <div style='color: red;'>
-                        <?php foreach ($_SESSION['error'] as $error) : ?>
-                            <p><?= htmlspecialchars($error) ?></p>
-                        <?php endforeach; ?>
+                <?php unset($_SESSION['success']); ?>
+            <?php endif; ?>
+            <!-- error handling -->
+            <?php if (isset($_SESSION['error']) && !empty($_SESSION['error'])) : ?>
+                <div class="alert alert-danger">
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
+                    <div class="">
+                        <div style='color: red;'>
+                            <?php foreach ($_SESSION['error'] as $error) : ?>
+                                <p><?= htmlspecialchars($error) ?></p>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <?php unset($_SESSION['error']); ?>
-        <?php endif; ?>
-    </div>
-    <!-- Filter og Import Section -->
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <form action="index.php" method="post" id="filterForm">
-                <label for="booksFilter" class="form-label">Filter By Subject:</label>
-                <div class="input-group">
-                    <select name="booksFilter" id="booksFilter" class="form-select" required>
-                        <option value="" selected disabled>Select Subject</option>
-                        <?php foreach ($filterBooks as $subject): ?>
-                            <option value="<?= htmlspecialchars($subject['Subject']) ?>">
-                                <?= htmlspecialchars($subject['Subject']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <button type="submit" name="filter" class="btn btn-primary">Apply</button>
-                </div>
-            </form>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
         </div>
-        <div class="col-md-6">
-            <form action="import-excel.php" method="post" enctype="multipart/form-data">
-                <label for="bookUpload" class="form-label">Upload Books Using Excel</label>
-                <div class="input-group">
-                    <input type="file" name="books" id="bookUpload" accept=".xls, .xlsx" class="form-control" required>
-                    <button type="submit" name="import" class="btn btn-success">Upload</button>
-                </div>
-            </form>
-        </div>
-    </div><br>
-    <!-- Add Book Button -->
-    <div class="d-flex justify-content-end mb-4">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</button>
-    </div>
 
-    <!-- Search Bar -->
-    <div class="d-flex justify-content-center my-3 w-100">
-        <div class="input-group w-sm-50">
-            <input type="text" id="search" data-name="books" id="Search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary" onclick="clearSearch()">Search</button>
-        </div>
-    </div>
+        <!-- Control Panel Section -->
+        <div class="row mb-4">
+            <!-- Left Column -->
+            <div class="col-md-6">
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <h5 class="form-label">Search Books</h5>
+                    <div class="input-group">
+                        <input type="text" id="Search" data-name="books" class="form-control" placeholder="Search books..." aria-label="Search" />
+                        <button type="button" class="btn btn-outline-primary" onclick="clearSearch()">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+                </div>
 
-    <!-- Table POV dako na screeen -->
-    <table class="table table-striped text-center">
-        <thead class="table-dark">
-            <tr colspan="2">
-                <th>No.</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Publisher</th>
-                <th>Source of Acquisition</th>
-                <th>Published Date</th>
-                <th>Subject</th>
-                <th>Available</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+                <!-- Filter Section -->
+                <div class="mb-4">
+                    <form action="index.php" method="post" id="filterForm">
+                        <label for="booksFilter" class="form-label">Filter By Subject</label>
+                        <div class="input-group">
+                            <select name="booksFilter" id="booksFilter" class="form-select" required>
+                                <option value="" selected disabled>Select Subject</option>
+                                <?php foreach ($filterBooks as $subject): ?>
+                                    <option value="<?= htmlspecialchars($subject['Subject']) ?>">
+                                        <?= htmlspecialchars($subject['Subject']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="submit" name="filter" class="btn btn-primary">
+                                <i class="bi bi-funnel"></i> Apply
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6">
+                <!-- Import Section -->
+                <div class="mb-4">
+                    <form action="import-excel.php" method="post" enctype="multipart/form-data">
+                        <label for="bookUpload" class="form-label">Import Books</label>
+                        <div class="input-group">
+                            <input type="file" name="books" id="bookUpload" accept=".xls, .xlsx" class="form-control" required>
+                            <button type="submit" name="import" class="btn btn-success">
+                                <i class="bi bi-file-earmark-excel"></i> Import
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Export Section -->
+                <div class="mb-4">
+                    <form action="export-excel.php" method="post" id="exportForm">
+                        <label for="exportBtn" class="form-label">Export Books</label>
+                        <div class="input-group">
+                            <button type="submit" id="exportBtn" name="import" class="btn btn-primary">
+                                <i class="bi bi-download"></i> Export to Excel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Add Book Button -->
+                <div class="text-end">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                        <i class="bi bi-plus-lg"></i> Add New Book
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Books Table -->
+        <div class="table-responsive">
+            <table class="table table-striped text-center">
+                <thead class="table-dark">
+                    <tr colspan="2">
+                        <th>No.</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publisher</th>
+                        <th>Source of Acquisition</th>
+                        <th>Published Date</th>
+                        <th>Subject</th>
+                        <th>Available</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($books as $book): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($book['BookID']) ?></td>
+                            <td><?= htmlspecialchars($book['Title']) ?></td>
+                            <td><?= htmlspecialchars($book['Author']) ?></td>
+                            <td><?= htmlspecialchars($book['Publisher']) ?></td>
+                            <td><?= htmlspecialchars($book['Source of Acquisition']) ?></td>
+                            <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
+                            <td><?= htmlspecialchars($book['Subject']) ?></td>
+                            <td><?= htmlspecialchars($book['Stock']) ?></td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" style="opacity: 0.8;" data-bs-target=" #editBookModal"
+                                        data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                                        data-title="<?= htmlspecialchars($book['Title']) ?>"
+                                        data-author="<?= htmlspecialchars($book['Author']) ?>"
+                                        data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
+                                        data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
+                                        data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
+                                        data-language="<?= htmlspecialchars($book['Subject']) ?>"
+                                        data-stock="<?= htmlspecialchars($book['Stock']) ?>">
+                                        <i class="bi bi-pencil-square  fs-5"></i> Edit
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm delete-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                                        data-bs-toggle="modal" data-bs-target="#deleteBookModal">
+                                        <i class="bi bi-trash fs-5"></i> Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- pagination -->
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page=<?= $page - 1 ?>">Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="?page=<?= $page + 1 ?>">Next</a>
+                <a href="?page=<?= $totalPages ?>">Last &raquo;</a>
+            <?php endif; ?>
+        </div>
+
+        <!-- Card View Cellphone gamay na screen -->
+        <div class="card-container text-center">
             <?php foreach ($books as $book): ?>
-                <tr>
-                    <td><?= htmlspecialchars($book['BookID']) ?></td>
-                    <td><?= htmlspecialchars($book['Title']) ?></td>
-                    <td><?= htmlspecialchars($book['Author']) ?></td>
-                    <td><?= htmlspecialchars($book['Publisher']) ?></td>
-                    <td><?= htmlspecialchars($book['Source of Acquisition']) ?></td>
-                    <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
-                    <td><?= htmlspecialchars($book['Subject']) ?></td>
-                    <td><?= htmlspecialchars($book['Stock']) ?></td>
-                    <td>
-                        <div class="d-flex flex-column">
-                            <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" style="opacity: 0.8;" data-bs-target=" #editBookModal"
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><?= htmlspecialchars($book['Title']) ?></h5>
+                        <p class="card-text">
+                            <strong>Author:</strong> <?= htmlspecialchars($book['Author']) ?><br>
+                            <strong>Publisher:</strong> <?= htmlspecialchars($book['Publisher']) ?><br>
+                            <strong>Source of Acquisition</strong> <?= htmlspecialchars($book['Source of Acquisition']) ?><br>
+                            <strong>Published Date:</strong> <?= htmlspecialchars($book['PublishedDate']) ?><br>
+                            <strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?><br>
+                            <strong>Stock:</strong> <?= htmlspecialchars($book['Stock']) ?>
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" data-bs-target="#editBookModal"
                                 data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                 data-title="<?= htmlspecialchars($book['Title']) ?>"
                                 data-author="<?= htmlspecialchars($book['Author']) ?>"
@@ -308,107 +273,25 @@ if (isset($_POST['filter'])) {
                                 data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
                                 data-language="<?= htmlspecialchars($book['Subject']) ?>"
                                 data-stock="<?= htmlspecialchars($book['Stock']) ?>">
-                                <i class="bi bi-pencil-square  fs-5"></i> Edit
+                                <i class="bi bi-pencil-square fs-5"></i> Edit
                             </button>
-
-                            <button class="btn btn-danger btn-sm delete-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                            <button class="btn btn-danger btn-sm mb-2 edit-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                 data-bs-toggle="modal" data-bs-target="#deleteBookModal">
                                 <i class="bi bi-trash fs-5"></i> Delete
                             </button>
                         </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <!-- pagination -->
-    <div class="pagination">
-        <?php if ($page > 1): ?>
-            <a href="?page=1">&laquo; First</a>
-            <a href="?page=<?= $page - 1 ?>">Previous</a>
-        <?php endif; ?>
-
-        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
-        <?php endfor; ?>
-
-        <?php if ($page < $totalPages): ?>
-            <a href="?page=<?= $page + 1 ?>">Next</a>
-            <a href="?page=<?= $totalPages ?>">Last &raquo;</a>
-        <?php endif; ?>
-    </div>
-    <!-- Card View Cellphone gamay na screen -->
-    <div class="card-container text-center">
-        <?php foreach ($books as $book): ?>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title text-center"><?= htmlspecialchars($book['Title']) ?></h5>
-                    <p class="card-text">
-                        <strong>Author:</strong> <?= htmlspecialchars($book['Author']) ?><br>
-                        <strong>Publisher:</strong> <?= htmlspecialchars($book['Publisher']) ?><br>
-                        <strong>Source of Acquisition</strong> <?= htmlspecialchars($book['Source of Acquisition']) ?><br>
-                        <strong>Published Date:</strong> <?= htmlspecialchars($book['PublishedDate']) ?><br>
-                        <strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?><br>
-                        <strong>Stock:</strong> <?= htmlspecialchars($book['Stock']) ?>
-                    </p>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" data-bs-target="#editBookModal"
-                            data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                            data-title="<?= htmlspecialchars($book['Title']) ?>"
-                            data-author="<?= htmlspecialchars($book['Author']) ?>"
-                            data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
-                            data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
-                            data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
-                            data-language="<?= htmlspecialchars($book['Subject']) ?>"
-                            data-stock="<?= htmlspecialchars($book['Stock']) ?>"><i class="bi bi-pencil-square fs-5"></i> Edit</button>
-                        <button class="btn btn-danger btn-sm mb-2 edit-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                            data-bs-toggle="modal" data-bs-target="#deleteBookModal"><i class="bi bi-trash fs-5"></i> Delete</button>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 
-
-    </div>
     <script src="../public/assets/js/jquery-3.5.1.min.js"></script>
     <script src="../public/assets/js/popper.min.js"></script>
     <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
     <script src="../public/assets/js/Books.js"></script>
     <!-- <script src="../public/assets/js/inputFile.js"></script> -->
     <script src="../public/assets/js/excel.js"></script>
-    <script>
-        $(document).ready(() => {
-            $('#filterForm').on('submit', function(event) {
-                var select = $('#booksFilter');
-                if (select.val() === 'Select Subject' || select.val() === '') {
-                    event.preventDefault();
-                    alert('Please select a subject.');
-                }
-            });
-
-            $('#search').on('input', function() {
-                var query = $(this).val().toLowerCase();
-
-                $('table tbody tr').each(function() {
-                    var rowText = $(this).text().toLowerCase(); //
-
-                    if (rowText.indexOf(query) !== -1) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-
-
-            function clearSearch() {
-                $('#search').val('');
-                $('table tbody tr').show();
-
-            }
-        })
-    </script>
 </body>
 
 </html>

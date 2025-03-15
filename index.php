@@ -1,19 +1,58 @@
 <?php
-session_start();
+// Ensure session is started only once
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+echo "hello";
+
+
+// At the top of the file, after session_start()
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once 'config/conn.php';
 
-if ($_POST) {
+// var_dump($_SESSION);
+
+
+if (isset($_SESSION['usertype'])) {
+    if ($_SESSION['usertype'] === 'u') {
+        header('Location: users/index.php');
+        exit();
+    } elseif ($_SESSION['usertype'] === 'a') {
+        header('Location: admin/index.php');
+        exit();
+    }
+}
+
+// echo $_SESSION;
+
+// Handle login request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
     $usermail = mysqli_real_escape_string($conn, $_POST['email']);
     $userpassword = $_POST['password'];
 
-    // eh Fetch ang user details gikan sa database  
+    // Debug: Print the login attempt
+    error_log("Login attempt for email: " . $usermail);
+
+    // Get user details from webuser table
     $getemail = $conn->query("SELECT * FROM webuser WHERE email = '$usermail'");
 
     if ($getemail->num_rows == 1) {
         $userData = $getemail->fetch_assoc();
         $usertype = $userData['usertype'];
 
+        // Debug: Print user type
+        error_log("User type from webuser: " . $usertype);
+
         if ($usertype == 'u') {
+            // Set session name before starting the session
+            if (session_status() === PHP_SESSION_NONE) {
+                session_name('user_session');
+                session_start();
+            }
+
             $validate = $conn->query("SELECT * FROM users WHERE email = '$usermail' AND password = '$userpassword'");
             if ($validate->num_rows == 1) {
                 $user = $validate->fetch_assoc();
@@ -22,34 +61,55 @@ if ($_POST) {
                 $_SESSION['student_id'] = $user['id'];
                 $_SESSION['username'] = $user['name'];
 
-                // Set a flag in localStorage for the user side ni siya
-                echo "<script>localStorage.setItem('isLoggedIn', 'true');</script>";
                 header('location: users/index.php');
                 exit();
             } else {
                 $error = 'Invalid Email or Password!';
             }
-        } else if ($usertype == 'a') {
-            $validate = $conn->query("SELECT * FROM admin WHERE email = '$usermail' AND password = '$userpassword'");
+        } else if ($usertype == 'a' || $usertype == 'sa') {  // Check for both admin and super admin
+            // Set session name before starting the session
+            if (session_status() === PHP_SESSION_NONE) {
+                session_name('admin_session');
+                session_start();
+            }
+
+            // Debug: Print admin validation query
+            $query = "SELECT * FROM admin WHERE email = '$usermail' AND password = '$userpassword'";
+            error_log("Admin validation query: " . $query);
+
+            // Validate against admin table
+            $validate = $conn->query($query);
+
             if ($validate->num_rows == 1) {
                 $admin = $validate->fetch_assoc();
-                $_SESSION['user'] = $usermail;
-                $_SESSION['usertype'] = 'a';
-                $_SESSION['admin_email'] = $admin['email']; // Store admin email in session para inig refresh sa tab dili madamay ang isa ka tab
 
-                // Set a flag in localStorage for the client side
-                echo "<script>localStorage.setItem('isLoggedIn', 'true');</script>";
+                // Set all necessary session variables
+                $_SESSION['user'] = $usermail;
+                $_SESSION['email'] = $usermail;
+                $_SESSION['usertype'] = $usertype;  // Use usertype from webuser table
+                $_SESSION['admin_email'] = $admin['email'];
+                $_SESSION['role'] = $admin['role'];
+
+                // Debug: Print session data
+                error_log("Session data set: " . print_r($_SESSION, true));
+
                 header('location: admin/index.php');
                 exit();
             } else {
                 $error = 'Invalid Email or Password!';
+                error_log("Admin validation failed for email: " . $usermail);
             }
+        } else {
+            $error = 'Invalid user type!';
+            error_log("Invalid user type: " . $usertype);
         }
     } else {
         $error = 'Email not found!';
+        error_log("Email not found in webuser table: " . $usermail);
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -60,103 +120,45 @@ if ($_POST) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="LOGIN PAGE">
     <meta name="author" content="Ely Gian Ga">
-    <title>Login</title>
+    <title>MNHS Library Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
     <style>
-        body {
-            background-image: url('maharlika/2nd pic.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
-        .login-container {
-            max-width: 400px;
-            width: 90%;
-            padding: 2rem;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        #clock {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        h2 {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #0056b3;
-            white-space: nowrap;
-            margin: 0 auto;
-            width: 0;
-            animation: typing 3s steps(30) infinite;
-            overflow: hidden;
-
-        }
-
-        @keyframes typing {
-            100% {
-                width: 100%;
-
-            }
-        }
-
-        @keyframes blink {
-            40% {
-                border-color: transparent;
-            }
-        }
     </style>
 </head>
 
 <body>
+    <div class="background-wrapper">
+        <div class="background-image"></div>
+    </div>
+
     <div class="login-container">
-        <div id="clock" class="mb-4"></div>
-        <h2 class="login text-center mb-4">LOGIN</h2>
+        <div id="clock"></div>
+        <h1 class="login-title">Welcome Back</h1>
         <?php if (isset($error)) : ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo $error; ?>
             </div>
         <?php endif; ?>
         <form action="" method="POST">
-            <div class="mb-3">
-                <div class="input-group">
-                    <label for="email"></label>
-                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
-                </div>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
             </div>
-            <div class="mb-3">
-                <div class="input-group">
-                    <label for=""></label>
-                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                </div>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+                <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
             </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-            <div class="d-grid">
-                <a style="text-align: center;" href="#">Forgot password?</a>
+            <button type="submit" class="btn btn-login w-100">Sign In</button>
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
             </div>
         </form>
     </div>
