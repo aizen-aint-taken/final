@@ -13,7 +13,7 @@ ini_set('display_errors', 1);
 
 require_once 'config/conn.php';
 
-// var_dump($_SESSION);
+
 
 
 if (isset($_SESSION['usertype'])) {
@@ -29,22 +29,24 @@ if (isset($_SESSION['usertype'])) {
 // echo $_SESSION;
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
-    $usermail = mysqli_real_escape_string($conn, $_POST['email']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset($_POST['password'])) {
+    $login_id = mysqli_real_escape_string($conn, $_POST['login_id']);
     $userpassword = $_POST['password'];
 
-    $getemail = $conn->query("SELECT * FROM webuser WHERE email = '$usermail'");
+    // Check in webuser table for either email or name
+    $query = "SELECT * FROM webuser WHERE email = '$login_id' OR name = '$login_id'";
+    $getemail = $conn->query($query);
 
     if ($getemail->num_rows == 1) {
         $userData = $getemail->fetch_assoc();
         $usertype = $userData['usertype'];
+        $usermail = $userData['email'];
 
         if ($usertype == 'u') {
-            // For students/users
+
             $validate = $conn->query("SELECT * FROM users WHERE email = '$usermail'");
             if ($validate->num_rows == 1) {
                 $user = $validate->fetch_assoc();
-                // Use password_verify to check hashed password
                 if (password_verify($userpassword, $user['password'])) {
                     $_SESSION['user'] = $usermail;
                     $_SESSION['usertype'] = 'u';
@@ -54,13 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
                     exit();
                 }
             }
-            $error = 'Invalid Email or Password!';
+            $error = 'Invalid Name/Email or Password!';
         } else if ($usertype == 'a' || $usertype == 'sa') {
             // For admin
             $validate = $conn->query("SELECT * FROM admin WHERE email = '$usermail'");
             if ($validate->num_rows == 1) {
                 $admin = $validate->fetch_assoc();
-                // Use password_verify to check hashed password
                 if (password_verify($userpassword, $admin['password'])) {
                     $_SESSION['user'] = $usermail;
                     $_SESSION['email'] = $usermail;
@@ -71,10 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
                     exit();
                 }
             }
-            $error = 'Invalid Email or Password!';
+            $error = 'Invalid Name/Email or Password!';
         }
     } else {
-        $error = 'Email not found!';
+        $error = 'Account not found!';
     }
 }
 ?>
@@ -115,9 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
         <form action="" method="POST">
             <div class="input-group">
                 <span class="input-group-text">
-                    <i class="fa-solid fa-envelope"></i>
+                    <i class="fa-solid fa-user"></i>
                 </span>
-                <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                <input type="text" name="login_id" class="form-control" placeholder="Enter your name or email" required>
             </div>
             <div class="input-group">
                 <span class="input-group-text">
