@@ -1,5 +1,5 @@
 <?php
-// Ensure session is started only once
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 echo "hello";
 
 
-// At the top of the file, after session_start()
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -28,7 +28,7 @@ if (isset($_SESSION['usertype'])) {
 
 // echo $_SESSION;
 
-// Original login verification code
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
     $usermail = mysqli_real_escape_string($conn, $_POST['email']);
     $userpassword = $_POST['password'];
@@ -40,9 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
         $usertype = $userData['usertype'];
 
         if ($usertype == 'u') {
+            // For students/users
             $validate = $conn->query("SELECT * FROM users WHERE email = '$usermail'");
             if ($validate->num_rows == 1) {
                 $user = $validate->fetch_assoc();
+                // Use password_verify to check hashed password
                 if (password_verify($userpassword, $user['password'])) {
                     $_SESSION['user'] = $usermail;
                     $_SESSION['usertype'] = 'u';
@@ -54,9 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
             }
             $error = 'Invalid Email or Password!';
         } else if ($usertype == 'a' || $usertype == 'sa') {
+            // For admin
             $validate = $conn->query("SELECT * FROM admin WHERE email = '$usermail'");
             if ($validate->num_rows == 1) {
                 $admin = $validate->fetch_assoc();
+                // Use password_verify to check hashed password
                 if (password_verify($userpassword, $admin['password'])) {
                     $_SESSION['user'] = $usermail;
                     $_SESSION['email'] = $usermail;
@@ -122,10 +126,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
             </div>
             <button type="submit" class="btn btn-login w-100">Sign In</button>
-            <div class="forgot-password">
-                <a href="#">Forgot password?</a>
-            </div>
         </form>
+    </div>
+
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="reset_password.php" method="POST">
+                        <div class="form-group mb-3">
+                            <label for="resetEmail">Email Address</label>
+                            <input type="email" class="form-control" name="email" id="resetEmail" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" class="form-control" name="new_password" id="newPassword" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" class="form-control" name="confirm_password" id="confirmPassword" required>
+                        </div>
+                        <button type="submit" name="resetPassword" class="btn btn-primary w-100">Reset Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -149,6 +178,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
 
             setInterval(updateClock, 1000);
             updateClock();
+        });
+
+        document.querySelector('#forgotPasswordModal form').addEventListener('submit', function(e) {
+            const password = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+                return false;
+            }
+
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('Password must be at least 6 characters long!');
+                return false;
+            }
         });
     </script>
 </body>

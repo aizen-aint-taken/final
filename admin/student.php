@@ -16,14 +16,14 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 $error = '';
 $success = '';
 
-if ($_POST) {
+if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $age = mysqli_real_escape_string($conn, $_POST['age']);
     $year = mysqli_real_escape_string($conn, $_POST['year']);
     $sect = mysqli_real_escape_string($conn, $_POST['sect']);
     $email = filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL);
-    // Hash the password before storing
-    $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    // Store password as plain text to match our current system
+    $password = $_POST['password'];
 
     if ($email === false) {
         $error = "Invalid email format.";
@@ -37,19 +37,38 @@ if ($_POST) {
         if ($email_result->num_rows > 0) {
             $error = "Already have an account for this Email address.";
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (email, password, name, age, year, sect) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $email, $hashed_password, $name, $age, $year, $sect);
+            // Start transaction
+            $conn->begin_transaction();
 
-            if ($stmt->execute()) {
+            try {
+                // Hash the password before storing
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                // Insert into users table with hashed password
+                $stmt = $conn->prepare("INSERT INTO users (email, password, name, age, year, sect) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssss", $email, $hashed_password, $name, $age, $year, $sect);
+
+                if (!$stmt->execute()) {
+                    throw new Exception("Error creating user account");
+                }
+
+                // Insert into webuser table
                 $stmt = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, 'u')");
                 $stmt->bind_param("s", $email);
-                $stmt->execute();
 
+                if (!$stmt->execute()) {
+                    throw new Exception("Error creating webuser entry");
+                }
+
+                // If everything is successful, commit the transaction
+                $conn->commit();
                 $success = "Account Successfully Created";
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 exit();
-            } else {
-                $error = "Error creating account. Please try again.";
+            } catch (Exception $e) {
+                // If anything fails, rollback the changes
+                $conn->rollback();
+                $error = "Error creating account: " . $e->getMessage();
             }
         }
     }
@@ -78,6 +97,7 @@ include('../includes/sidebar.php');
     <!-- <link rel="stylesheet" href="../public/assets/css/student.css"> -->
     <title>Student Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -285,6 +305,14 @@ include('../includes/sidebar.php');
                                         data-mail="<?= htmlspecialchars($user['email']) ?>">
                                         <i class="fas fa-edit"></i>
                                     </button>
+                                    <!-- Change Password Button -->
+                                    <button class="btn btn-warning btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#changePasswordModal"
+                                        data-id="<?= $user['id'] ?>"
+                                        data-email="<?= htmlspecialchars($user['email']) ?>">
+                                        <i class="fas fa-key"></i>
+                                    </button>
                                     <form action="../admin/deleteStudent.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="delete_id" value="<?= $user['id'] ?>">
                                         <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this student?');">
@@ -386,95 +414,51 @@ include('../includes/sidebar.php');
             </div>
         </div>
 
+        <!-- change password modal -->
+        <div class="modal fade" id="changePasswordModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Change Student Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="change_password.php" method="POST">
+                            <input type="hidden" name="student_id" id="change-password-id">
+                            <input type="hidden" name="student_email" id="change-password-email">
+
+                            <div class="form-group mb-3">
+                                <label>Student Email:</label>
+                                <p id="student-email-display" class="form-control-static"></p>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="new_password">New Password</label>
+                                <input type="password" class="form-control" name="new_password" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" class="form-control" name="confirm_password" required>
+                            </div>
+
+                            <button type="submit" name="change_password" class="btn btn-primary w-100">Change Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../student/editStudent.js"></script>
-    <!-- <script src="../public/assets/js/student.js"></script> -->
+    <script src="../public/assets/js/resetpassword.js"></script>
 
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".btn-delete").forEach((button) => {
-                button.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    let row = this.closest("tr");
-                    let userId = row.querySelector("input[name='delete_id']").value;
 
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "This action cannot be undone!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#d33",
-                        cancelButtonColor: "#3085d6",
-                        confirmButtonText: "Yes, delete it!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch('deleteStudent.php', {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    },
-                                    body: `delete_id=${userId}`
-                                })
-                                .then(response => response.text())
-                                .then(data => {
-                                    if (data.trim() === "success") {
-                                        row.remove();
-                                        Swal.fire("Deleted!", "Student has been removed.", "success");
-                                    } else {
-                                        Swal.fire("Error!", "Failed to delete student.", "error");
-                                    }
-                                });
-                        }
-                    });
-                });
-            });
-
-            // UPDATE USER (Only Submitting Form)
-            document.querySelector("#editStudentModal form").addEventListener("submit", function(e) {
-                e.preventDefault();
-                let formData = new FormData(this);
-
-                fetch(window.location.href, {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        if (data.trim() === "success") {
-                            Swal.fire("Updated!", "Student details updated.", "success").then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire("Error!", "Update failed.", "error");
-                        }
-                    });
-            });
-
-            // ADD USER
-            document.querySelector("#addBookModal form").addEventListener("submit", function(e) {
-                e.preventDefault();
-                let formData = new FormData(this);
-
-                fetch(window.location.href, {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        if (data.trim() === "success") {
-                            Swal.fire("Added!", "New student has been added.", "success").then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire("Error!", "Failed to add student.", "error");
-                        }
-                    });
-            });
-        });
-    </script> -->
 </body>
 
 </html>
