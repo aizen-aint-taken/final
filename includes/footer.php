@@ -3,8 +3,7 @@
     <p>&copy; <span id="current-year"></span> Maharlika National High School All rights reserved.</p>
     <nav>
       <a href="/privacy-policy" style="margin-right: 15px;">Privacy Policy</a>
-      <a href="/terms-of-service" style="margin-right: 15px;">Terms of Service</a>
-      <a href="/contact-us">Contact Us</a>
+      <a href="../aboutUs/index.php" style="margin-right: 15px;">About Us</a>
     </nav>
   </div>
 </footer>
@@ -16,7 +15,7 @@
   document.getElementById("current-year").textContent = new Date().getFullYear();
   document.querySelectorAll('.main-footer a').forEach(link => {
     link.addEventListener('click', function(event) {
-      event.preventDefault();
+      // event.preventDefault();
       const targetUrl = event.target.getAttribute('href');
       console.log(`Navigate to: ${targetUrl}`);
     });

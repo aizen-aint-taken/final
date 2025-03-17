@@ -306,7 +306,7 @@ include('../includes/sidebar.php');
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <!-- Change Password Button -->
-                                    <button class="btn btn-warning btn-sm"
+                                    <button class="btn btn-secondary btn-sm"
                                         data-bs-toggle="modal"
                                         data-bs-target="#changePasswordModal"
                                         data-id="<?= $user['id'] ?>"

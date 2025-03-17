@@ -51,14 +51,14 @@ include('../includes/sidebar.php');
                 </div>
             </div>
             <div class="chart-card status-card">
-                <h2 class="chart-title">Reservation Status Distribution</h2>
+                <h2 class="chart-title">Borrowing Status Distribution</h2>
                 <div class="chart-container">
                     <canvas id="reservationStatusChart"></canvas>
                 </div>
             </div>
 
             <div class="chart-card trends-card">
-                <h2 class="chart-title">Monthly Reservation Trends</h2>
+                <h2 class="chart-title">Monthly Borrowing Trends</h2>
                 <div class="chart-container">
                     <canvas id="monthlyTrendsChart"></canvas>
                 </div>

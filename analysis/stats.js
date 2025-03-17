@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }),
                     datasets: [{
-                        label: 'Number of Reservations',
+                        label: 'Number of Borrowed Books in Month',
                         data: data.monthlyTrends.map(item => item.reservation_count),
                         borderColor: 'rgba(155, 89, 182, 1)',
                         backgroundColor: 'rgba(155, 89, 182, 0.2)',
@@ -267,12 +267,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             data.borrowStats.borrowed_count
                         ],
                         backgroundColor: [
-                            '#2ecc71',  // Green for returned
-                            '#3498db'   // Blue for borrowed
+                            '#2ecc71',  
+                            '#3498db'   
                         ],
                         borderColor: [
-                            '#27ae60',  // Darker green
-                            '#2980b9'   // Darker blue
+                            '#27ae60',
+                            '#2980b9'   
                         ],
                         borderWidth: 2
                     }]
