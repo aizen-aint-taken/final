@@ -17,7 +17,6 @@ if (!isset($_SESSION['role']) && isset($_SESSION['usertype'])) {
     $_SESSION['role'] = $_SESSION['usertype'];
 }
 
-// Only allow super admin to perform these actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['delete'])) {
     if ($_SESSION['role'] !== 'sa') {
         header('location: index.php');
@@ -40,7 +39,8 @@ if (isset($_POST['addAdmin'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $roles = mysqli_real_escape_string($conn, $_POST['role']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    // Hash the password before storing
+    $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     // Check if trying to add a super admin
     if ($roles === 'sa' && checkSuperAdminExists($conn)) {
@@ -49,16 +49,14 @@ if (isset($_POST['addAdmin'])) {
         $conn->begin_transaction();
 
         try {
-            // Insert into admin table
             $stmt = $conn->prepare("INSERT INTO admin (name, email, role, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $roles, $password);
+            $stmt->bind_param("ssss", $name, $email, $roles, $hashed_password);
 
             if (!$stmt->execute()) {
                 throw new Exception("Error inserting into admin table");
             }
 
-            // Insert into webuser table - make sure usertype matches role
-            $usertype = $roles; // Use the same value as role
+            $usertype = $roles;
             $stmt2 = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, ?)");
             $stmt2->bind_param("ss", $email, $usertype);
 
@@ -98,7 +96,7 @@ if (isset($_GET['delete'])) {
         $stmt = $conn->prepare("DELETE FROM admin WHERE email = ?");
         $stmt->bind_param("s", $deleteEmail);
         if ($stmt->execute()) {
-            // Also delete from webuser table
+
             $stmt2 = $conn->prepare("DELETE FROM webuser WHERE email = ?");
             $stmt2->bind_param("s", $deleteEmail);
             $stmt2->execute();

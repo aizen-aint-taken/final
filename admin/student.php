@@ -22,9 +22,8 @@ if ($_POST) {
     $year = mysqli_real_escape_string($conn, $_POST['year']);
     $sect = mysqli_real_escape_string($conn, $_POST['sect']);
     $email = filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL);
-    // $password = $_POST['password'];
-    $password = isset($_POST['password']) && !empty($_POST['password']) ? $_POST['password'] : "";
-
+    // Hash the password before storing
+    $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     if ($email === false) {
         $error = "Invalid email format.";
@@ -38,12 +37,10 @@ if ($_POST) {
         if ($email_result->num_rows > 0) {
             $error = "Already have an account for this Email address.";
         } else {
-
             $stmt = $conn->prepare("INSERT INTO users (email, password, name, age, year, sect) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $email, $password, $name, $age, $year, $sect);
+            $stmt->bind_param("ssssss", $email, $hashed_password, $name, $age, $year, $sect);
 
             if ($stmt->execute()) {
-
                 $stmt = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, 'u')");
                 $stmt->bind_param("s", $email);
                 $stmt->execute();

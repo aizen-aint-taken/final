@@ -28,84 +28,49 @@ if (isset($_SESSION['usertype'])) {
 
 // echo $_SESSION;
 
-// Handle login request
+// Original login verification code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
     $usermail = mysqli_real_escape_string($conn, $_POST['email']);
     $userpassword = $_POST['password'];
 
-    // Debug: Print the login attempt
-    error_log("Login attempt for email: " . $usermail);
-
-    // Get user details from webuser table
     $getemail = $conn->query("SELECT * FROM webuser WHERE email = '$usermail'");
 
     if ($getemail->num_rows == 1) {
         $userData = $getemail->fetch_assoc();
         $usertype = $userData['usertype'];
 
-        // Debug: Print user type
-        error_log("User type from webuser: " . $usertype);
-
         if ($usertype == 'u') {
-            // Set session name before starting the session
-            if (session_status() === PHP_SESSION_NONE) {
-                session_name('user_session');
-                session_start();
-            }
-
-            $validate = $conn->query("SELECT * FROM users WHERE email = '$usermail' AND password = '$userpassword'");
+            $validate = $conn->query("SELECT * FROM users WHERE email = '$usermail'");
             if ($validate->num_rows == 1) {
                 $user = $validate->fetch_assoc();
-                $_SESSION['user'] = $usermail;
-                $_SESSION['usertype'] = 'u';
-                $_SESSION['student_id'] = $user['id'];
-                $_SESSION['username'] = $user['name'];
-
-                header('location: users/index.php');
-                exit();
-            } else {
-                $error = 'Invalid Email or Password!';
+                if (password_verify($userpassword, $user['password'])) {
+                    $_SESSION['user'] = $usermail;
+                    $_SESSION['usertype'] = 'u';
+                    $_SESSION['student_id'] = $user['id'];
+                    $_SESSION['username'] = $user['name'];
+                    header('location: users/index.php');
+                    exit();
+                }
             }
-        } else if ($usertype == 'a' || $usertype == 'sa') {  // Check for both admin and super admin
-            // Set session name before starting the session
-            if (session_status() === PHP_SESSION_NONE) {
-                session_name('admin_session');
-                session_start();
-            }
-
-            // Debug: Print admin validation query
-            $query = "SELECT * FROM admin WHERE email = '$usermail' AND password = '$userpassword'";
-            error_log("Admin validation query: " . $query);
-
-            // Validate against admin table
-            $validate = $conn->query($query);
-
+            $error = 'Invalid Email or Password!';
+        } else if ($usertype == 'a' || $usertype == 'sa') {
+            $validate = $conn->query("SELECT * FROM admin WHERE email = '$usermail'");
             if ($validate->num_rows == 1) {
                 $admin = $validate->fetch_assoc();
-
-                // Set all necessary session variables
-                $_SESSION['user'] = $usermail;
-                $_SESSION['email'] = $usermail;
-                $_SESSION['usertype'] = $usertype;  // Use usertype from webuser table
-                $_SESSION['admin_email'] = $admin['email'];
-                $_SESSION['role'] = $admin['role'];
-
-                // Debug: Print session data
-                error_log("Session data set: " . print_r($_SESSION, true));
-
-                header('location: admin/index.php');
-                exit();
-            } else {
-                $error = 'Invalid Email or Password!';
-                error_log("Admin validation failed for email: " . $usermail);
+                if (password_verify($userpassword, $admin['password'])) {
+                    $_SESSION['user'] = $usermail;
+                    $_SESSION['email'] = $usermail;
+                    $_SESSION['usertype'] = $usertype;
+                    $_SESSION['admin_email'] = $admin['email'];
+                    $_SESSION['role'] = $admin['role'];
+                    header('location: admin/index.php');
+                    exit();
+                }
             }
-        } else {
-            $error = 'Invalid user type!';
-            error_log("Invalid user type: " . $usertype);
+            $error = 'Invalid Email or Password!';
         }
     } else {
         $error = 'Email not found!';
-        error_log("Email not found in webuser table: " . $usermail);
     }
 }
 ?>
