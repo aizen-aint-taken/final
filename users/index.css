@@ -19,12 +19,11 @@ body {
     background-color: var(--background-color);
     color: var(--text-primary);
     line-height: 1.5;
-     background-image: url('../maharlika/login image.jpg');
-    background-size: cover;
-    background-position: center;
-    animation: zoomInOut 20s infinite alternate;
-    filter: blur(3px) brightness(0.7);
+   
 }
+
+
+
 
 .main-content {
     margin-left: 250px;
