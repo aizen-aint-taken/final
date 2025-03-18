@@ -51,7 +51,7 @@ INNER JOIN books AS B ON R.BookID = B.BookID WHERE U.id ='$studentId'");
 
 if (isset($_POST['filter'])) {
     $booksFilter = $_POST['booksFilter'];
-    $books = $conn->query("SELECT * FROM books WHERE Language = '$booksFilter' LIMIT $resultsPerPage OFFSET $offset");
+    $books = $conn->query("SELECT * FROM books WHERE Subject = '$booksFilter' LIMIT $resultsPerPage OFFSET $offset");
 }
 ?>
 
@@ -68,9 +68,12 @@ if (isset($_POST['filter'])) {
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/assets/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="../public/assets/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../public/assets/css/datatables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="index.css">
+    <style>
+
+    </style>
 
 </head>
 
@@ -82,33 +85,58 @@ if (isset($_POST['filter'])) {
             <div class="row">
                 <div class="col-12">
                     <h1 class="text-center mb-4 primary">List of Library Collection</h1>
-
                     <!-- Filter and Search Container -->
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-6">
-                            <!-- Filter Form -->
-                            <form action="index.php" method="post" class="mb-3">
-                                <div class="input-group">
-                                    <select name="booksFilter" id="booksFilter" class="form-select">
-                                        <option selected disabled hidden>Select Subject</option>
-                                        <?php foreach ($filterBooks as $book): ?>
-                                            <option value="<?= htmlspecialchars($book['Subject']) ?>">
-                                                <?= htmlspecialchars($book['Subject']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <button type="submit" name="filter" class="btn btn-primary">
-                                        <i class="fas fa-filter me-2"></i> Select
-                                    </button>
-                                </div>
-                            </form>
+                    <div class="search-filter-container mb-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <!-- Filter Form -->
+                                <div class="card filter-card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="filter-title mb-4">
+                                            <i class="fas fa-book-open me-2"></i>Find Your Books
+                                        </h5>
 
-                            <!-- Search Bar -->
-                            <div class="input-group">
-                                <input type="text" id="searchBar" name="search" class="form-control" placeholder="Search for books..." value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
-                                <button type="submit" name="searchBtn" class="btn btn-primary">
-                                    <i class="fas fa-search me-2"></i> Search
-                                </button>
+                                        <form action="index.php" method="post" class="mb-4">
+                                            <label for="booksFilter" class="form-label">Filter by Subject</label>
+                                            <div class="input-group input-group-lg filter-group">
+                                                <span class="input-group-text bg-transparent border-end-0">
+                                                    <i class="fas fa-filter text-primary"></i>
+                                                </span>
+                                                <select name="booksFilter" id="booksFilter" class="form-select border-start-0 ps-0">
+                                                    <option selected disabled hidden>Choose a subject...</option>
+                                                    <?php foreach ($filterBooks as $book): ?>
+                                                        <option value="<?= htmlspecialchars($book['Subject']) ?>">
+                                                            <?= htmlspecialchars($book['Subject']) ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <button type="submit" name="filter" class="btn btn-primary px-4">
+                                                    <i class="fas fa-check me-2"></i>Apply
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <!-- Search Bar -->
+                                        <div class="search-section">
+                                            <label for="searchBar" class="form-label">Search Books</label>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-transparent border-end-0">
+                                                    <i class="fas fa-search text-primary"></i>
+                                                </span>
+                                                <input
+                                                    type="text"
+                                                    id="searchBar"
+                                                    name="search"
+                                                    class="form-control border-start-0 ps-0"
+                                                    placeholder="Search by title, author, or subject..."
+                                                    value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
+                                                <button type="submit" name="searchBtn" class="btn btn-primary px-4">
+                                                    <i class="fas fa-search me-2"></i>Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -155,7 +183,7 @@ if (isset($_POST['filter'])) {
                     </div>
 
                     <!-- Mobile Card View -->
-                    <div class="row row-cols-1 row-cols-md-2 g-4 d-lg-none">
+                    <div class="row row-cols-1 row-cols-md-2 g-4 d-lg-none text-center">
                         <?php foreach ($books as $book): ?>
                             <div class="col">
                                 <div class="card h-100 book-card">
@@ -212,11 +240,7 @@ if (isset($_POST['filter'])) {
                                 <label for="reserveBookAuthor">Author</label>
                                 <input type="text" name="book_author" class="form-control" id="reserveBookAuthor" readonly>
                             </div>
-                            <!-- <div class="form-group">
-                                <label for="borrowBooks">Number of Books to Borrow</label>
-                                <input type="number" name="borrow" min="1" max="5" value="1" class="form-control" id="borrowBooks" oninput="updateBookCount(this.value)">
 
-                            </div> -->
                             <button type="submit" name="reserve" class="btn btn-success">Borrow</button>
                         </form>
                     </div>
@@ -265,6 +289,122 @@ if (isset($_POST['filter'])) {
                 transform: translateY(-5px);
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
+
+            .search-filter-container {
+                padding: 1rem;
+            }
+
+            .filter-card {
+                border: none;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+            }
+
+            .filter-card:hover {
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+            .filter-title {
+                color: #1a237e;
+                font-weight: 600;
+                font-size: 1.5rem;
+            }
+
+            .form-label {
+                color: #495057;
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+            }
+
+            .input-group-lg>.form-control,
+            .input-group-lg>.input-group-text,
+            .input-group-lg>.btn {
+                padding: 0.75rem 1.2rem;
+                font-size: 1rem;
+            }
+
+            .input-group-text {
+                border-color: #e0e0e0;
+            }
+
+            .form-select,
+            .form-control {
+                border-color: #e0e0e0;
+                transition: all 0.3s ease;
+            }
+
+            .form-select:focus,
+            .form-control:focus {
+                border-color: #1a237e;
+                box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.1);
+            }
+
+            .btn-primary {
+                background: linear-gradient(45deg, #1a237e, #0d47a1);
+                border: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                background: linear-gradient(45deg, #0d47a1, #1a237e);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
+            }
+
+            .filter-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .search-section {
+                position: relative;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .filter-card {
+                    border-radius: 12px;
+                }
+
+                .filter-title {
+                    font-size: 1.25rem;
+                }
+
+                .input-group-lg>.form-control,
+                .input-group-lg>.input-group-text,
+                .input-group-lg>.btn {
+                    padding: 0.5rem 1rem;
+                }
+            }
+
+            /* Animation for focus states */
+            .form-select:focus,
+            .form-control:focus {
+                animation: focusAnimation 0.3s ease;
+            }
+
+            @keyframes focusAnimation {
+                0% {
+                    transform: scale(0.98);
+                }
+
+                50% {
+                    transform: scale(1.01);
+                }
+
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            /* Custom select arrow */
+            .form-select {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231a237e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+                background-position: right 0.75rem center;
+                background-size: 1em;
+            }
         </style>
 
         <script src="../public/assets/js/jquery-3.5.1.min.js"></script>
@@ -299,7 +439,18 @@ if (isset($_POST['filter'])) {
                     });
                 });
 
+                // Add animation when changing select value
+                document.getElementById('booksFilter').addEventListener('change', function() {
+                    this.classList.add('changed');
+                    setTimeout(() => this.classList.remove('changed'), 300);
+                });
 
+                // Add animation for search input
+                document.getElementById('searchBar').addEventListener('input', function() {
+                    this.classList.add('typing');
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(() => this.classList.remove('typing'), 300);
+                });
             });
         </script>
     </div>

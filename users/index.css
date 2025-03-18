@@ -1,6 +1,6 @@
 :root {
     --primary-color: #2c3e50;
-    --secondary-color: #34495e;
+    --secondary-color: #6b9ed1;
     --accent-color: #3498db;
     --background-color: #f8f9fa;
     --text-primary: #2c3e50;
@@ -19,6 +19,11 @@ body {
     background-color: var(--background-color);
     color: var(--text-primary);
     line-height: 1.5;
+     background-image: url('../maharlika/login image.jpg');
+    background-size: cover;
+    background-position: center;
+    animation: zoomInOut 20s infinite alternate;
+    filter: blur(3px) brightness(0.7);
 }
 
 .main-content {

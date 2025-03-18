@@ -22,55 +22,37 @@ class LoginTest extends TestCase
     {
         $email = 'admin@gmail.com';
         $usertype = 'a';
-        $query = "SELECT * FROM webuser WHERE email = '$email' AND usertype = '$usertype'";
-        $result = $this->conn->query($query);
+
+
+        $stmt = $this->conn->prepare("SELECT * FROM webuser WHERE email = ? AND usertype = ?");
+        $stmt->bind_param("ss", $email, $usertype);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $this->assertNotFalse($result, 'Query failed.');
         $this->assertGreaterThan(0, $result->num_rows, 'User does not exist.');
+
+        $stmt->close();
     }
 
     public function testUserLoginWithValidCredentials()
     {
-        $email = 'jems@gmail.com';
-        $password = '123';
+        $email = 'angel@gmail.com';
+        $password = '123';  // Make sure this matches the original password before hashing
 
-        $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-        $result = $this->conn->query($query);
+        $stmt = $this->conn->prepare("SELECT * FROM webuser WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $this->assertNotFalse($result, 'Query failed.');
-        $this->assertGreaterThan(0, $result->num_rows, 'Invalid ang credentials sa login');
+        $this->assertGreaterThan(0, $result->num_rows, 'User not found');
+
+        $user = $result->fetch_assoc();
+        $this->assertTrue(password_verify($password, $user['password']), 'Invalid credentials sa login');
+
+        $stmt->close();
     }
-
-    // public function testUserLoginWithInvalidCredentials()
-    // {
-    //     $email = 'jemsyawa@gmail.com';
-    //     $password = '123';
-
-    //     $stmt = $this->conn->prepare("SELECT password FROM users WHERE email = ?");
-    //     $stmt->bind_param("s", $email);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-
-    //     if ($row = $result->fetch_assoc()) {
-    //         $storedPassword = $row['password'];
-
-    //         // Use password_verify only if passwords are hashed
-    //         if (password_get_info($storedPassword)['algo'] !== 0) {
-    //             $isValid = password_verify($password, $storedPassword);
-    //         } else {
-    //             $isValid = ($password === $storedPassword);
-    //         }
-    //     } else {
-    //         $isValid = false;
-    //     }
-
-    //     $this->assertFalse($isValid, 'Dili kasulod dapat kung mali iya gibutang na password or email');
-    //     $stmt->close();
-    // }
-
-
-
-
 
     protected function tearDown(): void
     {

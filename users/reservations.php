@@ -120,142 +120,38 @@ function getStatusBadgeClass($status)
     <meta name="description" content="RESERVATION USER PAGE">
     <meta name="author" content="Ely Gian Ga">
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/assets/css/reservations.css">
+    <link rel="stylesheet" href="reservations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Reservations</title>
-    <style>
-        /* Wrapper for main content */
-        .content-wrapper {
-            margin-left: 250px;
-            /* Matches the sidebar's width */
-            padding: 20px;
-            transition: margin-left 0.3s ease-in-out;
-        }
 
-        /* Adjustments for smaller screens */
-        @media (max-width: 768px) {
-            .content-wrapper {
-                margin-left: 0;
-                /* Sidebar collapses, so no margin */
-                padding: 15px;
-            }
-        }
-
-        /* Table and card adjustments */
-        .card {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        /* Badge Styling */
-        .badge-danger {
-            background-color: #dc3545 !important;
-            color: #fff !important;
-        }
-
-        .badge-success {
-            background-color: #28a745 !important;
-            color: #fff !important;
-        }
-
-        .badge-warning {
-            background-color: #ffc107 !important;
-            color: #212529 !important;
-        }
-
-        .badge-secondary {
-            background-color: #6c757d !important;
-            color: #fff !important;
-        }
-
-        .alert {
-            display: none;
-        }
-
-        .select {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 15px;
-            border: 2px solid #4CAF50;
-            font-size: 18px;
-            border-radius: 8px;
-            background-color: #fff;
-            color: #333;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .reservation-card {
-            margin-bottom: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .reservation-card .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-            padding: 1rem;
-        }
-
-        .reservation-card .card-body {
-            padding: 1rem;
-        }
-
-        .badge {
-            font-size: 0.9rem !important;
-            padding: 0.5em 1em;
-        }
-
-        @media (max-width: 991.98px) {
-            .container {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-            .reservation-card {
-                margin-left: -5px;
-                margin-right: -5px;
-            }
-        }
-
-        .card-header.bg-warning {
-            background-color: #fff3cd !important;
-            border-bottom: 1px solid #ffeeba;
-        }
-
-        .badge {
-            padding: 8px 12px;
-            font-size: 0.875rem;
-        }
-
-        .bg-danger {
-            background-color: #dc3545 !important;
-        }
-
-        .bg-warning {
-            background-color: #ffc107 !important;
-            color: #000;
-        }
-    </style>
 </head>
 
 <body>
     <?php include("../users/sidebar.php"); ?>
+    <?php include("../users/header.php"); ?>
 
     <div class="content-wrapper" style="margin-left: 250px;">
         <div class="container mt-5">
-            <select class="select form-select mb-4" name="status" id="form-select" onchange="filterStatus()">
-                <option value="All">All</option>
-                <option value="Approved">Approved</option>
-                <option value="Rejected">Rejected</option>
-                <option value="Returned">Returned</option>
-                <option value="Pending">Pending</option>
-            </select>
+            <div class="filter-container mb-5">
+                <label for="form-select" class="filter-label mb-2">
+                    <i class="fas fa-filter me-2"></i>Filter by Status
+                </label>
+                <select class="select form-select" name="status" id="form-select" onchange="filterStatus()">
+                    <option value="All">All Reservations</option>
+                    <option value="Approved">
+                        <i class="fas fa-check-circle"></i> Approved
+                    </option>
+                    <option value="Pending">
+                        <i class="fas fa-clock"></i> Pending
+                    </option>
+                    <option value="Rejected">
+                        <i class="fas fa-times-circle"></i> Rejected
+                    </option>
+                    <option value="Returned">
+                        <i class="fas fa-undo"></i> Returned
+                    </option>
+                </select>
+            </div>
 
             <!-- Notifications Section -->
             <?php if ($notifications->num_rows > 0): ?>
@@ -357,37 +253,6 @@ function getStatusBadgeClass($status)
         </div>
     </div>
 
-    <div class="content-wrapper" style="margin-left: 250px;">
-        <div class="container mt-5">
-            <h2>Notifications</h2>
-            <table id="notificationsTable" class="table table-striped table-hover text-center align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col">Book Title</th>
-                        <th scope="col">Due Date</th>
-                        <th scope="col">Days Remaining</th>
-                    </tr>
-                </thead>
-                <tbody id="notificationsTableBody"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <?php if ($notifications->num_rows > 0): ?>
-        <div class="container mt-3">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <h4 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Due Date Reminders</h4>
-                <?php while ($notification = $notifications->fetch_assoc()): ?>
-                    <p class="mb-0">
-                        <strong><?= htmlspecialchars($notification['BOOK_TITLE']) ?></strong> is due in
-                        <?= $notification['DAYS_REMAINING'] ?> day(s)
-                        (<?= $notification['DueDate'] ?>)
-                    </p>
-                <?php endwhile; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    <?php endif; ?>
 
     <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

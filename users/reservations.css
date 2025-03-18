@@ -1,0 +1,205 @@
+
+        body {
+            padding-top: var(--header-height);
+        }
+
+        .content-wrapper {
+            min-height: calc(100vh - var(--header-height));
+            transition: margin-left 0.3s ease;
+            padding: 1rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1rem;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #1a237e, #0d47a1);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 1rem;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        @media (max-width: 991.98px) {
+            .content-wrapper {
+                margin-left: 0 !important;
+                padding: 0.5rem;
+            }
+
+            .card {
+                border-radius: 8px;
+            }
+        }
+
+        /* Wrapper for main content */
+        .content-wrapper {
+            margin-left: 250px;
+            /* Matches the sidebar's width */
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* Adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                margin-left: 0;
+                /* Sidebar collapses, so no margin */
+                padding: 15px;
+            }
+        }
+
+        /* Table and card adjustments */
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* Badge Styling */
+        .badge-danger {
+            background-color: #dc3545 !important;
+            color: #fff !important;
+        }
+
+        .badge-success {
+            background-color: #28a745 !important;
+            color: #fff !important;
+        }
+
+        .badge-warning {
+            background-color: #ffc107 !important;
+            color: #212529 !important;
+        }
+
+        .badge-secondary {
+            background-color: #6c757d !important;
+            color: #fff !important;
+        }
+
+        .alert {
+            display: none;
+        }
+
+        .filter-container {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .filter-container:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a237e;
+            display: block;
+        }
+
+        .select {
+            height: 48px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .select:hover {
+            border-color: #1a237e;
+        }
+
+        .select:focus {
+            border-color: #1a237e;
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+            outline: none;
+        }
+
+        /* Custom styling for options */
+        .select option {
+            padding: 12px;
+            font-size: 1rem;
+        }
+
+        /* Status-specific colors */
+        .select option[value="Approved"] {
+            color: #28a745;
+        }
+
+        .select option[value="Pending"] {
+            color: #ffc107;
+        }
+
+        .select option[value="Rejected"] {
+            color: #dc3545;
+        }
+
+        .select option[value="Returned"] {
+            color: #17a2b8;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .filter-container {
+                padding: 1rem;
+                margin: 0 0.5rem;
+            }
+
+            .select {
+                height: 44px;
+                font-size: 0.95rem;
+            }
+
+            .filter-label {
+                font-size: 1rem;
+            }
+        }
+
+        /* Add a subtle animation on hover */
+        .filter-container:hover .select {
+            transform: translateY(-1px);
+        }
+
+        /* Custom arrow icon */
+        .select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231a237e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1em;
+        }
+
+        /* Animation for select change */
+        @keyframes selectChange {
+            0% {
+                transform: scale(0.98);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .select.changed {
+            animation: selectChange 0.3s ease;
+        }
+   

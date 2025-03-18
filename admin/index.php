@@ -140,7 +140,7 @@ include('../includes/sidebar.php');
         // client mqtt
         // wss://broker.hivemq.com:8884/mqtt
         // wss://broker.emqx.io:8084/mqtt
-        const client = mqtt.connect('wss://test.mosquitto.org:8081/mqtt ', {
+        const client = mqtt.connect('wss://broker.hivemq.com:8000/mqtt', {
             reconnectPeriod: 5000,
             clean: true,
             clientId: 'libraryAdmin_' + Math.random().toString(16).substr(2, 8),
@@ -173,6 +173,8 @@ include('../includes/sidebar.php');
                         <small>Reserved by: ${data.name}</small>
                     </div>`;
                     document.getElementById('notifications').insertAdjacentHTML('afterbegin', notification);
+
+                    file_put_contents('mqtt_log.txt', json_encode($notification).PHP_EOL, FILE_APPEND);
                 } catch (e) {
                     console.error('Error parsing message:', e);
                 }

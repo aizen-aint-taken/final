@@ -1,6 +1,9 @@
 <div class="sidebar" id="sidebar">
-    <div class="logo">
-        <h3><i class="fas fa-book-reader"></i> Library System</h3>
+    <div class="sidebar-header">
+        <h3><i class="fas fa-book-reader me-2"></i> Library System</h3>
+        <button type="button" class="close-btn d-lg-none" id="sidebarCloseBtn">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
     <div class="nav-links">
         <a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">
@@ -15,9 +18,7 @@
     </div>
 </div>
 
-<button id="sidebarToggle" class="sidebar-toggle d-lg-none">
-    <i class="fas fa-bars"></i>
-</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <style>
     :root {
@@ -28,6 +29,8 @@
         --text-dark: #2c3e50;
         --transition: all 0.3s ease;
         --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --sidebar-width: 250px;
+        --header-height: 60px;
     }
 
     .sidebar {
@@ -35,94 +38,159 @@
         width: 250px;
         position: fixed;
         top: 0;
-        left: 0;
-        background-color: var(--primary-color);
-        padding-top: 1rem;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-        z-index: 1000;
+        left: -250px;
+        background: linear-gradient(135deg, rgb(219, 154, 181), #0d47a1);
+        color: white;
+        z-index: 1041;
+        transition: transform 0.3s ease;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
-    .sidebar .logo {
-        padding: 1.5rem 1rem;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    .sidebar.show-sidebar {
+        transform: translateX(250px);
     }
 
-    .sidebar .logo h3 {
-        color: var(--text-light);
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin: 0;
+    .sidebar-header {
+        height: 60px;
+        padding: 1rem;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        justify-content: space-between;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        display: none;
+    }
+
+    .sidebar-header h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
     }
 
     .nav-links {
-        padding: 0.5rem 0;
+        padding: 1rem 0;
     }
 
-    .sidebar a {
-        padding: 0.875rem 1.5rem;
-        text-decoration: none;
-        font-size: 0.95rem;
-        color: var(--text-light);
+    .nav-links a {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        transition: var(--transition);
-        border-left: 3px solid transparent;
+        padding: 0.875rem 1.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        transition: all 0.3s ease;
     }
 
-    .sidebar a:hover,
-    .sidebar a.active {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-left-color: var(--accent-color);
+    .nav-links a i {
+        margin-right: 1rem;
+        width: 20px;
+        text-align: center;
     }
 
-    .sidebar-toggle {
-        position: fixed;
-        top: 1rem;
-        left: 1rem;
-        z-index: 1001;
-        background-color: var(--primary-color);
-        color: var(--text-light);
-        border: none;
-        padding: 0.625rem;
-        border-radius: 0.375rem;
-        cursor: pointer;
-        box-shadow: var(--shadow);
+    .nav-links a:hover,
+    .nav-links a.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .sidebar-overlay {
         display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.show-overlay {
+        display: block;
+        opacity: 1;
     }
 
     @media (max-width: 991.98px) {
         .sidebar {
-            transform: translateX(-100%);
+            top: var(--header-height);
+            height: calc(100vh - var(--header-height));
         }
 
-        .sidebar.active {
-            transform: translateX(0);
-        }
-
-        .sidebar-toggle {
+        .close-btn {
             display: block;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .sidebar {
+            left: 0;
+            transform: none;
+        }
+
+        .content-wrapper {
+            margin-left: 250px;
+        }
+    }
+
+    body {
+        padding-top: 60px;
+        overflow-x: hidden;
+    }
+
+    .content-wrapper {
+        transition: margin-left 0.3s;
+        padding: 1rem;
+    }
+
+    @media (min-width: 992px) {
+        .content-wrapper {
+            margin-left: 250px;
         }
     }
 </style>
 
 <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('active');
-    });
-
-    // Close sidebar when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('sidebarToggle');
+        const overlay = document.getElementById('sidebarOverlay');
+        const closeBtn = document.getElementById('sidebarCloseBtn');
 
-        if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target) && sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
+        // Close button click event
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                sidebar.classList.remove('show-sidebar');
+                overlay.classList.remove('show-overlay');
+                document.body.style.overflow = '';
+            });
         }
+
+        // Overlay click event
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('show-sidebar');
+                overlay.classList.remove('show-overlay');
+                document.body.style.overflow = '';
+            });
+        }
+
+        // Close sidebar when clicking links (mobile only)
+        const links = document.querySelectorAll('.nav-links a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    sidebar.classList.remove('show-sidebar');
+                    overlay.classList.remove('show-overlay');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
     });
 </script>
