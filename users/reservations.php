@@ -157,7 +157,7 @@ function getStatusBadgeClass($status)
             <?php if ($notifications->num_rows > 0): ?>
                 <div class="card mb-4">
                     <div class="card-header bg-warning">
-                        <h5 class="mb-0"><i class="fas fa-bell"></i> Due Date Notifications</h5>
+                        <h5 class="mb-0"><i class="fas fa-bell"></i>Book(s) Due Date </h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

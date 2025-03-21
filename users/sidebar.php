@@ -39,7 +39,7 @@
         position: fixed;
         top: 0;
         left: -250px;
-        background: linear-gradient(135deg, rgb(219, 154, 181), #0d47a1);
+        background: linear-gradient(135deg, rgb(184, 172, 175), rgb(10, 11, 11));
         color: white;
         z-index: 1041;
         transition: transform 0.3s ease;

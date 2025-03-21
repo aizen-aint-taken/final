@@ -330,11 +330,11 @@ include('../includes/sidebar.php');
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th colspan="5" class="text-end">
+                            <!-- <th colspan="5" class="text-end">
                                 <button id="sendNotificationsBtn" class="btn btn-danger">
                                     <i class="fas fa-bell me-2"></i>Send Due Notifications
                                 </button>
-                            </th>
+                            </th> -->
                         </tr>
                         <tr>
                             <th><i class="fas fa-user me-2"></i>Student Name</th>
@@ -352,17 +352,20 @@ include('../includes/sidebar.php');
                                 <td data-label="Book Title"><?= htmlspecialchars($reserve['BOOK_TITLE']) ?></td>
                                 <td data-label="Status">
                                     <select class="form-select status-dropdown" data-id="<?= $reserve['ReserveID'] ?>" data-previous="<?= $reserve['STATUS'] ?>">
-                                        <option value="Pending" <?= $reserve['STATUS'] == 'Pending' ? 'selected' : '' ?>>
+                                        <option value="Pending" <?= $reserve['STATUS'] == 'Pending' ? 'selected' : '' ?>
+                                            <?= in_array($reserve['STATUS'], ['Approved', 'Returned']) ? 'disabled' : '' ?>>
                                             Pending
                                         </option>
-                                        <option value="Approved" <?= $reserve['STATUS'] == 'Approved' ? 'selected' : '' ?>>
+                                        <option value="Approved" <?= $reserve['STATUS'] == 'Approved' ? 'selected' : '' ?>
+                                            <?= in_array($reserve['STATUS'], ['Returned']) ? 'disabled' : '' ?>>
                                             Approved
                                         </option>
-                                        <option value="Rejected" <?= $reserve['STATUS'] == 'Rejected' ? 'selected' : '' ?>>
+                                        <option value="Rejected" <?= $reserve['STATUS'] == 'Rejected' ? 'selected' : '' ?>
+                                            <?= in_array($reserve['STATUS'], ['Approved', 'Returned']) ? 'disabled' : '' ?>>
                                             Rejected
                                         </option>
                                         <option value="Returned" <?= $reserve['STATUS'] == 'Returned' ? 'selected' : '' ?>
-                                            <?= ($reserve['STATUS'] != 'Approved' && $reserve['STATUS'] != 'Returned') ? 'disabled' : '' ?>>
+                                            <?= !in_array($reserve['STATUS'], ['Approved']) ? 'disabled' : '' ?>>
                                             Returned
                                         </option>
                                     </select>
@@ -421,6 +424,19 @@ include('../includes/sidebar.php');
                     let newStatus = dropdownElement.value;
                     let previousStatus = dropdownElement.dataset.previous;
 
+                    // Status transition validation rules
+                    const invalidTransitions = {
+                        'Approved': ['Pending', 'Rejected'],
+                        'Returned': ['Pending', 'Approved', 'Rejected']
+                    };
+
+                    // Check if the transition is invalid
+                    if (invalidTransitions[previousStatus] && invalidTransitions[previousStatus].includes(newStatus)) {
+                        alert(`❌ Cannot change status from "${previousStatus}" to "${newStatus}"`);
+                        dropdownElement.value = previousStatus;
+                        return;
+                    }
+
                     // Special validation for Returned status
                     if (newStatus === 'Returned' && previousStatus !== 'Approved') {
                         alert("❌ Can only mark approved books as returned.");
@@ -436,6 +452,7 @@ include('../includes/sidebar.php');
                     let formData = new FormData();
                     formData.append("reservation_id", reservationId);
                     formData.append("status", newStatus);
+                    formData.append("previous_status", previousStatus);
 
                     fetch("update_status.php", {
                             method: "POST",
@@ -462,7 +479,12 @@ include('../includes/sidebar.php');
                                 if (newStatus === 'Approved' && data.dueDate) {
                                     const dueDateCell = row.querySelector('[data-label="Return Date"]');
                                     if (dueDateCell) {
-                                        dueDateCell.innerHTML = data.dueDate;
+                                        const formattedDate = new Date(data.dueDate).toLocaleDateString('en-US', {
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            year: 'numeric'
+                                        });
+                                        dueDateCell.innerHTML = formattedDate;
 
                                         // Add the "Due in 7 days" badge
                                         const badge = document.createElement('span');

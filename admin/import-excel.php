@@ -69,7 +69,7 @@ if (isset($_POST['import'])) {
 
             $key = $title . "|" . $author;
             if (isset($existingBooks[$key])) {
-                // Update existing book's stock
+
                 $newStock = $existingBooks[$key]['stock'] + $stock;
                 $bookId = $existingBooks[$key]['id'];
                 $updates[] = "UPDATE books SET Stock = $newStock WHERE BookID = $bookId";
