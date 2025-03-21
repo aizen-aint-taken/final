@@ -1,6 +1,9 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../config/conn.php';
+
 
 // Add error logging
 ini_set('log_errors', 1);
@@ -9,7 +12,8 @@ error_reporting(E_ALL);
 
 // Check if user is admin or super admin
 if (!isset($_SESSION['usertype']) || ($_SESSION['usertype'] !== 'a' && $_SESSION['usertype'] !== 'sa')) {
-    header('location: ../index.php');
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
     exit;
 }
 
@@ -20,21 +24,32 @@ if (isset($_POST['change_password'])) {
     $confirm_password = $_POST['confirm_password'];
 
     if ($new_password !== $confirm_password) {
-        $_SESSION['error'] = "Passwords do not match!";
-        header('Location: student.php');
+        echo json_encode(['success' => false, 'message' => 'Passwords do not match']);
         exit();
     }
 
-    // Store password as plain text to match login verification
-    $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ? AND email = ?");
-    $stmt->bind_param("sis", $new_password, $student_id, $student_email);
+    try {
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Password has been changed successfully.";
-    } else {
-        $_SESSION['error'] = "Error changing password.";
+        $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ? AND email = ?");
+        $stmt->bind_param("sis", $hashed_password, $student_id, $student_email);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to update password");
+        }
+
+        if ($stmt->affected_rows === 0) {
+            throw new Exception("No user found with provided ID and email");
+        }
+
+        // Add debug logging
+        error_log("Password changed for user ID: $student_id, Email: $student_email");
+        error_log("New hashed password: $hashed_password");
+
+        echo json_encode(['success' => true, 'message' => 'Password changed successfully']);
+    } catch (Exception $e) {
+        error_log("Password change error: " . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
-
-    header('Location: student.php');
     exit();
 }
