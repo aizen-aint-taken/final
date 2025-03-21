@@ -28,14 +28,20 @@ if (isset($_POST['import'])) {
 
         // Fetch existing books to check for duplicates
         $existingBooks = [];
-        $result = $conn->query("SELECT Title, Author FROM books");
+        $result = $conn->query("SELECT Title, Author, Stock, BookID FROM books");
         while ($book = $result->fetch_assoc()) {
-            $existingBooks[$book['Title'] . "|" . $book['Author']] = true;
+            $existingBooks[$book['Title'] . "|" . $book['Author']] = [
+                'stock' => $book['Stock'],
+                'id' => $book['BookID']
+            ];
         }
 
         // sulod og data
         $values = [];
         $placeholders = [];
+        $updates = [];
+        $sourceOfAcquisitionLists = ["Government", "Private", "Donated", "Other", "Purchased"];
+        // var_dump($sourceOfAcquisitionLists);
 
         foreach ($rows as $row) {
             [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock] = $row;
@@ -44,6 +50,14 @@ if (isset($_POST['import'])) {
                 $_SESSION['error'][] = "Invalid data in row: " . implode(", ", $row);
                 continue;
             }
+
+
+            $sourceOfAcquisition = ucfirst(strtolower(trim($sourceOfAcquisition)));
+            if (!in_array($sourceOfAcquisition, $sourceOfAcquisitionLists)) {
+                $_SESSION['error'][] = "Invalid source of acquisition in row: " . implode(", ", $row);
+                continue;
+            }
+
 
             try {
                 $date = new DateTime($publishDate);
@@ -55,7 +69,11 @@ if (isset($_POST['import'])) {
 
             $key = $title . "|" . $author;
             if (isset($existingBooks[$key])) {
-                $_SESSION['exists'][] = "Book already exists: " . $title;
+                // Update existing book's stock
+                $newStock = $existingBooks[$key]['stock'] + $stock;
+                $bookId = $existingBooks[$key]['id'];
+                $updates[] = "UPDATE books SET Stock = $newStock WHERE BookID = $bookId";
+                $_SESSION['success'][] = "Updated stock for existing book: $title";
                 continue;
             }
 
@@ -63,6 +81,12 @@ if (isset($_POST['import'])) {
             $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
         }
 
+        // Execute updates for existing books
+        foreach ($updates as $updateSql) {
+            if (!$conn->query($updateSql)) {
+                $_SESSION['error'][] = "Error updating stock: " . $conn->error;
+            }
+        }
 
         if (!empty($placeholders)) {
             $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock) VALUES " . implode(", ", $placeholders);
