@@ -29,13 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_param("sssssi", $name, $age, $year, $sect, $new_email, $id);
         $stmt->execute();
 
-
+        // Update webuser table - both name and email if needed
         if ($old_email !== $new_email) {
-            $stmt2 = $conn->prepare("UPDATE `webuser` SET email=? WHERE email=?");
-            $stmt2->bind_param("ss", $new_email, $old_email);
+            $stmt2 = $conn->prepare("UPDATE `webuser` SET email=?, name=? WHERE email=?");
+            $stmt2->bind_param("sss", $new_email, $name, $old_email);
+            $stmt2->execute();
+        } else {
+            // Just update the name if email hasn't changed
+            $stmt2 = $conn->prepare("UPDATE `webuser` SET name=? WHERE email=?");
+            $stmt2->bind_param("ss", $name, $old_email);
             $stmt2->execute();
         }
-
 
         $conn->commit();
         header("Location: ../admin/student.php");
