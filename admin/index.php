@@ -140,7 +140,7 @@ include('../includes/sidebar.php');
         // client mqtt
         // wss://broker.hivemq.com:8884/mqtt
         // wss://broker.emqx.io:8084/mqtt
-        const client = mqtt.connect('wss://broker.hivemq.com:8000/mqtt', {
+        const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
             reconnectPeriod: 5000,
             clean: true,
             clientId: 'libraryAdmin_' + Math.random().toString(16).substr(2, 8),
