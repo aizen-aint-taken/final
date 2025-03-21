@@ -47,7 +47,7 @@ if (isset($_POST['import'])) {
             [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock] = $row;
 
             if (empty($title) || empty($author) || empty($publisher) || empty($sourceOfAcquisition) || empty($publishDate) || empty($language) || !is_numeric($stock)) {
-                $_SESSION['error'][] = "Invalid data in row: " . implode(", ", $row);
+                $_SESSION['error'][] = "Invalid data in row: " . $sourceOfAcquisition . implode(", ", $row);
                 continue;
             }
 
@@ -81,7 +81,6 @@ if (isset($_POST['import'])) {
             $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
         }
 
-        // Execute updates for existing books
         foreach ($updates as $updateSql) {
             if (!$conn->query($updateSql)) {
                 $_SESSION['error'][] = "Error updating stock: " . $conn->error;

@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             'rgba(46, 204, 113, 0.7)',
                             'rgba(243, 156, 18, 0.7)',
                             'rgba(231, 76, 60, 0.7)',
-                            'rgba(52, 152, 219, 0.7)'
+                            'rgba(52, 219, 85, 0.7)'
                         ],
                         borderColor: [
                             'rgba(46, 204, 113, 1)',
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     color = 'rgba(231, 76, 60, 1)';
                                                     break;
                                                 case 'Returned':
-                                                    color = 'rgba(52, 152, 219, 1)';
+                                                    color = 'rgb(52, 116, 219)';
                                                     break;
                                                 default:
                                                     color = data.datasets[0].backgroundColor[i];

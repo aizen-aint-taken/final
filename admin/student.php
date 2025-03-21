@@ -347,7 +347,7 @@ include('../includes/sidebar.php');
                     <div class="modal-body">
                         <form action="../admin/student.php" method="POST">
                             <h1></h1>
-                            <!-- <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>"> -->
+
                             <div class="form-group">
                                 <label for="name">Full Name</label>
                                 <input type="text" class="form-control" name="name" id="name" placeholder="Put Your Full Name" required>
