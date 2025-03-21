@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once '../config/conn.php';
-// include '../student/edit.php';
+// require_once '../student/edit.php';
+require_once 'change_password.php';
 
 if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     header('location: ../index.php');
@@ -15,6 +16,10 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 
 $error = '';
 $success = '';
+
+if ($_POST) {
+    error_log('Form submitted with data: ' . print_r($_POST, true));
+}
 
 if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
@@ -49,7 +54,7 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
                 $stmt->bind_param("ssssss", $email, $hashed_password, $name, $age, $year, $sect);
 
                 if (!$stmt->execute()) {
-                    throw new Exception("Error creating user account");
+                    throw new Exception("Error creating user account: " . $stmt->error);
                 }
 
                 // Insert into webuser table
@@ -57,18 +62,22 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
                 $stmt->bind_param("s", $email);
 
                 if (!$stmt->execute()) {
-                    throw new Exception("Error creating webuser entry");
+                    throw new Exception("Error creating webuser entry: " . $stmt->error);
                 }
 
                 // If everything is successful, commit the transaction
                 $conn->commit();
                 $success = "Account Successfully Created";
+
+                // Remove the immediate redirect to allow the success message to be displayed
+                $_SESSION['success_message'] = "Account Successfully Created";
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 exit();
             } catch (Exception $e) {
                 // If anything fails, rollback the changes
                 $conn->rollback();
                 $error = "Error creating account: " . $e->getMessage();
+                error_log('Error creating account: ' . $e->getMessage());
             }
         }
     }
@@ -305,7 +314,7 @@ include('../includes/sidebar.php');
                                         data-mail="<?= htmlspecialchars($user['email']) ?>">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <!-- Change Password Button -->
+                                    <!-- change Pass -->
                                     <button class="btn btn-secondary btn-sm"
                                         data-bs-toggle="modal"
                                         data-bs-target="#changePasswordModal"
@@ -423,7 +432,7 @@ include('../includes/sidebar.php');
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="change_password.php" method="POST">
+                        <form action="" method="POST">
                             <input type="hidden" name="student_id" id="change-password-id">
                             <input type="hidden" name="student_email" id="change-password-email">
 
