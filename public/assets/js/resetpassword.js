@@ -34,7 +34,6 @@ document.querySelector('#changePasswordModal form').addEventListener('submit', f
         return;
     }
 
-  
     Swal.fire({
         title: 'Change Password?',
         text: "Are you sure you want to change this student's password?",
@@ -45,16 +44,41 @@ document.querySelector('#changePasswordModal form').addEventListener('submit', f
         confirmButtonText: 'Yes, change it!'
     }).then((result) => {
         if (result.isConfirmed) {
-           
-            this.submit();
-            
-           
-            Swal.fire({
-                icon: 'success',
-                title: 'Password Changed!',
-                text: 'The password has been updated successfully.',
-                timer: 2000,
-                showConfirmButton: false
+            // Create form data
+            const formData = new FormData(this);
+            formData.append('change_password', '1');
+
+            // Use fetch to submit to current page instead
+            fetch('', {  // Empty string means current page
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Password Changed!',
+                        text: 'The password has been updated successfully.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'Failed to change password',
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while changing the password',
+                });
             });
         }
     });
