@@ -11,6 +11,8 @@ if (isset($_POST['reset_password'])) {
     $stmt->bind_param("ss", $hashed_password, $email);
     $stmt->execute();
 
+
+    // var_dump($stmt);
     $stmt = $conn->prepare("UPDATE admin SET password = ? WHERE email = ?");
     $stmt->bind_param("ss", $hashed_password, $email);
     $stmt->execute();
