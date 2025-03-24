@@ -21,6 +21,37 @@ if ($_POST) {
     error_log('Form submitted with data: ' . print_r($_POST, true));
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset($_POST['password'])) {
+    $login_id = $_POST['login_id'];
+    $userpassword = $_POST['password'];
+
+    // Check in webuser table for either email or name
+    $stmt = $conn->prepare("SELECT * FROM webuser WHERE email = ? OR name = ?");
+    $stmt->bind_param("ss", $login_id, $login_id);
+    $stmt->execute();
+    $getemail = $stmt->get_result();
+
+    if ($getemail->num_rows == 1) {
+        $userData = $getemail->fetch_assoc();
+        $usertype = $userData['usertype'];
+        $usermail = $userData['email'];
+
+        if ($usertype == 'u') {
+            $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->bind_param("s", $usermail);
+            $stmt->execute();
+            $validate = $stmt->get_result();
+
+            if ($validate->num_rows == 1) {
+                $user = $validate->fetch_assoc();
+                if (password_verify($userpassword, $user['password'])) {
+                    // ... existing session code ...
+                }
+            }
+        }
+    }
+}
+
 if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $age = mysqli_real_escape_string($conn, $_POST['age']);
@@ -335,6 +366,86 @@ include('../includes/sidebar.php');
                 </tbody>
             </table>
         </div>
+
+        <!-- Add this after your table-container div -->
+        <div class="mobile-cards d-md-none">
+            <?php foreach ($users as $user): ?>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($user['name']) ?></h5>
+                        <div class="card-text">
+                            <p><strong>Age:</strong> <?= htmlspecialchars($user['age']) ?></p>
+                            <p><strong>Year Level:</strong> <?= htmlspecialchars($user['year']) ?></p>
+                            <p><strong>Section:</strong> <?= htmlspecialchars($user['sect']) ?></p>
+                            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-center mt-3">
+                            <button class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editStudentModal"
+                                data-id="<?= $user['id'] ?>"
+                                data-name="<?= htmlspecialchars($user['name']) ?>"
+                                data-age="<?= htmlspecialchars($user['age']) ?>"
+                                data-year="<?= htmlspecialchars($user['year']) ?>"
+                                data-sect="<?= htmlspecialchars($user['sect']) ?>"
+                                data-mail="<?= htmlspecialchars($user['email']) ?>">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-secondary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#changePasswordModal"
+                                data-id="<?= $user['id'] ?>"
+                                data-email="<?= htmlspecialchars($user['email']) ?>">
+                                <i class="fas fa-key"></i> Password
+                            </button>
+                            <form action="../admin/deleteStudent.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="delete_id" value="<?= $user['id'] ?>">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Add these styles to your existing style section -->
+        <style>
+            @media (max-width: 768px) {
+                .table-container {
+                    display: none;
+                }
+
+                .mobile-cards {
+                    padding: 15px;
+                }
+
+                .mobile-cards .card {
+                    border-radius: 15px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                    border: none;
+                }
+
+                .mobile-cards .card-title {
+                    color: #1e3c72;
+                    font-weight: 600;
+                    text-align: center;
+                    margin-bottom: 15px;
+                }
+
+                .mobile-cards .card-text p {
+                    margin-bottom: 8px;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 8px;
+                }
+
+                .main-content {
+                    padding-top: 60px;
+                    /* Add space for fixed menu toggle */
+                }
+            }
+        </style>
 
         <!-- Add Student Modal -->
         <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">

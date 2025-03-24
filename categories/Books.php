@@ -7,39 +7,46 @@ if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = [];
 }
 
-
-
 include("../config/conn.php");
 include('../modals/addBookModal.php');
 include('../modals/editBookModal.php');
 include('../modals/deleteBookModal.php');
-if (
-    !isset($_SESSION['user'])
-    || empty($_SESSION['user'])
-) {
+
+if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     header('location: ../index.php');
     exit;
 }
+
+// Pagination with prepared statements
 $booksPerPage = 5;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-
 $offset = ($page - 1) * $booksPerPage;
 
-$books = $conn->query("SELECT * FROM books WHERE Stock > 0 LIMIT $offset, $booksPerPage");
+// Get books with pagination
+$stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 LIMIT ? OFFSET ?");
+$stmt->bind_param("ii", $booksPerPage, $offset);
+$stmt->execute();
+$books = $stmt->get_result();
 
-
-$totalBooksQuery = $conn->query("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
-$totalBooks = $totalBooksQuery->fetch_assoc()['total'];
+// Get total books count
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
+$stmt->execute();
+$totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 $totalPages = ceil($totalBooks / $booksPerPage);
 
-// $books = $conn->query("SELECT * FROM books WHERE Stock > 0");
-// var_dump($books);
-$filterBooks = $conn->query("SELECT * FROM books GROUP BY Subject");
-if (isset($_POST['filter'])) {
-    $booksFilter = $_POST['booksFilter'];
-    $books = $conn->query("SELECT * FROM books WHERE Subject = '$booksFilter' AND Stock > 0");
-}
+// Get distinct subjects for filter
+$stmt = $conn->prepare("SELECT DISTINCT Subject FROM books");
+$stmt->execute();
+$filterBooks = $stmt->get_result();
 
+// Handle filter
+if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
+    $booksFilter = trim($_POST['booksFilter']);
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Subject = ? AND Stock > 0");
+    $stmt->bind_param("s", $booksFilter);
+    $stmt->execute();
+    $books = $stmt->get_result();
+}
 ?>
 
 <!DOCTYPE html>
@@ -196,38 +203,49 @@ if (isset($_POST['filter'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($books as $book): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($book['BookID']) ?></td>
-                            <td><?= htmlspecialchars($book['Title']) ?></td>
-                            <td><?= htmlspecialchars($book['Author']) ?></td>
-                            <td><?= htmlspecialchars($book['Publisher']) ?></td>
-                            <td><?= htmlspecialchars($book['Source of Acquisition']) ?></td>
-                            <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
-                            <td><?= htmlspecialchars($book['Subject']) ?></td>
-                            <td><?= htmlspecialchars($book['Stock']) ?></td>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" style="opacity: 0.8;" data-bs-target=" #editBookModal"
-                                        data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                                        data-title="<?= htmlspecialchars($book['Title']) ?>"
-                                        data-author="<?= htmlspecialchars($book['Author']) ?>"
-                                        data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
-                                        data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
-                                        data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
-                                        data-language="<?= htmlspecialchars($book['Subject']) ?>"
-                                        data-stock="<?= htmlspecialchars($book['Stock']) ?>">
-                                        <i class="bi bi-pencil-square  fs-5"></i> Edit
-                                    </button>
+                    <?php
+                    if ($books && $books->num_rows > 0):
+                        foreach ($books as $book):
+                    ?>
+                            <tr>
+                                <td><?= htmlspecialchars($book['BookID']) ?></td>
+                                <td><?= htmlspecialchars($book['Title']) ?></td>
+                                <td><?= htmlspecialchars($book['Author']) ?></td>
+                                <td><?= htmlspecialchars($book['Publisher']) ?></td>
+                                <td><?= htmlspecialchars($book['Source of Acquisition']) ?></td>
+                                <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
+                                <td><?= htmlspecialchars($book['Subject']) ?></td>
+                                <td><?= htmlspecialchars($book['Stock']) ?></td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <button class="btn btn-success btn-sm mb-2 edit-btn"
+                                            data-bs-toggle="modal"
+                                            style="opacity: 0.8;"
+                                            data-bs-target="#editBookModal"
+                                            data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                                            data-title="<?= htmlspecialchars($book['Title']) ?>"
+                                            data-author="<?= htmlspecialchars($book['Author']) ?>"
+                                            data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
+                                            data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
+                                            data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
+                                            data-language="<?= htmlspecialchars($book['Subject']) ?>"
+                                            data-stock="<?= htmlspecialchars($book['Stock']) ?>">
+                                            <i class="bi bi-pencil-square fs-5"></i> Edit
+                                        </button>
 
-                                    <button class="btn btn-danger btn-sm delete-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                                        data-bs-toggle="modal" data-bs-target="#deleteBookModal">
-                                        <i class="bi bi-trash fs-5"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                                        <button class="btn btn-danger btn-sm delete-btn"
+                                            data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteBookModal">
+                                            <i class="bi bi-trash fs-5"></i> Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                    <?php
+                        endforeach;
+                    endif;
+                    ?>
                 </tbody>
             </table>
         </div>

@@ -1,0 +1,42 @@
+[20-Mar-2025 23:50:05 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[20-Mar-2025 23:50:12 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[20-Mar-2025 23:51:54 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[20-Mar-2025 23:53:48 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[20-Mar-2025 23:53:48 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[20-Mar-2025 23:55:13 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[20-Mar-2025 23:56:19 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:01:25 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:02:05 Europe/Berlin] Password changed for user ID: 36, Email: sasuke@gmail.com
+[21-Mar-2025 00:02:05 Europe/Berlin] New hashed password: $2y$10$cG34/kxW9NxKZ1aek45gUOcDitqPP0bgjADMGOdWPAOb0Ume061fK
+[21-Mar-2025 00:02:08 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:04:42 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:05:00 Europe/Berlin] Password changed for user ID: 36, Email: sasuke@gmail.com
+[21-Mar-2025 00:05:00 Europe/Berlin] New hashed password: $2y$10$6gvdvJ6yqVDE0p7On3d2P.xZOea.6/O2zeDzpQP9hgXm.gY5a5kcq
+[21-Mar-2025 00:05:03 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:05:23 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:05:38 Europe/Berlin] Password changed for user ID: 36, Email: sasuke@gmail.com
+[21-Mar-2025 00:05:38 Europe/Berlin] New hashed password: $2y$10$vKnWz4P7w5bLLAXSvP5N7OCWKjsNNxXmKWfJzBHUg6g.eAr1GD2G.
+[21-Mar-2025 00:05:41 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 00:06:10 Europe/Berlin] Password changed for user ID: 37, Email: mitch@gmail.com
+[21-Mar-2025 00:06:10 Europe/Berlin] New hashed password: $2y$10$hXV4Fbbxc.HWeMWzGUuRBOJCP2GsnPCAidnQO7tW98tBwCR6y1vbq
+[21-Mar-2025 00:06:12 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 03:47:53 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 03:54:30 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[21-Mar-2025 04:12:19 Europe/Berlin] PHP Warning:  Undefined array key "csrf_token" in C:\xampp\htdocs\maharlika\admin\student.php on line 350
+[24-Mar-2025 05:56:38 Europe/Berlin] Password changed for user ID: 13, Email: angel@gmail.com
+[24-Mar-2025 05:56:38 Europe/Berlin] New hashed password: $2y$10$gCIa/lWKlNidVJ4BuqCTyuv8TiqBwsVMF9LksP48RoT0w8XiP7mUi
+[24-Mar-2025 06:00:32 Europe/Berlin] Password changed for user ID: 17, Email: post@gmail.com
+[24-Mar-2025 06:00:32 Europe/Berlin] New hashed password: $2y$10$zDnga/4BNuUCOiEtRnBR0.xm/fcv7.3glx50XkSUhKnX9L32LJ4RG
+[24-Mar-2025 06:00:45 Europe/Berlin] Password changed for user ID: 21, Email: genda@gmail.com
+[24-Mar-2025 06:00:45 Europe/Berlin] New hashed password: $2y$10$cVaZYbRXBk5GoQln1WUq/.zBek5fx3/RC1JqPWoMQ3SA5dZg.vcmO
+[24-Mar-2025 06:00:57 Europe/Berlin] Password changed for user ID: 32, Email: mars@gmail.com
+[24-Mar-2025 06:00:57 Europe/Berlin] New hashed password: $2y$10$v25XTFbuP8TQUBS5hnpAg.wp6sn4Mj4m5s6nG3RxEg0M7PLDM0xZK
+[24-Mar-2025 06:01:11 Europe/Berlin] Password changed for user ID: 33, Email: rowena@gmail.com
+[24-Mar-2025 06:01:11 Europe/Berlin] New hashed password: $2y$10$VMhBk3oGNnoz8dBGGI/P4euvbGBFQtsmOcknjjoP3fOT11xglAfgu
+[24-Mar-2025 06:01:24 Europe/Berlin] Password changed for user ID: 35, Email: obito@gmail.com
+[24-Mar-2025 06:01:24 Europe/Berlin] New hashed password: $2y$10$BIWkZ93R6.6Fh.Tm3wlR1enSotZUrrYLg8VhWE4bst1nmWN5J.XK6
+[24-Mar-2025 06:01:37 Europe/Berlin] Password changed for user ID: 36, Email: sasuke@gmail.com
+[24-Mar-2025 06:01:37 Europe/Berlin] New hashed password: $2y$10$afY0Mu7znyQXNc.BhZJXAugajbRW8soH15nq4B.bWwlRqonj2hS6C
+[24-Mar-2025 06:01:48 Europe/Berlin] Password changed for user ID: 37, Email: mitch@gmail.com
+[24-Mar-2025 06:01:48 Europe/Berlin] New hashed password: $2y$10$HSpPHvSL6E7KLmmBhQEYUOSphezVXSiDifYiByZBu6AG9RRBJ7sHy
+[24-Mar-2025 06:08:08 Europe/Berlin] Password changed successfully for user ID: 13, Email: angel@gmail.com

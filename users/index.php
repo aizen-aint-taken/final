@@ -2,26 +2,23 @@
 
 include("../config/conn.php");
 session_start();
+// header("X-Frame-Options: DENY");
+// header("X-XSS-Protection: 1; mode=block");
+// header("X-Content-Type-Options: nosniff");
+// header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 
 
-// 
-
-// $_SESSION['usertype'] = "u";
 if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     header('location: ../index.php');
     exit;
 }
 
 if ($_SESSION['usertype'] !== 'u') {
-    header("Location: ../index.php"); // Redirect to a safe page
+    header("Location: ../index.php");
     exit;
 }
 
-// // rescrit access to user only
-// if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'u') {
-//     header('location: ../index.php');
-//     exit;
-// }
+
 
 $resultsPerPage = 5;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -29,29 +26,44 @@ $offset = ($currentPage - 1) * $resultsPerPage;
 
 if (isset($_POST['searchBtn']) && !empty(trim($_POST['search']))) {
     $searchTerm = trim($_POST['search']);
-    $booksQuery = "SELECT * FROM books WHERE Stock > 0 AND (Title LIKE '%$searchTerm%' OR Author LIKE '%$searchTerm%' OR Publisher LIKE '%$searchTerm%' OR Source_of_Acquisition LIKE '%$searchTerm%' OR Subject LIKE '%$searchTerm%') LIMIT $resultsPerPage OFFSET $offset";
-    $books = $conn->query($booksQuery);
+    $searchPattern = "%{$searchTerm}%";
+
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 AND (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR Source_of_Acquisition LIKE ? OR Subject LIKE ?) LIMIT ? OFFSET ?");
+    $stmt->bind_param("sssssii", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $resultsPerPage, $offset);
+    $stmt->execute();
+    $books = $stmt->get_result();
 } else {
-    $books = $conn->query("SELECT * FROM books WHERE Stock > 0 LIMIT $resultsPerPage OFFSET $offset");
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $resultsPerPage, $offset);
+    $stmt->execute();
+    $books = $stmt->get_result();
 }
 
-$totalBooks = $conn->query("SELECT COUNT(*) as total FROM books WHERE Stock > 0")->fetch_assoc()['total'];
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
+$stmt->execute();
+$totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 $totalPages = ceil($totalBooks / $resultsPerPage);
 
-$filterBooks = $conn->query("SELECT DISTINCT Subject FROM books");
+$stmt = $conn->prepare("SELECT DISTINCT Subject FROM books");
+$stmt->execute();
+$filterBooks = $stmt->get_result();
 
 $studentId = $_SESSION['student_id'];
-$reservations = $conn->query("SELECT
-U.name AS USERNAME,
-R.ReserveDate AS RESERVEDATE,
-B.Title AS BOOK_TITLE
-FROM reservations AS R
-INNER JOIN users AS U ON R.StudentID = U.id
-INNER JOIN books AS B ON R.BookID = B.BookID WHERE U.id ='$studentId'");
+$stmt = $conn->prepare("SELECT U.name AS USERNAME, R.ReserveDate AS RESERVEDATE, B.Title AS BOOK_TITLE 
+                       FROM reservations AS R
+                       INNER JOIN users AS U ON R.StudentID = U.id
+                       INNER JOIN books AS B ON R.BookID = B.BookID 
+                       WHERE U.id = ?");
+$stmt->bind_param("i", $studentId);
+$stmt->execute();
+$reservations = $stmt->get_result();
 
 if (isset($_POST['filter'])) {
     $booksFilter = $_POST['booksFilter'];
-    $books = $conn->query("SELECT * FROM books WHERE Subject = '$booksFilter' LIMIT $resultsPerPage OFFSET $offset");
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Subject = ? LIMIT ? OFFSET ?");
+    $stmt->bind_param("sii", $booksFilter, $resultsPerPage, $offset);
+    $stmt->execute();
+    $books = $stmt->get_result();
 }
 ?>
 

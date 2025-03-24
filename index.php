@@ -4,10 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// echo "hello";
-
-
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -26,56 +22,80 @@ if (isset($_SESSION['usertype'])) {
     }
 }
 
-// echo $_SESSION;
-
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset($_POST['password'])) {
-    $login_id = mysqli_real_escape_string($conn, $_POST['login_id']);
-    $userpassword = $_POST['password'];
+    try {
+        // Prepare statement to check webuser table
+        $stmt = $conn->prepare("SELECT * FROM webuser WHERE email = ? OR name = ?");
+        $login_id = trim($_POST['login_id']);
+        $userpassword = $_POST['password'];
 
-    // Check in webuser table for either email or name
-    $query = "SELECT * FROM webuser WHERE email = '$login_id' OR name = '$login_id'";
-    $getemail = $conn->query($query);
+        $stmt->bind_param("ss", $login_id, $login_id);
+        $stmt->execute();
+        $getemail = $stmt->get_result();
 
-    if ($getemail->num_rows == 1) {
-        $userData = $getemail->fetch_assoc();
-        $usertype = $userData['usertype'];
-        $usermail = $userData['email'];
+        if ($getemail->num_rows == 1) {
+            $userData = $getemail->fetch_assoc();
+            $usertype = $userData['usertype'];
+            $usermail = $userData['email'];
 
-        if ($usertype == 'u') {
+            if ($usertype == 'u') {
+                // Check user credentials
+                $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+                $stmt->bind_param("s", $usermail);
+                $stmt->execute();
+                $validate = $stmt->get_result();
 
-            $validate = $conn->query("SELECT * FROM users WHERE email = '$usermail'");
-            if ($validate->num_rows == 1) {
-                $user = $validate->fetch_assoc();
-                if (password_verify($userpassword, $user['password'])) {
-                    $_SESSION['user'] = $usermail;
-                    $_SESSION['usertype'] = 'u';
-                    $_SESSION['student_id'] = $user['id'];
-                    $_SESSION['username'] = $user['name'];
-                    header('location: users/index.php');
-                    exit();
+                if ($validate->num_rows == 1) {
+                    $user = $validate->fetch_assoc();
+                    if (password_verify($userpassword, $user['password'])) {
+                        // Set session variables
+                        $_SESSION['user'] = $usermail;
+                        $_SESSION['usertype'] = 'u';
+                        $_SESSION['student_id'] = $user['id'];
+                        $_SESSION['username'] = $user['name'];
+
+                        // Regenerate session ID for security
+                        session_regenerate_id(true);
+
+                        header('location: users/index.php');
+                        exit();
+                    }
                 }
-            }
-            $error = 'Invalid Name/Email or Password!';
-        } else if ($usertype == 'a' || $usertype == 'sa') {
-            // For admin
-            $validate = $conn->query("SELECT * FROM admin WHERE email = '$usermail'");
-            if ($validate->num_rows == 1) {
-                $admin = $validate->fetch_assoc();
-                if (password_verify($userpassword, $admin['password'])) {
-                    $_SESSION['user'] = $usermail;
-                    $_SESSION['email'] = $usermail;
-                    $_SESSION['usertype'] = $usertype;
-                    $_SESSION['admin_email'] = $admin['email'];
-                    $_SESSION['role'] = $admin['role'];
-                    header('location: admin/index.php');
-                    exit();
+                $error = 'Invalid Name/Email or Password!';
+            } else if ($usertype == 'a' || $usertype == 'sa') {
+                // Check admin credentials
+                $stmt = $conn->prepare("SELECT * FROM admin WHERE email = ?");
+                $stmt->bind_param("s", $usermail);
+                $stmt->execute();
+                $validate = $stmt->get_result();
+
+                if ($validate->num_rows == 1) {
+                    $admin = $validate->fetch_assoc();
+                    if (password_verify($userpassword, $admin['password'])) {
+                        // Set admin session variables
+                        $_SESSION['user'] = $usermail;
+                        $_SESSION['email'] = $usermail;
+                        $_SESSION['usertype'] = $usertype;
+                        $_SESSION['admin_email'] = $admin['email'];
+                        $_SESSION['role'] = $admin['role'];
+
+                        // Regenerate session ID for security
+                        session_regenerate_id(true);
+
+                        header('location: admin/index.php');
+                        exit();
+                    }
                 }
+                $error = 'Invalid Name/Email or Password!';
             }
-            $error = 'Invalid Name/Email or Password!';
+        } else {
+            $error = 'Account not found!';
         }
-    } else {
-        $error = 'Account not found!';
+    } catch (Exception $e) {
+        error_log("Login error: " . $e->getMessage());
+        $error = 'An error occurred during login. Please try again.';
     }
 }
 ?>

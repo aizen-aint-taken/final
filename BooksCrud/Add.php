@@ -16,11 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['auth
     }
 
     try {
-        $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conn->prepare("INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssi", $title, $author, $publisher, $sourceOfAcquisition, $published_date, $language, $stock);
 
-        if ($stmt->execute([$title, $author, $publisher, $sourceOfAcquisition, $published_date, $language, $stock])) {
+        if ($stmt->execute()) {
             echo json_encode(['status' => 'success', 'message' => 'Book added successfully!']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to add the book. Please try again.']);
