@@ -4,9 +4,7 @@ require_once '../config/conn.php';
 error_reporting(E_ALL);
 
 
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "</pre>";
+
 
 if (!isset($_SESSION['user']) || empty($_SESSION['user']) || ($_SESSION['usertype'] !== 'a' && $_SESSION['usertype'] !== 'sa')) {
     header('location: ../index.php');
@@ -30,50 +28,106 @@ $success = '';
 
 function checkSuperAdminExists($conn)
 {
-    $result = $conn->query("SELECT COUNT(*) as count FROM admin WHERE role = 'sa'");
-    $row = $result->fetch_assoc();
-    return $row['count'] > 0;
+    try {
+        $stmt = $conn->prepare("SELECT COUNT(*) as count FROM admin WHERE role = 'sa'");
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement: " . $conn->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to execute statement: " . $stmt->error);
+        }
+
+        $result = $stmt->get_result();
+        if (!$result) {
+            throw new Exception("Failed to get result: " . $stmt->error);
+        }
+
+        $row = $result->fetch_assoc();
+        return isset($row['count']) && $row['count'] > 0;
+    } catch (Exception $e) {
+        error_log("Error in checkSuperAdminExists: " . $e->getMessage());
+        return false;
+    }
 }
 
 if (isset($_POST['addAdmin'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $roles = mysqli_real_escape_string($conn, $_POST['role']);
-    // Hash the password before storing
-    $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    try {
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $roles = mysqli_real_escape_string($conn, $_POST['role']);
+        $password = $_POST['password'];
 
-    // Check if trying to add a super admin
-    if ($roles === 'sa' && checkSuperAdminExists($conn)) {
-        $error = "Only one Super Admin account is allowed in the system.";
-    } else {
+        if (empty($name) || empty($email) || empty($roles) || empty($password)) {
+            throw new Exception("All fields are required");
+        }
+
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Invalid email format");
+        }
+
+
+        $stmt = $conn->prepare("SELECT email FROM admin WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) {
+            throw new Exception("Email already exists in admin table");
+        }
+
+        $stmt = $conn->prepare("SELECT email FROM webuser WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) {
+            throw new Exception("Email already exists in webuser table");
+        }
+
+        // Check for super admin
+        if ($roles === 'sa' && checkSuperAdminExists($conn)) {
+            throw new Exception("Only one Super Admin account is allowed in the system.");
+        }
+
+        // Hash password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        if ($hashed_password === false) {
+            throw new Exception("Password hashing failed");
+        }
+
+        // Begin transaction
         $conn->begin_transaction();
 
-        try {
-            $stmt = $conn->prepare("INSERT INTO admin (name, email, role, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $roles, $hashed_password);
-
-            if (!$stmt->execute()) {
-                throw new Exception("Error inserting into admin table");
-            }
-
-            $usertype = $roles;
-            $stmt2 = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, ?)");
-            $stmt2->bind_param("ss", $email, $usertype);
-
-            if (!$stmt2->execute()) {
-                throw new Exception("Error inserting into webuser table");
-            }
-
-            $conn->commit();
-            $success = "Admin added successfully.";
-
-            // Debug: Log successful addition
-            error_log("New admin added - Email: $email, Role: $roles");
-        } catch (Exception $e) {
-            $conn->rollback();
-            $error = "Error: " . $e->getMessage();
-            error_log("Error adding admin: " . $e->getMessage());
+        // Insert into admin table
+        $stmt = $conn->prepare("INSERT INTO admin (name, email, role, password) VALUES (?, ?, ?, ?)");
+        if (!$stmt) {
+            throw new Exception("Failed to prepare admin insert statement");
         }
+        $stmt->bind_param("ssss", $name, $email, $roles, $hashed_password);
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to insert into admin table");
+        }
+
+        // Insert into webuser table
+        $usertype = $roles;
+        $stmt2 = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, ?)");
+        if (!$stmt2) {
+            throw new Exception("Failed to prepare webuser insert statement");
+        }
+        $stmt2->bind_param("ss", $email, $usertype);
+        if (!$stmt2->execute()) {
+            throw new Exception("Failed to insert into webuser table");
+        }
+
+        // Commit transaction
+        $conn->commit();
+        $success = "Admin added successfully.";
+        error_log("New admin added - Email: $email, Role: $roles");
+    } catch (Exception $e) {
+        // Rollback on error
+        if ($conn->connect_errno != 0) {
+            $conn->rollback();
+        }
+        $error = "Error: " . $e->getMessage();
+        error_log("Error adding admin: " . $e->getMessage());
     }
 }
 
@@ -139,6 +193,12 @@ if (isset($_POST['updateAdmin'])) {
 $admins = $conn->query("SELECT * FROM admin");
 include('../includes/header.php');
 include('../includes/sidebar.php');
+
+// Redirect if not super admin
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
+    header('Location: ../index.php');
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -173,7 +233,8 @@ include('../includes/sidebar.php');
             <?php if (!empty($success)) echo "<div class='alert alert-success'>$success</div>"; ?>
             <?php if (!empty($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
 
-            <div class="table-responsive">
+            <!-- Desktop Table View -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover table-striped text-center">
                     <thead class="thead-dark">
                         <tr>
@@ -186,63 +247,162 @@ include('../includes/sidebar.php');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($admin = $admins->fetch_assoc()): ?>
+                        <?php
+                        $admins->data_seek(0);
+                        $superAdmin = null;
+                        $regularAdmins = [];
+
+                        while ($admin = $admins->fetch_assoc()) {
+                            if ($admin['role'] === 'sa') {
+                                $superAdmin = $admin;
+                            } else {
+                                $regularAdmins[] = $admin;
+                            }
+                        }
+
+                        if ($superAdmin): ?>
                             <tr>
-                                <td><?= htmlspecialchars($admin['name']) ?></td>
-                                <td><?= htmlspecialchars($admin['email']) ?></td>
-                                <td><?= ($admin['role'] === 'a') ? 'Admin' : 'Super Admin' ?></td>
+                                <td><?= htmlspecialchars($superAdmin['name']) ?></td>
+                                <td><?= htmlspecialchars($superAdmin['email']) ?></td>
+                                <td>Super Admin</td>
                                 <?php if ($_SESSION['role'] === 'sa'): ?>
                                     <td>
-                                        <?php if ($admin['role'] !== 'sa'): ?>
-                                            <a href="?delete=<?= $admin['email'] ?>" class="btn btn-danger btn-sm btn-action" onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        <?php endif; ?>
-                                        <button class="btn btn-primary btn-sm btn-action editAdmin"
-                                            data-name="<?= $admin['name'] ?>"
-                                            data-email="<?= $admin['email'] ?>"
-                                            data-role="<?= $admin['role'] ?>"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editAdminModal">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </button>
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary btn-sm editAdmin"
+                                                data-name="<?= htmlspecialchars($superAdmin['name']) ?>"
+                                                data-email="<?= htmlspecialchars($superAdmin['email']) ?>"
+                                                data-role="<?= htmlspecialchars($superAdmin['role']) ?>"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editAdminModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 <?php endif; ?>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endif;
+
+                        foreach ($regularAdmins as $admin): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($admin['name']) ?></td>
+                                <td><?= htmlspecialchars($admin['email']) ?></td>
+                                <td>Admin</td>
+                                <?php if ($_SESSION['role'] === 'sa'): ?>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="?delete=<?= $admin['email'] ?>"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="confirmDelete(event)">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <button class="btn btn-primary btn-sm editAdmin"
+                                                data-name="<?= htmlspecialchars($admin['name']) ?>"
+                                                data-email="<?= htmlspecialchars($admin['email']) ?>"
+                                                data-role="<?= htmlspecialchars($admin['role']) ?>"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editAdminModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
 
+            <!-- Mobile Card View -->
             <div class="mobile-cards d-md-none">
-                <?php while ($admin = $admins->fetch_assoc()): ?>
-                    <div class="card mb-3">
+                <?php
+                $admins->data_seek(0);
+                $superAdmin = null;
+                $regularAdmins = [];
+
+                while ($admin = $admins->fetch_assoc()) {
+                    if ($admin['role'] === 'sa') {
+                        $superAdmin = $admin;
+                    } else {
+                        $regularAdmins[] = $admin;
+                    }
+                }
+
+                if ($superAdmin): ?>
+                    <div class="card mb-3 admin-card super-admin-card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-user-shield me-2"></i>
+                                <?= htmlspecialchars($superAdmin['name']) ?>
+                            </h5>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($admin['name']) ?></h5>
-                            <div class="card-text">
-                                <p><strong>Email:</strong> <?= htmlspecialchars($admin['email']) ?></p>
-                                <p><strong>Role:</strong> <?= ($admin['role'] === 'a') ? 'Admin' : 'Super Admin' ?></p>
+                            <div class="admin-info">
+                                <p>
+                                    <i class="fas fa-envelope me-2"></i>
+                                    <strong>Email:</strong> <?= htmlspecialchars($superAdmin['email']) ?>
+                                </p>
+                                <p>
+                                    <i class="fas fa-user-shield me-2"></i>
+                                    <strong>Role:</strong>
+                                    <span class="badge bg-primary">Super Admin</span>
+                                </p>
                             </div>
                             <?php if ($_SESSION['role'] === 'sa'): ?>
-                                <div class="d-flex gap-2 justify-content-center mt-3">
-                                    <?php if ($admin['role'] !== 'sa'): ?>
-                                        <a href="?delete=<?= $admin['email'] ?>" class="btn btn-danger btn-sm" onclick="confirmDelete(event)">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </a>
-                                    <?php endif; ?>
-                                    <button class="btn btn-primary btn-sm editAdmin"
-                                        data-name="<?= $admin['name'] ?>"
-                                        data-email="<?= $admin['email'] ?>"
-                                        data-role="<?= $admin['role'] ?>"
+                                <div class="action-buttons mt-3">
+                                    <button class="btn btn-primary btn-sm editAdmin w-100"
+                                        data-name="<?= htmlspecialchars($superAdmin['name']) ?>"
+                                        data-email="<?= htmlspecialchars($superAdmin['email']) ?>"
+                                        data-role="<?= htmlspecialchars($superAdmin['role']) ?>"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editAdminModal">
-                                        <i class="fas fa-edit"></i> Edit
+                                        <i class="fas fa-edit me-2"></i>Edit Admin
                                     </button>
                                 </div>
                             <?php endif; ?>
                         </div>
                     </div>
-                <?php endwhile; ?>
+                <?php endif;
+
+                foreach ($regularAdmins as $admin): ?>
+                    <div class="card mb-3 admin-card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-user-tie me-2"></i>
+                                <?= htmlspecialchars($admin['name']) ?>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="admin-info">
+                                <p>
+                                    <i class="fas fa-envelope me-2"></i>
+                                    <strong>Email:</strong> <?= htmlspecialchars($admin['email']) ?>
+                                </p>
+                                <p>
+                                    <i class="fas fa-user-shield me-2"></i>
+                                    <strong>Role:</strong>
+                                    <span class="badge bg-info">Admin</span>
+                                </p>
+                            </div>
+                            <?php if ($_SESSION['role'] === 'sa'): ?>
+                                <div class="action-buttons mt-3">
+                                    <button class="btn btn-primary btn-sm editAdmin w-100 mb-2"
+                                        data-name="<?= htmlspecialchars($admin['name']) ?>"
+                                        data-email="<?= htmlspecialchars($admin['email']) ?>"
+                                        data-role="<?= htmlspecialchars($admin['role']) ?>"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editAdminModal">
+                                        <i class="fas fa-edit me-2"></i>Edit Admin
+                                    </button>
+                                    <a href="?delete=<?= $admin['email'] ?>"
+                                        class="btn btn-danger btn-sm w-100"
+                                        onclick="confirmDelete(event)">
+                                        <i class="fas fa-trash me-2"></i>Delete Admin
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -431,6 +591,78 @@ include('../includes/sidebar.php');
         body {
             background-color: #f8f9fa;
             min-height: 100vh;
+        }
+
+        .admin-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .admin-card .card-header {
+            border-radius: 15px 15px 0 0;
+            padding: 15px;
+        }
+
+        .admin-card .card-body {
+            padding: 20px;
+        }
+
+        .admin-info p {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-info p:last-child {
+            border-bottom: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-buttons .btn {
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .action-buttons .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+                padding-top: 70px;
+            }
+
+            .page-header {
+                margin-bottom: 20px;
+            }
+
+            .admin-card {
+                margin-bottom: 15px;
+            }
+        }
+
+        .super-admin-card {
+            border: 2px solid #1e3c72;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.2);
         }
     </style>
 

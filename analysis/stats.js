@@ -17,365 +17,175 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    fetch('../admin/analytics.php')
-        .then(response => response.json())
-        .then(data => {
-          
-            new Chart('bookStockChart', {
-                type: 'bar',
-                data: {
-                    labels: data.bookStock.map(item => item.Subject),
-                    datasets: [{
-                        label: 'Stock Count',
-                        data: data.bookStock.map(item => item.total_stock),
-                        backgroundColor: 'rgba(52, 152, 219, 0.7)',
-                        borderColor: 'rgba(52, 152, 219, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    ...commonOptions,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            }
-                        }
-                    }
-                }
-            });
+    // Fetch data for all charts with error handling
+    async function fetchChartData(endpoint) {
+        try {
+            const response = await fetch(endpoint);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data || []; // Return empty array if no data
+        } catch (error) {
+            console.error(`Error fetching data from ${endpoint}:`, error);
+            return []; // Return empty array on error
+        }
+    }
 
-          
-            new Chart('topBorrowedChart', {
-                type: 'bar',
-                data: {
-                    labels: data.topBorrowed.map(item => item.Title),
-                    datasets: [{
-                        label: 'Times Borrowed',
-                        data: data.topBorrowed.map(item => item.borrow_count),
-                        backgroundColor: function(context) {
-                            const colors = [
-                                '#FF6384',
-                                '#36A2EB', 
-                                '#4BC0C0', 
-                                '#FFCE56',
-                                '#9966FF'  
-                            ];
-                            return colors[context.dataIndex];
-                        },
-                        borderColor: function(context) {
-                            const colors = [
-                                '#FF3868', 
-                                '#2185D0', 
-                                '#3AA7A7', 
-                                '#FFB420', 
-                                '#7C4DFF'  
-                            ];
-                            return colors[context.dataIndex];
-                        },
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    ...commonOptions,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
+    // Initialize all charts with proper error handling
+    async function initializeCharts() {
+        try {
+            // Top Borrowed Books Chart
+            const topBorrowedData = await fetchChartData('fetch_top_borrowed.php');
+            const topBorrowedCtx = document.getElementById('topBorrowedChart')?.getContext('2d');
+            if (topBorrowedCtx && topBorrowedData.length > 0) {
+                new Chart(topBorrowedCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: topBorrowedData.map(item => item.title || 'Unknown'),
+                        datasets: [{
+                            label: 'Times Borrowed',
+                            data: topBorrowedData.map(item => item.count || 0),
+                            backgroundColor: 'rgba(255, 107, 107, 0.8)',
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            borderWidth: 1
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    layout: {
-                        padding: {
-                            left: 15,
-                            right: 15,
-                            top: 15,
-                            bottom: 15
-                        }
-                    },
-                    maintainAspectRatio: false,
-                    responsive: true
-                }
-            });
-
-
-            new Chart('reservationStatusChart', {
-                type: 'doughnut',
-                data: {
-                    labels: data.statusDistribution.map(item => item.STATUS),
-                    datasets: [{
-                        data: data.statusDistribution.map(item => item.total),
-                        backgroundColor: [
-                            'rgba(46, 204, 113, 0.7)',
-                            'rgba(243, 156, 18, 0.7)',
-                            'rgba(231, 76, 60, 0.7)',
-                            'rgba(52, 219, 85, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(46, 204, 113, 1)',
-                            'rgba(243, 156, 18, 1)',
-                            'rgba(231, 76, 60, 1)',
-                            'rgba(52, 152, 219, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    ...commonOptions,
-                    cutout: '60%',
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                font: {
-                                    family: 'Poppins',
-                                    size: 14
-                                },
-                                generateLabels: function(chart) {
-                                    const data = chart.data;
-                                    if (data.labels.length && data.datasets.length) {
-                                        return data.labels.map((label, i) => {
-                                            const value = data.datasets[0].data[i];
-                                            let color;
-                                            switch (label) {
-                                                case 'Approved':
-                                                    color = 'rgba(46, 204, 113, 1)';
-                                                    break;
-                                                case 'Pending':
-                                                    color = 'rgba(243, 156, 18, 1)';
-                                                    break;
-                                                case 'Rejected':
-                                                    color = 'rgba(231, 76, 60, 1)';
-                                                    break;
-                                                case 'Returned':
-                                                    color = 'rgb(52, 116, 219)';
-                                                    break;
-                                                default:
-                                                    color = data.datasets[0].backgroundColor[i];
-                                            }
-                                            return {
-                                                text: `${label}: ${value}`,
-                                                fillStyle: color,
-                                                strokeStyle: color,
-                                                lineWidth: 1,
-                                                hidden: isNaN(value) || value === 0,
-                                                index: i
-                                            };
-                                        });
-                                    }
-                                    return [];
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
 
-            new Chart('monthlyTrendsChart', {
-                type: 'line',
-                data: {
-                    labels: data.monthlyTrends.map(item => {
-                        const date = new Date(item.month + '-01');
-                        return date.toLocaleDateString('en-US', {
-                            month: 'short',
-                            year: 'numeric'
-                        });
-                    }),
-                    datasets: [{
-                        label: 'Number of Borrowed Books in Month',
-                        data: data.monthlyTrends.map(item => item.reservation_count),
-                        borderColor: 'rgba(155, 89, 182, 1)',
-                        backgroundColor: 'rgba(155, 89, 182, 0.2)',
-                        borderTop: 'rgba(155, 89, 182, 1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: 'rgba(155, 89, 182, 1)',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    ...commonOptions,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            ticks: {
-                                stepSize: 1
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
+            // Book Stock Chart
+            const bookStockData = await fetchChartData('fetch_book_stock.php');
+            const bookStockCtx = document.getElementById('bookStockChart')?.getContext('2d');
+            if (bookStockCtx && bookStockData.length > 0) {
+                new Chart(bookStockCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: bookStockData.map(item => item.subject || 'Unknown'),
+                        datasets: [{
+                            data: bookStockData.map(item => item.count || 0),
+                            backgroundColor: [
+                                'rgba(78, 205, 196, 0.8)',
+                                'rgba(255, 107, 107, 0.8)',
+                                'rgba(69, 183, 209, 0.8)',
+                                'rgba(150, 206, 180, 0.8)',
+                                'rgba(108, 92, 231, 0.8)'
+                            ]
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                font: {
-                                    family: 'Poppins',
-                                    size: 14
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: (context) => {
-                                    return context[0].label;
-                                },
-                                label: (context) => {
-                                    return `Reservations: ${context.raw}`;
-                                }
-                            }
-                        }
+                    options: {
+                        responsive: true
                     }
-                }
-            });
+                });
+            }
 
-            new Chart('borrowStatsChart', {
-                type: 'pie',
-                data: {
-                    labels: ['Returned Books', 'Currently Borrowed'],
-                    datasets: [{
-                        data: [
-                            data.borrowStats.returned_count,
-                            data.borrowStats.borrowed_count
-                        ],
-                        backgroundColor: [
-                            '#2ecc71',  
-                            '#3498db'   
-                        ],
-                        borderColor: [
-                            '#27ae60',
-                            '#2980b9'   
-                        ],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    ...commonOptions,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                font: {
-                                    family: 'Poppins',
-                                    size: 14
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            new Chart('returnedTrendsChart', {
-                type: 'line',
-                data: {
-                    labels: data.returnedTrends.map(item => {
-                        const date = new Date(item.month + '-01');
-                        return date.toLocaleDateString('en-US', {
-                            month: 'short',
-                            year: 'numeric'
-                        });
-                    }),
-                    datasets: [{
-                        label: 'Returned Books',
-                        data: data.returnedTrends.map(item => item.return_count),
-                        borderColor: '#e74c3c',  // Red color
-                        backgroundColor: 'rgba(231, 76, 60, 0.2)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: '#e74c3c',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    ...commonOptions,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            ticks: {
-                                stepSize: 1
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
+            // Reservation Status Chart
+            const statusData = await fetchChartData('fetch_reservation_status.php');
+            const statusCtx = document.getElementById('reservationStatusChart')?.getContext('2d');
+            if (statusCtx && statusData.length > 0) {
+                new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: statusData.map(item => item.status || 'Unknown'),
+                        datasets: [{
+                            data: statusData.map(item => item.count || 0),
+                            backgroundColor: [
+                                'rgba(69, 183, 209, 0.8)',
+                                'rgba(255, 107, 107, 0.8)',
+                                'rgba(78, 205, 196, 0.8)'
+                            ]
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                font: {
-                                    family: 'Poppins',
-                                    size: 14
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: (context) => {
-                                    return context[0].label;
-                                },
-                                label: (context) => {
-                                    return `Returned Books: ${context.raw}`;
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+
+            // Monthly Trends Chart
+            const trendsData = await fetchChartData('fetch_monthly_trends.php');
+            const trendsCtx = document.getElementById('monthlyTrendsChart')?.getContext('2d');
+            if (trendsCtx && trendsData.length > 0) {
+                new Chart(trendsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: trendsData.map(item => item.month || 'Unknown'),
+                        datasets: [{
+                            label: 'Borrowed Books',
+                            data: trendsData.map(item => item.count || 0),
+                            borderColor: 'rgba(150, 206, 180, 1)',
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(150, 206, 180, 0.2)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
+
+            // Borrow Stats Chart
+            const borrowStatsData = await fetchChartData('fetch_borrow_stats.php');
+            const borrowStatsCtx = document.getElementById('borrowStatsChart')?.getContext('2d');
+            if (borrowStatsCtx && borrowStatsData.length > 0) {
+                new Chart(borrowStatsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Returned', 'Currently Borrowed'],
+                        datasets: [{
+                            label: 'Number of Books',
+                            data: [
+                                borrowStatsData.returned || 0,
+                                borrowStatsData.borrowed || 0
+                            ],
+                            backgroundColor: [
+                                'rgba(108, 92, 231, 0.8)',
+                                'rgba(255, 107, 107, 0.8)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            }
 
             loading.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('Error:', error);
+        } catch (error) {
+            console.error('Error initializing charts:', error);
             loading.style.display = 'none';
-        });
+        }
+    }
+
+    // Initialize charts when DOM is loaded
+    initializeCharts();
 });
    

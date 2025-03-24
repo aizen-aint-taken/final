@@ -79,6 +79,7 @@
         <li class="nav-item">
           <a href="../admin/reservations.php" class="nav-link">Reservations</a>
         </li>
+
         <!-- User Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -110,6 +111,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
             <a href="../logout.php" class="btn btn-danger">Logout</a>
           </div>
         </div>

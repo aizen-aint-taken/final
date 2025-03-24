@@ -9,7 +9,6 @@ if (
     && is_numeric($_GET['reserve_id'])
 ) {
     $reserveId = $_GET['reserve_id'];
-    // echo $reserveId;
 
     $stmt = $conn->prepare("UPDATE reservations SET STATUS = 'Approved' WHERE ID = ?");
     $stmt->bind_param("i", $reserveId);

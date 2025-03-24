@@ -22,24 +22,24 @@ $booksPerPage = 5;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $booksPerPage;
 
-// Get books with pagination
+
 $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 LIMIT ? OFFSET ?");
 $stmt->bind_param("ii", $booksPerPage, $offset);
 $stmt->execute();
 $books = $stmt->get_result();
 
-// Get total books count
+
 $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
 $stmt->execute();
 $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 $totalPages = ceil($totalBooks / $booksPerPage);
 
-// Get distinct subjects for filter
+
 $stmt = $conn->prepare("SELECT DISTINCT Subject FROM books");
 $stmt->execute();
 $filterBooks = $stmt->get_result();
 
-// Handle filter
+
 if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
     $booksFilter = trim($_POST['booksFilter']);
     $stmt = $conn->prepare("SELECT * FROM books WHERE Subject = ? AND Stock > 0");
@@ -122,9 +122,13 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                 <div class="mb-4">
                     <h5 class="form-label">Search Books</h5>
                     <div class="input-group">
-                        <input type="text" id="Search" data-name="books" class="form-control" placeholder="Search books..." aria-label="Search" />
+                        <input type="text"
+                            id="Search"
+                            class="form-control"
+                            placeholder="Search books by title, author, publisher, or subject..."
+                            aria-label="Search" />
                         <button type="button" class="btn btn-outline-primary" onclick="clearSearch()">
-                            <i class="bi bi-search"></i> Search
+                            <i class="bi bi-x-lg"></i> Clear
                         </button>
                     </div>
                 </div>
@@ -310,6 +314,27 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
     <script src="../public/assets/js/Books.js"></script>
     <!-- <script src="../public/assets/js/inputFile.js"></script> -->
     <script src="../public/assets/js/excel.js"></script>
+
+    <style>
+        /* Add these styles */
+        .alert {
+            transition: all 0.3s ease;
+        }
+
+        .alert.alert-info {
+            background-color: #e8f4f8;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
+        .table {
+            transition: all 0.3s ease;
+        }
+
+        .table tr {
+            transition: opacity 0.3s ease;
+        }
+    </style>
 </body>
 
 </html>

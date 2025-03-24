@@ -1,10 +1,10 @@
 <?php
 include '../config/conn.php';
-function adminSidebar($conn)
+
+// Secure function to check if current user is super admin
+function isSuperAdmin()
 {
-  $result = $conn->query("SELECT COUNT(*) as count FROM admin WHERE role = 'sa'");
-  $row = $result->fetch_assoc();
-  return $row['count'] > 0;
+  return isset($_SESSION['role']) && $_SESSION['role'] === 'sa';
 }
 ?>
 
@@ -63,11 +63,16 @@ function adminSidebar($conn)
           </a>
         </li>
 
-        <li class="nav-item">
-          <hr class="sidebar-divider">
-        </li>
+        <!-- dapat super admin ray maka ray makakita ani na divider -->
+        <?php if (isSuperAdmin()): ?>
+          <li class="nav-item">
+            <hr class="sidebar-divider">
+          </li>
+        <?php endif; ?>
 
-        <?php if (adminSidebar($conn)) : ?>
+
+        <!-- dapat super admin ray maka ray makakita ani -->
+        <?php if (isSuperAdmin()): ?>
           <li class="nav-item">
             <a href="../admin/admin.php" class="nav-link">
               <i class="fa-solid fa-user-tie"></i>
@@ -75,6 +80,7 @@ function adminSidebar($conn)
             </a>
           </li>
         <?php endif; ?>
+
 
         <li class="nav-item">
           <hr class="sidebar-divider">
@@ -103,7 +109,7 @@ function adminSidebar($conn)
     top: 0;
     left: 0;
     height: 100%;
-    z-index: 1000;
+    z-index: 1038;
     background: linear-gradient(180deg, rgb(218, 208, 223), rgb(206, 225, 238));
     overflow-y: auto;
     transition: all 0.3s ease-in-out;
@@ -196,14 +202,12 @@ function adminSidebar($conn)
 
   @media (max-width: 768px) {
     .main-sidebar {
-      width: 0;
-      left: -250px;
-      transition: left 0.3s ease-in-out;
+      transform: translateX(-100%);
+      width: 250px;
     }
 
     .main-sidebar.open {
-      left: 0;
-      width: 250px;
+      transform: translateX(0);
     }
 
     .content-wrapper {
@@ -211,7 +215,7 @@ function adminSidebar($conn)
     }
 
     .menu-toggle {
-      display: block;
+      z-index: 1039;
     }
   }
 
@@ -236,7 +240,7 @@ function adminSidebar($conn)
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     display: none;
-    z-index: 1040;
+    z-index: 1037;
   }
 
   .sidebar-backdrop.show {
@@ -256,27 +260,18 @@ function adminSidebar($conn)
       transform: scale(1);
     }
   }
-</style>
 
-<script>
-  function toggleSidebar() {
-    const sidebar = document.querySelector('.main-sidebar');
-    const backdrop = document.querySelector('.sidebar-backdrop');
-    sidebar.classList.toggle('open');
-    backdrop.classList.toggle('show');
+  .main-content {
+    transition: margin-left 0.3s ease;
   }
 
-  document.addEventListener('click', function(event) {
-    const sidebar = document.querySelector('.main-sidebar');
-    const backdrop = document.querySelector('.sidebar-backdrop');
-    const isClickInsideSidebar = sidebar.contains(event.target);
-    const isClickOnMenuToggle = event.target.closest('.menu-toggle');
-
-    if (!isClickInsideSidebar && !isClickOnMenuToggle && sidebar.classList.contains('open')) {
-      sidebar.classList.remove('open');
-      backdrop.classList.remove('show');
+  @media (min-width: 769px) {
+    .main-content {
+      margin-left: 250px;
     }
-  });
-</script>
+  }
+</style>
+
+<script src="../public/assets/js/sidebar.js"></script>
 
 <!-- Backdrop for mobile -->

@@ -8,7 +8,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user']) || ($_SESSION['usertyp
     exit;
 }
 
-// var_dump($_SESSION);
+
 $sql1 = "SELECT Subject, SUM(Stock) as total_stock FROM books GROUP BY Subject";
 $result1 = $conn->query($sql1);
 $bookStock = [];

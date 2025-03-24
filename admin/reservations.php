@@ -68,7 +68,7 @@ if ($selectedUserId !== 'all') {
     $stmtUser->close();
 }
 
-$header = false;
+$header = true;
 if ($header) {
     include('../includes/header.php');
 }
