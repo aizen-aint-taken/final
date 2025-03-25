@@ -40,3 +40,47 @@
 [24-Mar-2025 06:01:48 Europe/Berlin] Password changed for user ID: 37, Email: mitch@gmail.com
 [24-Mar-2025 06:01:48 Europe/Berlin] New hashed password: $2y$10$HSpPHvSL6E7KLmmBhQEYUOSphezVXSiDifYiByZBu6AG9RRBJ7sHy
 [24-Mar-2025 06:08:08 Europe/Berlin] Password changed successfully for user ID: 13, Email: angel@gmail.com
+[25-Mar-2025 04:49:15 Europe/Berlin] Form submitted with data: Array
+(
+    [name] => Sasuke Uchiha
+    [age] => 16
+    [year] => Grade 10
+    [sect] => Simplicty
+    [mail] => sasuke@gmail.com
+    [password] => 12345678
+)
+
+[25-Mar-2025 04:49:15 Europe/Berlin] Error creating account: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''u')' at line 1
+[25-Mar-2025 04:49:24 Europe/Berlin] Form submitted with data: Array
+(
+    [name] => Sasuke Uchiha
+    [age] => 16
+    [year] => Grade 10
+    [sect] => Simplicty
+    [mail] => sasuke@gmail.com
+    [password] => 12345678
+)
+
+[25-Mar-2025 04:49:24 Europe/Berlin] Error creating account: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''u')' at line 1
+[25-Mar-2025 04:49:49 Europe/Berlin] Form submitted with data: Array
+(
+    [name] => Sasuke Uchiha
+    [age] => 16
+    [year] => Grade 10
+    [sect] => Simplicty
+    [mail] => sasuke@gmail.com
+    [password] => 12345678
+)
+
+[25-Mar-2025 04:51:02 Europe/Berlin] Form submitted with data: Array
+(
+    [name] => Sasuke Uchiha
+    [age] => 16
+    [year] => Grade 10
+    [sect] => Simplicty
+    [mail] => sasuke@gmail.com
+    [password] => 12345678
+)
+
+[25-Mar-2025 05:30:43 Europe/Berlin] Password changed successfully for user ID: 13, Email: angel@gmail.com
+[25-Mar-2025 05:42:46 Europe/Berlin] Password changed successfully for user ID: 13, Email: angel@gmail.com

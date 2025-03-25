@@ -26,7 +26,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset($_POST['password'])) {
     try {
-        // Prepare statement to check webuser table
+
         $stmt = $conn->prepare("SELECT * FROM webuser WHERE email = ? OR name = ?");
         $login_id = trim($_POST['login_id']);
         $userpassword = $_POST['password'];

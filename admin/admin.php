@@ -53,83 +53,96 @@ function checkSuperAdminExists($conn)
 
 if (isset($_POST['addAdmin'])) {
     try {
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $roles = mysqli_real_escape_string($conn, $_POST['role']);
+        $name = trim($_POST['name']);
+        $email = trim($_POST['email']);
+        $roles = trim($_POST['role']);
         $password = $_POST['password'];
 
+        // Add debugging
+        error_log("Adding new admin - Name: $name, Email: $email, Role: $roles");
+
+        // Validate required fields
         if (empty($name) || empty($email) || empty($roles) || empty($password)) {
             throw new Exception("All fields are required");
         }
 
-
+        // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Invalid email format");
         }
 
-
-        $stmt = $conn->prepare("SELECT email FROM admin WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        if ($stmt->get_result()->num_rows > 0) {
+        // Check for duplicate email (Admin Table)
+        $stmtCheckAdmin = $conn->prepare("SELECT email FROM admin WHERE email = ?");
+        $stmtCheckAdmin->bind_param("s", $email);
+        $stmtCheckAdmin->execute();
+        if ($stmtCheckAdmin->get_result()->num_rows > 0) {
             throw new Exception("Email already exists in admin table");
         }
+        $stmtCheckAdmin->close();
 
-        $stmt = $conn->prepare("SELECT email FROM webuser WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        if ($stmt->get_result()->num_rows > 0) {
+        // Check for duplicate email (WebUser Table)
+        $stmtCheckWebUser = $conn->prepare("SELECT email FROM webuser WHERE email = ?");
+        $stmtCheckWebUser->bind_param("s", $email);
+        $stmtCheckWebUser->execute();
+        if ($stmtCheckWebUser->get_result()->num_rows > 0) {
             throw new Exception("Email already exists in webuser table");
         }
+        $stmtCheckWebUser->close();
 
-        // Check for super admin
+        // Check for Super Admin constraint
         if ($roles === 'sa' && checkSuperAdminExists($conn)) {
             throw new Exception("Only one Super Admin account is allowed in the system.");
         }
 
-        // Hash password
+        // Hash password securely
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        if ($hashed_password === false) {
+        if (!$hashed_password) {
             throw new Exception("Password hashing failed");
         }
 
-        // Begin transaction
+        // Start transaction
         $conn->begin_transaction();
 
-        // Insert into admin table
-        $stmt = $conn->prepare("INSERT INTO admin (name, email, role, password) VALUES (?, ?, ?, ?)");
-        if (!$stmt) {
-            throw new Exception("Failed to prepare admin insert statement");
-        }
-        $stmt->bind_param("ssss", $name, $email, $roles, $hashed_password);
-        if (!$stmt->execute()) {
-            throw new Exception("Failed to insert into admin table");
+
+        $stmtInsertAdmin = $conn->prepare("INSERT INTO admin (name, email, role, password) VALUES (?, ?, ?, ?)");
+        if (!$stmtInsertAdmin) {
+            throw new Exception("Failed to prepare admin insert statement: " . $conn->error);
         }
 
-        // Insert into webuser table
-        $usertype = $roles;
-        $stmt2 = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, ?)");
-        if (!$stmt2) {
-            throw new Exception("Failed to prepare webuser insert statement");
+        $stmtInsertAdmin->bind_param("ssss", $name, $email, $roles, $hashed_password);
+
+        if (!$stmtInsertAdmin->execute()) {
+            throw new Exception("Failed to insert into admin table: " . $stmtInsertAdmin->error);
         }
-        $stmt2->bind_param("ss", $email, $usertype);
-        if (!$stmt2->execute()) {
-            throw new Exception("Failed to insert into webuser table");
+        $stmtInsertAdmin->close();
+
+
+        $stmtInsertWebUser = $conn->prepare("INSERT INTO webuser (email,  name ,usertype) VALUES (?, ?, ?)");
+        if (!$stmtInsertWebUser) {
+            throw new Exception("Failed to prepare webuser insert statement: " . $conn->error);
         }
 
-        // Commit transaction
+        $stmtInsertWebUser->bind_param("sss", $email, $name, $roles);
+        if (!$stmtInsertWebUser->execute()) {
+            throw new Exception("Failed to insert into webuser table: " . $stmtInsertWebUser->error);
+        }
+        $stmtInsertWebUser->close();
+
+
         $conn->commit();
         $success = "Admin added successfully.";
-        error_log("New admin added - Email: $email, Role: $roles");
+        error_log("Admin added successfully - Email: $email");
+
+
+        header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+        exit;
     } catch (Exception $e) {
-        // Rollback on error
-        if ($conn->connect_errno != 0) {
-            $conn->rollback();
-        }
+        $conn->rollback();
         $error = "Error: " . $e->getMessage();
         error_log("Error adding admin: " . $e->getMessage());
     }
 }
+
 
 
 
@@ -144,13 +157,14 @@ if (isset($_GET['delete'])) {
     $result = $checkRole->get_result();
     $adminData = $result->fetch_assoc();
 
-    if ($adminData['role'] === 'sa') {
+    if (!$adminData) {
+        $error = "Admin account not found.";
+    } else if ($adminData['role'] === 'sa') {
         $error = "Super Admin accounts cannot be deleted.";
     } else {
         $stmt = $conn->prepare("DELETE FROM admin WHERE email = ?");
         $stmt->bind_param("s", $deleteEmail);
         if ($stmt->execute()) {
-
             $stmt2 = $conn->prepare("DELETE FROM webuser WHERE email = ?");
             $stmt2->bind_param("s", $deleteEmail);
             $stmt2->execute();
@@ -212,6 +226,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../public/assets/css/librarian.css">
+    <link rel="stylesheet" href="../public/assets/css/addAdmin.css">
 
 </head>
 
@@ -290,9 +305,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
                                 <?php if ($_SESSION['role'] === 'sa'): ?>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="?delete=<?= $admin['email'] ?>"
-                                                class="btn btn-danger btn-sm"
-                                                onclick="confirmDelete(event)">
+                                            <a href="?delete=<?= htmlspecialchars($admin['email']) ?>"
+                                                class="btn btn-danger btn-sm delete-admin"
+                                                data-email="<?= htmlspecialchars($admin['email']) ?>">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                             <button class="btn btn-primary btn-sm editAdmin"
@@ -393,10 +408,10 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
                                         data-bs-target="#editAdminModal">
                                         <i class="fas fa-edit me-2"></i>Edit Admin
                                     </button>
-                                    <a href="?delete=<?= $admin['email'] ?>"
-                                        class="btn btn-danger btn-sm w-100"
-                                        onclick="confirmDelete(event)">
-                                        <i class="fas fa-trash me-2"></i>Delete Admin
+                                    <a href="?delete=<?= htmlspecialchars($admin['email']) ?>"
+                                        class="btn btn-danger btn-sm w-100 delete-admin"
+                                        data-email="<?= htmlspecialchars($admin['email']) ?>">
+                                        <i class="fas fa-trash"></i>
                                     </a>
                                 </div>
                             <?php endif; ?>
@@ -481,219 +496,10 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
         </div>
     </div>
 
-    <style>
-        .main-content {
-            min-height: 100vh;
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (min-width: 769px) {
-            .main-content {
-                margin-left: 250px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                padding-top: 70px;
-                /* Space for the menu toggle */
-            }
-
-            .page-header {
-                padding: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .container-fluid {
-                padding: 10px;
-            }
-
-            /* Card styles for mobile */
-            .mobile-cards .card {
-                margin-bottom: 15px;
-                border-radius: 10px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .mobile-cards .card-body {
-                padding: 15px;
-            }
-
-            .mobile-cards .card-title {
-                font-size: 1.1rem;
-                margin-bottom: 15px;
-                color: #1e3c72;
-            }
-
-            .mobile-cards .card-text p {
-                margin-bottom: 8px;
-                padding-bottom: 8px;
-                border-bottom: 1px solid #eee;
-            }
-
-            /* Button styling */
-            .btn {
-                padding: 8px 16px;
-                border-radius: 8px;
-            }
-
-            .btn-success {
-                background: linear-gradient(45deg, #2ecc71, #27ae60);
-                border: none;
-                box-shadow: 0 2px 5px rgba(46, 204, 113, 0.3);
-            }
-
-            /* Modal adjustments for mobile */
-            .modal-dialog {
-                margin: 10px;
-            }
-
-            .modal-content {
-                border-radius: 15px;
-            }
-
-            .modal-header {
-                padding: 15px;
-                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-                color: white;
-                border-radius: 15px 15px 0 0;
-            }
-
-            .modal-body {
-                padding: 20px;
-            }
-
-            /* Form controls */
-            .form-control {
-                padding: 12px;
-                border-radius: 8px;
-                margin-bottom: 15px;
-            }
-        }
-
-        /* Animation for sidebar transition */
-        .main-sidebar.open~.main-content {
-            transform: translateX(250px);
-        }
-
-        /* Ensure content is visible */
-        body {
-            background-color: #f8f9fa;
-            min-height: 100vh;
-        }
-
-        .admin-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .admin-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .admin-card .card-header {
-            border-radius: 15px 15px 0 0;
-            padding: 15px;
-        }
-
-        .admin-card .card-body {
-            padding: 20px;
-        }
-
-        .admin-info p {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .admin-info p:last-child {
-            border-bottom: none;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .action-buttons .btn {
-            padding: 10px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .action-buttons .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .badge {
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 15px;
-                padding-top: 70px;
-            }
-
-            .page-header {
-                margin-bottom: 20px;
-            }
-
-            .admin-card {
-                margin-bottom: 15px;
-            }
-        }
-
-        .super-admin-card {
-            border: 2px solid #1e3c72;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.2);
-        }
-    </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.querySelectorAll('.editAdmin').forEach(button => {
-            button.addEventListener('click', function() {
-                document.getElementById('editName').value = this.getAttribute('data-name');
-                document.getElementById('editEmail').value = this.getAttribute('data-email');
-                document.getElementById('editRole').value = this.getAttribute('data-role');
-            });
-        });
-
-        function confirmDelete(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = event.target.href;
-                }
-            });
-        }
-    </script>
+    <script src="../public/assets/js/admin.js"></script>
 </body>
 
 </html>

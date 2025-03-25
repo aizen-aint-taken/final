@@ -58,13 +58,13 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
     $year = mysqli_real_escape_string($conn, $_POST['year']);
     $sect = mysqli_real_escape_string($conn, $_POST['sect']);
     $email = filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL);
-    // Store password as plain text to match our current system
+
     $password = $_POST['password'];
 
     if ($email === false) {
         $error = "Invalid email format.";
     } else {
-        // Check if the email already exists in `users`
+
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -73,14 +73,14 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
         if ($email_result->num_rows > 0) {
             $error = "Already have an account for this Email address.";
         } else {
-            // Start transaction
+
             $conn->begin_transaction();
 
             try {
-                // Hash the password before storing
+
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insert into users table with hashed password
+
                 $stmt = $conn->prepare("INSERT INTO users (email, password, name, age, year, sect) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmt->bind_param("ssssss", $email, $hashed_password, $name, $age, $year, $sect);
 
@@ -88,24 +88,23 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
                     throw new Exception("Error creating user account: " . $stmt->error);
                 }
 
-                // Insert into webuser table
-                $stmt = $conn->prepare("INSERT INTO webuser (email, usertype) VALUES (?, 'u')");
-                $stmt->bind_param("s", $email);
+                $stmt = $conn->prepare("INSERT INTO webuser (email, name,usertype) VALUES (?,?, 'u')");
+                $stmt->bind_param("ss", $email, $name);
 
                 if (!$stmt->execute()) {
                     throw new Exception("Error creating webuser entry: " . $stmt->error);
                 }
 
-                // If everything is successful, commit the transaction
+
                 $conn->commit();
                 $success = "Account Successfully Created";
 
-                // Remove the immediate redirect to allow the success message to be displayed
+
                 $_SESSION['success_message'] = "Account Successfully Created";
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 exit();
             } catch (Exception $e) {
-                // If anything fails, rollback the changes
+
                 $conn->rollback();
                 $error = "Error creating account: " . $e->getMessage();
                 error_log('Error creating account: ' . $e->getMessage());
