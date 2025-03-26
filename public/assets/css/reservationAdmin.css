@@ -1,0 +1,222 @@
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-left: 250px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .filter-container label {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-select {
+            border-radius: 10px;
+            padding: 0.8rem;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            color: #1e3c72;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+        }
+
+        .status-dropdown {
+            width: 140px;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-dropdown:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .due-date-input {
+            width: 140px;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .due-date-input:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+        }
+
+        .alert-info {
+            background: linear-gradient(45deg, #0dcaf0, #0d6efd);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .filter-container {
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                border-radius: 15px;
+                overflow: hidden;
+            }
+
+            .status-dropdown,
+            .due-date-input {
+                width: 100%;
+            }
+
+            .table td {
+                padding: 1rem;
+            }
+        }
+
+        /* Mobile Card Styles */
+        .reservation-card {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                padding: 0.5rem;
+            }
+
+            .reservation-card {
+                background: white;
+                margin: 0.5rem 0;
+            }
+
+            .card-body {
+                padding: 1.25rem;
+            }
+
+            .card-info {
+                margin-bottom: 1rem;
+            }
+
+            .info-item {
+                margin-bottom: 0.5rem;
+            }
+        }

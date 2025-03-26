@@ -84,14 +84,148 @@ if (isset($_POST['filter'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="index.css">
     <style>
+        @media (max-width: 991.98px) {
+            .sidebar {
+                display: none;
+            }
 
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+        }
+
+        .book-card {
+            transition: transform 0.2s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-filter-container {
+            padding: 1rem;
+        }
+
+        .filter-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .filter-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .filter-title {
+            color: #1a237e;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .form-label {
+            color: #495057;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group-lg>.form-control,
+        .input-group-lg>.input-group-text,
+        .input-group-lg>.btn {
+            padding: 0.75rem 1.2rem;
+            font-size: 1rem;
+        }
+
+        .input-group-text {
+            border-color: #e0e0e0;
+        }
+
+        .form-select,
+        .form-control {
+            border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            border-color: #1a237e;
+            box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #1a237e, #0d47a1);
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #0d47a1, #1a237e);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-section {
+            position: relative;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .filter-card {
+                border-radius: 12px;
+            }
+
+            .filter-title {
+                font-size: 1.25rem;
+            }
+
+            .input-group-lg>.form-control,
+            .input-group-lg>.input-group-text,
+            .input-group-lg>.btn {
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Animation for focus states */
+        .form-select:focus,
+        .form-control:focus {
+            animation: focusAnimation 0.3s ease;
+        }
+
+        @keyframes focusAnimation {
+            0% {
+                transform: scale(0.98);
+            }
+
+            50% {
+                transform: scale(1.01);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231a237e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-position: right 0.75rem center;
+            background-size: 1em;
+        }
     </style>
 
 </head>
 
 <body>
     <?php include("./sidebar.php") ?>
-    <div class="main-content">
+    <div class="main-content w-90">
         <?php include('./header.php') ?>
         <div class="container-fluid mt-5">
             <div class="row">
@@ -281,143 +415,6 @@ if (isset($_POST['filter'])) {
             </div>
         </div>
 
-        <style>
-            @media (max-width: 991.98px) {
-                .sidebar {
-                    display: none;
-                }
-
-                .main-content {
-                    margin-left: 0 !important;
-                    width: 100% !important;
-                }
-            }
-
-            .book-card {
-                transition: transform 0.2s;
-            }
-
-            .book-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .search-filter-container {
-                padding: 1rem;
-            }
-
-            .filter-card {
-                border: none;
-                border-radius: 15px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-                transition: all 0.3s ease;
-            }
-
-            .filter-card:hover {
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-                transform: translateY(-2px);
-            }
-
-            .filter-title {
-                color: #1a237e;
-                font-weight: 600;
-                font-size: 1.5rem;
-            }
-
-            .form-label {
-                color: #495057;
-                font-weight: 500;
-                margin-bottom: 0.5rem;
-            }
-
-            .input-group-lg>.form-control,
-            .input-group-lg>.input-group-text,
-            .input-group-lg>.btn {
-                padding: 0.75rem 1.2rem;
-                font-size: 1rem;
-            }
-
-            .input-group-text {
-                border-color: #e0e0e0;
-            }
-
-            .form-select,
-            .form-control {
-                border-color: #e0e0e0;
-                transition: all 0.3s ease;
-            }
-
-            .form-select:focus,
-            .form-control:focus {
-                border-color: #1a237e;
-                box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.1);
-            }
-
-            .btn-primary {
-                background: linear-gradient(45deg, #1a237e, #0d47a1);
-                border: none;
-                font-weight: 500;
-                transition: all 0.3s ease;
-            }
-
-            .btn-primary:hover {
-                background: linear-gradient(45deg, #0d47a1, #1a237e);
-                transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
-            }
-
-            .filter-group {
-                margin-bottom: 1.5rem;
-            }
-
-            .search-section {
-                position: relative;
-            }
-
-            /* Responsive adjustments */
-            @media (max-width: 768px) {
-                .filter-card {
-                    border-radius: 12px;
-                }
-
-                .filter-title {
-                    font-size: 1.25rem;
-                }
-
-                .input-group-lg>.form-control,
-                .input-group-lg>.input-group-text,
-                .input-group-lg>.btn {
-                    padding: 0.5rem 1rem;
-                }
-            }
-
-            /* Animation for focus states */
-            .form-select:focus,
-            .form-control:focus {
-                animation: focusAnimation 0.3s ease;
-            }
-
-            @keyframes focusAnimation {
-                0% {
-                    transform: scale(0.98);
-                }
-
-                50% {
-                    transform: scale(1.01);
-                }
-
-                100% {
-                    transform: scale(1);
-                }
-            }
-
-            /* Custom select arrow */
-            .form-select {
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231a237e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-                background-position: right 0.75rem center;
-                background-size: 1em;
-            }
-        </style>
 
         <script src="../public/assets/js/jquery-3.5.1.min.js"></script>
         <script src="../public/assets/js/bootstrap.bundle.min.js"></script>

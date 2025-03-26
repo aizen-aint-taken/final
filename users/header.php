@@ -1,7 +1,7 @@
 <header class="navbar navbar-expand-lg navbar-light fixed-top py-2">
     <div class="container-fluid px-3">
         <!-- Mobile Menu Toggle -->
-        <button type="button" class="navbar-toggler border-0 d-lg-none" id="sidebarToggleBtn">
+        <button type="button" class="navbar-toggler border-0 d-lg-none sidebar-toggle-btn" id="sidebarToggleBtn">
             <i class="fas fa-bars fa-lg text-white"></i>
         </button>
 
@@ -72,7 +72,7 @@
 
 <style>
     .navbar {
-        background: linear-gradient(135deg, rgb(190, 117, 147), #0d47a1);
+        background: linear-gradient(135deg, rgb(184, 172, 175), rgb(97, 115, 115));
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         min-height: var(--header-height);
     }
@@ -141,6 +141,12 @@
         }
     }
 
+    @media (min-width: 992px) {
+        .navbar {
+            padding-left: calc(var(--sidebar-width) + 1rem);
+        }
+    }
+
     #sidebarToggleBtn {
         width: 40px;
         height: 40px;
@@ -171,15 +177,15 @@
 
         if (toggleBtn) {
             toggleBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Toggle button clicked');
+                if (e.target.closest('.sidebar-toggle-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                // Directly toggle the classes
-                if (sidebar && overlay) {
-                    sidebar.classList.toggle('show-sidebar');
-                    overlay.classList.toggle('show-overlay');
-                    document.body.style.overflow = sidebar.classList.contains('show-sidebar') ? 'hidden' : '';
+                    if (sidebar && overlay) {
+                        sidebar.classList.toggle('show-sidebar');
+                        overlay.classList.toggle('show-overlay');
+                        document.body.style.overflow = sidebar.classList.contains('show-sidebar') ? 'hidden' : '';
+                    }
                 }
             });
         }

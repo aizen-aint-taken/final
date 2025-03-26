@@ -39,9 +39,9 @@
         position: fixed;
         top: 0;
         left: -250px;
-        background: linear-gradient(135deg, rgb(184, 172, 175), rgb(10, 11, 11));
+        background: linear-gradient(135deg, rgb(184, 172, 175), rgb(62, 76, 76));
         color: white;
-        z-index: 1041;
+        z-index: 1040;
         transition: transform 0.3s ease;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
@@ -134,10 +134,6 @@
             left: 0;
             transform: none;
         }
-
-        .content-wrapper {
-            margin-left: 250px;
-        }
     }
 
     body {
@@ -165,7 +161,8 @@
 
         // Close button click event
         if (closeBtn) {
-            closeBtn.addEventListener('click', function() {
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Stop event from bubbling
                 sidebar.classList.remove('show-sidebar');
                 overlay.classList.remove('show-overlay');
                 document.body.style.overflow = '';
@@ -174,7 +171,8 @@
 
         // Overlay click event
         if (overlay) {
-            overlay.addEventListener('click', function() {
+            overlay.addEventListener('click', function(e) {
+                e.stopPropagation(); // Stop event from bubbling
                 sidebar.classList.remove('show-sidebar');
                 overlay.classList.remove('show-overlay');
                 document.body.style.overflow = '';
@@ -184,8 +182,9 @@
         // Close sidebar when clicking links (mobile only)
         const links = document.querySelectorAll('.nav-links a');
         links.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
                 if (window.innerWidth < 992) {
+                    e.stopPropagation(); // Stop event from bubbling
                     sidebar.classList.remove('show-sidebar');
                     overlay.classList.remove('show-overlay');
                     document.body.style.overflow = '';

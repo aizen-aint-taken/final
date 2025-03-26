@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../config/conn.php';
 // require_once '../student/edit.php';
 require_once 'change_password.php';
@@ -88,7 +90,7 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
                     throw new Exception("Error creating user account: " . $stmt->error);
                 }
 
-                $stmt = $conn->prepare("INSERT INTO webuser (email, name,usertype) VALUES (?,?, 'u')");
+                $stmt = $conn->prepare("INSERT INTO webuser (email, name, usertype) VALUES (?, ?, 'u')");
                 $stmt->bind_param("ss", $email, $name);
 
                 if (!$stmt->execute()) {
@@ -498,7 +500,7 @@ include('../includes/sidebar.php');
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="../admin/student.php" method="POST">
+                        <form action="../student/edit.php" method="POST">
                             <input type="hidden" name="id" id="edit-id">
 
                             <div class="form-group">

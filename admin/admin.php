@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/conn.php';
+
 error_reporting(E_ALL);
 
 
@@ -204,6 +205,7 @@ if (isset($_POST['updateAdmin'])) {
 }
 
 
+
 $admins = $conn->query("SELECT * FROM admin");
 include('../includes/header.php');
 include('../includes/sidebar.php');
@@ -310,9 +312,17 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
                                                 data-email="<?= htmlspecialchars($admin['email']) ?>">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+
+                                            <button class="btn btn-secondary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#changeAdminPasswordModal"
+                                                data-email="<?= htmlspecialchars($admin['email']) ?>">
+                                                <i class="fas fa-key"></i>
+                                            </button>
                                             <button class="btn btn-primary btn-sm editAdmin"
                                                 data-name="<?= htmlspecialchars($admin['name']) ?>"
                                                 data-email="<?= htmlspecialchars($admin['email']) ?>"
+
                                                 data-role="<?= htmlspecialchars($admin['role']) ?>"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#editAdminModal">
@@ -497,9 +507,101 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
     </div>
 
 
+    <!-- Change Admin Password Modal -->
+    <div class="modal fade" id="changeAdminPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Admin Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="adminPasswordChangeForm">
+                        <input type="hidden" name="admin_email" id="change-admin-password-email">
+
+                        <div class="form-group mb-3">
+                            <label>Admin Email:</label>
+                            <p id="admin-email-display" class="form-control-static"></p>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="new_password">New Password</label>
+                            <input type="password" class="form-control" name="new_password" required minlength="8">
+                            <small class="form-text text-muted">Password must be at least 8 characters long</small>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control" name="confirm_password" required minlength="8">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../public/assets/js/admin.js"></script>
+    <script>
+        // Add this for handling the change password modal
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle change password button clicks
+            document.querySelectorAll('[data-bs-target="#changeAdminPasswordModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const adminEmail = this.getAttribute('data-email');
+                    // console.log(adminEmail);
+                    document.getElementById('change-admin-password-email').value = adminEmail;
+                    document.getElementById('admin-email-display').textContent = adminEmail;
+                });
+            });
+
+            // Handle password change form submission
+            const changePasswordForm = document.querySelector('#changeAdminPasswordModal form');
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    formData.append('change_admin_password', '1');
+
+                    fetch('change_password.php', { // Changed the fetch URL to point to change_password.php
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: data.message
+                                }).then(() => {
+                                    bootstrap.Modal.getInstance(document.getElementById('changeAdminPasswordModal')).hide();
+                                    changePasswordForm.reset();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: data.message
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred while changing the password'
+                            });
+                        });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

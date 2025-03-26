@@ -120,3 +120,4 @@
 {"type":"reserve","message":"A book has been reserved!","book_id":"7","name":"Rowena Arbiol","student_id":"33","title":"Florante At Laura","author":"Francisco Balagtas"}
 {"type":"reserve","message":"A book has been reserved!","book_id":"7","name":"Rowena Arbiol","student_id":"33","title":"Florante At Laura","author":"Francisco Balagtas"}
 {"type":"reserve","message":"A book has been reserved!","book_id":"6","name":"Angel Maie Saballa","student_id":"13","title":"The World of \"What if..?\"","author":"Prentice Choices in Literature"}
+{"type":"reserve","message":"A book has been reserved!","book_id":"6","name":"Dewie Mitch Rosil","student_id":35,"title":"it works","author":"ely gian ga"}

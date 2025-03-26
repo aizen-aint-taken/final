@@ -86,199 +86,9 @@ include('../includes/sidebar.php');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../public/assets/css/reservationAdmin.css">
     <title>Reservation Management</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            padding: 20px;
-            margin-left: 250px;
-        }
 
-        .container {
-            max-width: 1400px;
-            margin: auto;
-            background: #fff;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .filter-container {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .filter-container label {
-            font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-select {
-            border-radius: 10px;
-            padding: 0.8rem;
-            border: 1px solid #dee2e6;
-            transition: all 0.3s ease;
-        }
-
-        .form-select:focus {
-            border-color: #1e3c72;
-            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #1e3c72, #2a5298);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-            color: #1e3c72;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            padding: 1rem;
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-            transform: scale(1.01);
-        }
-
-        .status-dropdown {
-            width: 140px;
-            padding: 0.5rem;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .status-dropdown:focus {
-            border-color: #1e3c72;
-            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
-        }
-
-        .badge {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.85rem;
-        }
-
-        .btn-danger {
-            background: linear-gradient(45deg, #dc3545, #c82333);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-
-        .due-date-input {
-            width: 140px;
-            padding: 0.5rem;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .due-date-input:focus {
-            border-color: #1e3c72;
-            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
-        }
-
-        .alert {
-            border-radius: 10px;
-            border: none;
-            margin-bottom: 1.5rem;
-            padding: 1rem 1.5rem;
-        }
-
-        .alert-info {
-            background: linear-gradient(45deg, #0dcaf0, #0d6efd);
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                margin-left: 0;
-                padding: 10px;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .page-header {
-                padding: 1.5rem;
-            }
-
-            .filter-container {
-                padding: 1rem;
-            }
-
-            .table-responsive {
-                border-radius: 15px;
-                overflow: hidden;
-            }
-
-            .status-dropdown,
-            .due-date-input {
-                width: 100%;
-            }
-
-            .table td {
-                padding: 1rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -319,34 +129,46 @@ include('../includes/sidebar.php');
             </div>
         </div>
 
+        <div class="action-buttons mb-3">
+            <button id="deleteSelected" class="btn btn-danger" style="display: none;">
+                <i class="fas fa-trash me-2"></i>Delete Selected
+            </button>
+        </div>
+
         <?php if (!empty($selectedUserName) && $selectedUserId != 'all'): ?>
             <div class="alert alert-info mb-4">
                 <i class="fas fa-user me-2"></i>Showing reservations for: <strong><?= htmlspecialchars($selectedUserName) ?></strong>
             </div>
         <?php endif; ?>
 
+        <?php
+        // Check if there are any reservations with the selected status
+        if ($selectedStatus !== 'all' && $reservations->num_rows === 0): ?>
+            <div class="alert alert-info mb-4">
+                <i class="fas fa-info-circle me-2"></i>No reservations with status "<strong><?= htmlspecialchars($selectedStatus) ?></strong>" found.
+            </div>
+        <?php endif; ?>
+
+        <input type="checkbox" id="selectAll" class="form-check-input">
         <div class="table-container">
-            <div class="table-responsive">
+            <!-- Desktop View -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <!-- <th colspan="5" class="text-end">
-                                <button id="sendNotificationsBtn" class="btn btn-danger">
-                                    <i class="fas fa-bell me-2"></i>Send Due Notifications
-                                </button>
-                            </th> -->
-                        </tr>
-                        <tr>
+
                             <th><i class="fas fa-user me-2"></i>Student Name</th>
                             <th><i class="fas fa-calendar me-2"></i>Borrowed Date</th>
                             <th><i class="fas fa-book me-2"></i>Book Title</th>
                             <th><i class="fas fa-tasks me-2"></i>Status</th>
                             <th><i class="fas fa-calendar-check me-2"></i>Return Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($reservations as $reserve): ?>
                             <tr id="row-<?= $reserve['ReserveID'] ?>">
+
                                 <td data-label="Student Name"><?= htmlspecialchars($reserve['USERNAME']) ?></td>
                                 <td data-label="Borrowed Date"><?= htmlspecialchars($reserve['RESERVEDATE']) ?></td>
                                 <td data-label="Book Title"><?= htmlspecialchars($reserve['BOOK_TITLE']) ?></td>
@@ -384,151 +206,127 @@ include('../includes/sidebar.php');
                                         $formattedDueDate = date('m-d-Y', strtotime($reserve['DueDate']));
                                         echo htmlspecialchars($formattedDueDate);
 
-                                        if ($reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0) {
-                                            echo '<span class="badge bg-warning ms-2">⚠ Due in ' . $reserve['DaysLeft'] . ' days</span>';
-                                        } elseif ($reserve['DaysLeft'] <= 0) {
-                                            echo '<span class="badge bg-danger ms-2">❌ Overdue</span>';
+                                        // Only show overdue/warning badges if the status is not "Returned" or "Rejected"
+                                        if ($reserve['STATUS'] !== 'Returned' && $reserve['STATUS'] !== 'Rejected') {
+                                            if ($reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0) {
+                                                echo '<span class="badge bg-warning ms-2">⚠ Due in ' . $reserve['DaysLeft'] . ' days</span>';
+                                            } elseif ($reserve['DaysLeft'] <= 0) {
+                                                echo '<span class="badge bg-danger ms-2">❌ Overdue</span>';
+                                            }
                                         }
                                     } else {
                                         echo 'Not Set';
                                     }
                                     ?>
                                 </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm delete-single"
+                                        data-id="<?= $reserve['ReserveID'] ?>">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="d-block d-md-none">
+                <!-- Add select all checkbox for mobile -->
+                <div class="mb-3 d-flex align-items-center">
+                    <div class="form-check">
+                        <input type="checkbox" id="selectAllMobile" class="form-check-input">
+                        <label class="form-check-label" for="selectAllMobile">Select All</label>
+                    </div>
+                </div>
+
+                <?php foreach ($reservations as $reserve): ?>
+                    <div class="card mb-3 reservation-card" id="card-<?= $reserve['ReserveID'] ?>">
+                        <div class="card-body">
+                            <!-- Add checkbox to card header -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox"
+                                        class="form-check-input reservation-checkbox"
+                                        data-id="<?= $reserve['ReserveID'] ?>">
+                                </div>
+                                <button class="btn btn-danger btn-sm delete-single"
+                                    data-id="<?= $reserve['ReserveID'] ?>">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+
+                            <h5 class="card-title text-primary">
+                                <i class="fas fa-book me-2"></i><?= htmlspecialchars($reserve['BOOK_TITLE']) ?>
+                            </h5>
+
+                            <div class="card-info mb-2">
+                                <div class="info-item">
+                                    <small class="text-muted"><i class="fas fa-user me-2"></i>Student:</small>
+                                    <span class="fw-bold"><?= htmlspecialchars($reserve['USERNAME']) ?></span>
+                                </div>
+
+                                <div class="info-item mt-2">
+                                    <small class="text-muted"><i class="fas fa-calendar me-2"></i>Borrowed:</small>
+                                    <span><?= htmlspecialchars($reserve['RESERVEDATE']) ?></span>
+                                </div>
+                            </div>
+
+                            <div class="status-section mb-3">
+                                <small class="text-muted d-block mb-2"><i class="fas fa-tasks me-2"></i>Status:</small>
+                                <select class="form-select status-dropdown" data-id="<?= $reserve['ReserveID'] ?>" data-previous="<?= $reserve['STATUS'] ?>">
+                                    <option value="Pending" <?= $reserve['STATUS'] == 'Pending' ? 'selected' : '' ?>
+                                        <?= in_array($reserve['STATUS'], ['Approved', 'Returned']) ? 'disabled' : '' ?>>Pending</option>
+                                    <option value="Approved" <?= $reserve['STATUS'] == 'Approved' ? 'selected' : '' ?>
+                                        <?= in_array($reserve['STATUS'], ['Returned']) ? 'disabled' : '' ?>>Approved</option>
+                                    <option value="Rejected" <?= $reserve['STATUS'] == 'Rejected' ? 'selected' : '' ?>
+                                        <?= in_array($reserve['STATUS'], ['Approved', 'Returned']) ? 'disabled' : '' ?>>Rejected</option>
+                                    <option value="Returned" <?= $reserve['STATUS'] == 'Returned' ? 'selected' : '' ?>
+                                        <?= !in_array($reserve['STATUS'], ['Approved']) ? 'disabled' : '' ?>>Returned</option>
+                                </select>
+
+                                <?php if ($reserve['STATUS'] == 'Approved'): ?>
+                                    <input type="date"
+                                        class="form-control due-date-input mt-2"
+                                        data-id="<?= $reserve['ReserveID'] ?>"
+                                        value="<?= $reserve['DueDate'] ?? '' ?>"
+                                        min="<?= date('Y-m-d') ?>">
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="return-date-section">
+                                <small class="text-muted"><i class="fas fa-calendar-check me-2"></i>Return Date:</small>
+                                <div class="mt-1">
+                                    <?php
+                                    if ($reserve['DueDate']) {
+                                        $formattedDueDate = date('m-d-Y', strtotime($reserve['DueDate']));
+                                        echo htmlspecialchars($formattedDueDate);
+
+                                        // Only show overdue/warning badges if the status is not "Returned" or "Rejected"
+                                        if ($reserve['STATUS'] !== 'Returned' && $reserve['STATUS'] !== 'Rejected') {
+                                            if ($reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0) {
+                                                echo '<span class="badge bg-warning ms-2">⚠ Due in ' . $reserve['DaysLeft'] . ' days</span>';
+                                            } elseif ($reserve['DaysLeft'] <= 0) {
+                                                echo '<span class="badge bg-danger ms-2">❌ Overdue</span>';
+                                            }
+                                        }
+                                    } else {
+                                        echo 'Not Set';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("filter-btn").addEventListener("click", function() {
-                let userId = document.getElementById("user-filter").value;
-                let status = document.getElementById("status-filter").value;
-
-                let url = new URL(window.location.href);
-                url.searchParams.set("user_id", userId);
-                url.searchParams.set("status", status);
-
-                window.location.href = url.toString();
-            });
-
-            document.querySelectorAll(".status-dropdown").forEach(dropdown => {
-                dropdown.addEventListener("change", function(event) {
-                    let dropdownElement = event.target;
-                    let reservationId = dropdownElement.getAttribute("data-id");
-                    let newStatus = dropdownElement.value;
-                    let previousStatus = dropdownElement.dataset.previous;
-
-                    // Status transition validation rules
-                    const invalidTransitions = {
-                        'Approved': ['Pending', 'Rejected'],
-                        'Returned': ['Pending', 'Approved', 'Rejected']
-                    };
-
-                    // Check if the transition is invalid
-                    if (invalidTransitions[previousStatus] && invalidTransitions[previousStatus].includes(newStatus)) {
-                        alert(`❌ Cannot change status from "${previousStatus}" to "${newStatus}"`);
-                        dropdownElement.value = previousStatus;
-                        return;
-                    }
-
-                    // Special validation for Returned status
-                    if (newStatus === 'Returned' && previousStatus !== 'Approved') {
-                        alert("❌ Can only mark approved books as returned.");
-                        dropdownElement.value = previousStatus;
-                        return;
-                    }
-
-                    if (!confirm(`Are you sure you want to change the status to "${newStatus}"?`)) {
-                        dropdownElement.value = previousStatus;
-                        return;
-                    }
-
-                    let formData = new FormData();
-                    formData.append("reservation_id", reservationId);
-                    formData.append("status", newStatus);
-                    formData.append("previous_status", previousStatus);
-
-                    fetch("update_status.php", {
-                            method: "POST",
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert(`✅ ${data.message}`);
-                                dropdownElement.dataset.previous = newStatus;
-
-                                // Update the row display
-                                const row = dropdownElement.closest('tr');
-
-                                // If marking as Returned, hide the due date input
-                                if (newStatus === 'Returned') {
-                                    const dueDateInput = row.querySelector('.due-date-input');
-                                    if (dueDateInput) {
-                                        dueDateInput.style.display = 'none';
-                                    }
-                                }
-
-                                // Update due date display if status is Approved
-                                if (newStatus === 'Approved' && data.dueDate) {
-                                    const dueDateCell = row.querySelector('[data-label="Return Date"]');
-                                    if (dueDateCell) {
-                                        const formattedDate = new Date(data.dueDate).toLocaleDateString('en-US', {
-                                            month: '2-digit',
-                                            day: '2-digit',
-                                            year: 'numeric'
-                                        });
-                                        dueDateCell.innerHTML = formattedDate;
-
-                                        // Add the "Due in 7 days" badge
-                                        const badge = document.createElement('span');
-                                        badge.className = 'badge bg-warning ms-2';
-                                        badge.textContent = '⚠ Due in 7 days';
-                                        dueDateCell.appendChild(badge);
-                                    }
-                                }
-
-                                // Refresh the page to update all statuses
-                                location.reload();
-                            } else {
-                                alert(`❌ ${data.message}`);
-                                dropdownElement.value = previousStatus;
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error:", error);
-                            alert("❌ Error updating status.");
-                            dropdownElement.value = previousStatus;
-                        });
-                });
-
-                // Store initial status
-                dropdown.dataset.previous = dropdown.value;
-            });
-        });
-
-        document.getElementById("sendNotificationsBtn").addEventListener("click", function() {
-            fetch('notification.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(`✅ ${data.message}`);
-                    } else {
-                        alert("❌ Error sending notifications.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("❌ Error sending notifications.");
-                });
-        });
-    </script>
+    <script src="../public/assets/js/reservationAdmin.js"></script>
 </body>
 
 </html>

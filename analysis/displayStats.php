@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/conn.php';
+// require_once 'fetch_top_borrowed.php';
 
 // Add session check if needed
 if (!isset($_SESSION['user']) || empty($_SESSION['user']) || ($_SESSION['usertype'] !== 'a' && $_SESSION['usertype'] !== 'sa')) {
@@ -221,9 +222,12 @@ include('../includes/sidebar.php');
 
         // Adjust chart sizes when window is resized
         window.addEventListener('resize', function() {
-            Chart.instances.forEach(chart => {
-                chart.resize();
-            });
+            if (Chart.getChart) { // Check if Chart.getChart exists
+                const charts = Object.values(Chart.instances);
+                charts.forEach(chart => {
+                    if (chart) chart.resize();
+                });
+            }
         });
     </script>
 </body>

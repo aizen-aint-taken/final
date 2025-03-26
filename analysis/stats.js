@@ -20,15 +20,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetch data for all charts with error handling
     async function fetchChartData(endpoint) {
         try {
-            const response = await fetch(endpoint);
+            const response = await fetch('../admin/analytics.php');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const data = await response.json();
-            return data || []; // Return empty array if no data
+            const allData = await response.json();
+            console.log('All data:', allData); // Debug log
+
+            // Return the appropriate data based on the endpoint requested
+            switch(endpoint) {
+                case 'fetch_top_borrowed.php':
+                    return allData.topBorrowed || [];
+                case 'fetch_book_stock.php':
+                    return allData.bookStock || [];
+                case 'fetch_reservation_status.php':
+                    return allData.statusDistribution || [];
+                case 'fetch_monthly_trends.php':
+                    return allData.monthlyTrends || [];
+                case 'fetch_borrow_stats.php':
+                    return allData.borrowStats || {};
+                default:
+                    return [];
+            }
         } catch (error) {
             console.error(`Error fetching data from ${endpoint}:`, error);
-            return []; // Return empty array on error
+            return endpoint.includes('borrow_stats.php') ? {} : [];
         }
     }
 
@@ -42,22 +58,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 new Chart(topBorrowedCtx, {
                     type: 'bar',
                     data: {
-                        labels: topBorrowedData.map(item => item.title || 'Unknown'),
+                        labels: topBorrowedData.map(item => item.Title),
                         datasets: [{
                             label: 'Times Borrowed',
-                            data: topBorrowedData.map(item => item.count || 0),
+                            data: topBorrowedData.map(item => item.borrow_count),
                             backgroundColor: 'rgba(255, 107, 107, 0.8)',
                             borderColor: 'rgba(255, 107, 107, 1)',
                             borderWidth: 1
                         }]
                     },
                     options: {
-                        responsive: true,
+                        ...commonOptions,
+                        indexAxis: 'y',  // This makes the chart horizontal
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                        },
                         scales: {
-                            y: {
+                            x: {
                                 beginAtZero: true,
                                 ticks: {
                                     stepSize: 1
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: {
+                                        size: 12
+                                    },
+                                    callback: function(value) {
+                                        // Truncate long titles if needed
+                                        const title = this.getLabelForValue(value);
+                                        return title.length > 30 ? title.substr(0, 27) + '...' : title;
+                                    }
                                 }
                             }
                         }
@@ -72,9 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 new Chart(bookStockCtx, {
                     type: 'pie',
                     data: {
-                        labels: bookStockData.map(item => item.subject || 'Unknown'),
+                        labels: bookStockData.map(item => item.Subject),
                         datasets: [{
-                            data: bookStockData.map(item => item.count || 0),
+                            data: bookStockData.map(item => item.total_stock),
                             backgroundColor: [
                                 'rgba(78, 205, 196, 0.8)',
                                 'rgba(255, 107, 107, 0.8)',
@@ -84,9 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             ]
                         }]
                     },
-                    options: {
-                        responsive: true
-                    }
+                    options: commonOptions
                 });
             }
 
@@ -97,9 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 new Chart(statusCtx, {
                     type: 'doughnut',
                     data: {
-                        labels: statusData.map(item => item.status || 'Unknown'),
+                        labels: statusData.map(item => item.STATUS),
                         datasets: [{
-                            data: statusData.map(item => item.count || 0),
+                            data: statusData.map(item => item.total),
                             backgroundColor: [
                                 'rgba(69, 183, 209, 0.8)',
                                 'rgba(255, 107, 107, 0.8)',
@@ -107,9 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             ]
                         }]
                     },
-                    options: {
-                        responsive: true
-                    }
+                    options: commonOptions
                 });
             }
 
@@ -120,34 +150,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 new Chart(trendsCtx, {
                     type: 'line',
                     data: {
-                        labels: trendsData.map(item => item.month || 'Unknown'),
+                        labels: trendsData.map(item => item.month),
                         datasets: [{
                             label: 'Borrowed Books',
-                            data: trendsData.map(item => item.count || 0),
+                            data: trendsData.map(item => item.reservation_count),
                             borderColor: 'rgba(150, 206, 180, 1)',
                             tension: 0.4,
                             fill: true,
                             backgroundColor: 'rgba(150, 206, 180, 0.2)'
                         }]
                     },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            }
-                        }
-                    }
+                    options: commonOptions
                 });
             }
 
             // Borrow Stats Chart
             const borrowStatsData = await fetchChartData('fetch_borrow_stats.php');
             const borrowStatsCtx = document.getElementById('borrowStatsChart')?.getContext('2d');
-            if (borrowStatsCtx && borrowStatsData.length > 0) {
+            if (borrowStatsCtx && borrowStatsData) {
                 new Chart(borrowStatsCtx, {
                     type: 'bar',
                     data: {
@@ -155,8 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         datasets: [{
                             label: 'Number of Books',
                             data: [
-                                borrowStatsData.returned || 0,
-                                borrowStatsData.borrowed || 0
+                                borrowStatsData.returned_count,
+                                borrowStatsData.borrowed_count
                             ],
                             backgroundColor: [
                                 'rgba(108, 92, 231, 0.8)',
@@ -164,17 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             ]
                         }]
                     },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            }
-                        }
-                    }
+                    options: commonOptions
                 });
             }
 

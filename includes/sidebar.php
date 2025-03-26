@@ -1,4 +1,8 @@
 <?php
+// Add this at the top of sidebar.php
+error_log('Current page: ' . $_SERVER['PHP_SELF']);
+error_log('User type: ' . (isset($_SESSION['usertype']) ? $_SESSION['usertype'] : 'not set'));
+
 include '../config/conn.php';
 
 // Secure function to check if current user is super admin
@@ -74,9 +78,9 @@ function isSuperAdmin()
         <!-- dapat super admin ray maka ray makakita ani -->
         <?php if (isSuperAdmin()): ?>
           <li class="nav-item">
-            <a href="../admin/admin.php" class="nav-link">
-              <i class="fa-solid fa-user-tie"></i>
-              <p>Add Librarian</p>
+            <a href="../admin/admin.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'admin.php' ? 'active' : ''; ?>">
+              <i class="fas fa-user-shield"></i>
+              <span>Add Librarian</span>
             </a>
           </li>
         <?php endif; ?>

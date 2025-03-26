@@ -2,6 +2,12 @@
 
 session_start();
 
+// Check if user is not logged in or is not an admin
+if (!isset($_SESSION['usertype']) || ($_SESSION['usertype'] !== 'a' && $_SESSION['usertype'] !== 'sa')) {
+    header('Location: ../index.php');
+    exit();
+}
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

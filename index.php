@@ -26,7 +26,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset($_POST['password'])) {
     try {
-
+        // Check if user exists in webuser table by email or username
         $stmt = $conn->prepare("SELECT * FROM webuser WHERE email = ? OR name = ?");
         $login_id = trim($_POST['login_id']);
         $userpassword = $_POST['password'];
@@ -39,11 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
             $userData = $getemail->fetch_assoc();
             $usertype = $userData['usertype'];
             $usermail = $userData['email'];
+            $username = $userData['name'];
 
             if ($usertype == 'u') {
                 // Check user credentials
-                $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-                $stmt->bind_param("s", $usermail);
+                $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR name = ?");
+                $stmt->bind_param("ss", $usermail, $username);
                 $stmt->execute();
                 $validate = $stmt->get_result();
 
@@ -61,13 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
 
                         header('location: users/index.php');
                         exit();
+                    } else {
+                        $error = 'Invalid credentials!';
                     }
+                } else {
+                    $error = 'User account not found!';
                 }
-                $error = 'Invalid Name/Email or Password!';
             } else if ($usertype == 'a' || $usertype == 'sa') {
                 // Check admin credentials
-                $stmt = $conn->prepare("SELECT * FROM admin WHERE email = ?");
-                $stmt->bind_param("s", $usermail);
+                $stmt = $conn->prepare("SELECT * FROM admin WHERE email = ? OR name = ?");
+                $stmt->bind_param("ss", $usermail, $username);
                 $stmt->execute();
                 $validate = $stmt->get_result();
 
@@ -86,9 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
 
                         header('location: admin/index.php');
                         exit();
+                    } else {
+                        $error = 'Invalid credentials!';
                     }
+                } else {
+                    $error = 'Admin account not found!';
                 }
-                $error = 'Invalid Name/Email or Password!';
             }
         } else {
             $error = 'Account not found!';
@@ -128,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
     <div class="login-container">
         <div id="clock"></div>
         <h1 class="login-title">Welcome Back</h1>
-        <?php if (isset($error)) : ?>
+        <?php if (!empty($error) && $_SERVER['REQUEST_METHOD'] === 'POST') : ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo $error; ?>
             </div>
