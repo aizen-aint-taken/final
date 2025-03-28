@@ -29,7 +29,7 @@ function isSuperAdmin()
           <a href="../admin/index.php" class="nav-link">
             <i class="nav-icon fas fa-home"></i>
             <p>Home</p>
-            <!-- <span class="badge badge-pill badge-danger">New</span> Notification Badge -->
+
           </a>
         </li>
 
@@ -41,7 +41,7 @@ function isSuperAdmin()
           <a href="../analysis/displayStats.php" class="nav-link">
             <i class="nav-icon fas fa-chart-line"></i>
             <p>Analytics</p>
-            <!-- <span class="badge badge-pill badge-danger">New</span> Notification Badge -->
+
           </a>
         </li>
 
@@ -52,7 +52,7 @@ function isSuperAdmin()
         <li class="nav-item">
           <a href="../admin/reservations.php" class="nav-link">
             <i class="nav-icon fas fa-box"></i>
-            <p>Reservation</p>
+            <p>Borrowed Books</p>
           </a>
         </li>
 

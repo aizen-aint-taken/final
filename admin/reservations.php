@@ -142,7 +142,7 @@ include('../includes/sidebar.php');
         <?php endif; ?>
 
         <?php
-        // Check if there are any reservations with the selected status
+
         if ($selectedStatus !== 'all' && $reservations->num_rows === 0): ?>
             <div class="alert alert-info mb-4">
                 <i class="fas fa-info-circle me-2"></i>No reservations with status "<strong><?= htmlspecialchars($selectedStatus) ?></strong>" found.
@@ -206,7 +206,7 @@ include('../includes/sidebar.php');
                                         $formattedDueDate = date('m-d-Y', strtotime($reserve['DueDate']));
                                         echo htmlspecialchars($formattedDueDate);
 
-                                        // Only show overdue/warning badges if the status is not "Returned" or "Rejected"
+
                                         if ($reserve['STATUS'] !== 'Returned' && $reserve['STATUS'] !== 'Rejected') {
                                             if ($reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0) {
                                                 echo '<span class="badge bg-warning ms-2">⚠ Due in ' . $reserve['DaysLeft'] . ' days</span>';
@@ -231,9 +231,9 @@ include('../includes/sidebar.php');
                 </table>
             </div>
 
-            <!-- Mobile View -->
+
             <div class="d-block d-md-none">
-                <!-- Add select all checkbox for mobile -->
+
                 <div class="mb-3 d-flex align-items-center">
                     <div class="form-check">
                         <input type="checkbox" id="selectAllMobile" class="form-check-input">
@@ -303,7 +303,7 @@ include('../includes/sidebar.php');
                                         $formattedDueDate = date('m-d-Y', strtotime($reserve['DueDate']));
                                         echo htmlspecialchars($formattedDueDate);
 
-                                        // Only show overdue/warning badges if the status is not "Returned" or "Rejected"
+
                                         if ($reserve['STATUS'] !== 'Returned' && $reserve['STATUS'] !== 'Rejected') {
                                             if ($reserve['DaysLeft'] <= 3 && $reserve['DaysLeft'] > 0) {
                                                 echo '<span class="badge bg-warning ms-2">⚠ Due in ' . $reserve['DaysLeft'] . ' days</span>';

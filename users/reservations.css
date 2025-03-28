@@ -1,3 +1,87 @@
+/* Core layout variables */
+:root {
+    --header-height: 60px;
+    --sidebar-width: 250px;
+}
+
+/* Reset body padding */
+body {
+    padding: 0 !important;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Main content wrapper */
+.content-wrapper {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    padding: 1rem;
+    margin-top: var(--header-height); /* Add space for header */
+}
+
+/* Desktop layout */
+@media (min-width: 992px) {
+    .content-wrapper {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 20px;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 991.98px) {
+    .content-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+/* Container adjustments */
+.container {
+    margin: 0 auto;
+}
+
+/* Card and table adjustments */
+.card {
+    margin-bottom: 1.5rem;
+}
+
+.table-responsive {
+    margin-top: 1rem;
+}
+
+/* Remove the inline style from your HTML and add these container adjustments */
+.container {
+    padding-top: 0; /* Remove extra top padding */
+}
+
+.filter-container {
+    margin-bottom: 2rem;
+}
+
+/* Adjust card spacing */
+.card {
+    margin-bottom: 1.5rem;
+}
+
+/* Table adjustments */
+.table-responsive {
+    margin-top: 1rem;
+}
+
+/* Remove any duplicate margin/padding declarations in your CSS */
+.mt-5 {
+    margin-top: 1rem !important; /* Override Bootstrap's mt-5 for this specific case */
+}
 
         body {
             padding-top: var(--header-height);
@@ -6,7 +90,8 @@
         .content-wrapper {
             min-height: calc(100vh - var(--header-height));
             transition: margin-left 0.3s ease;
-            padding: 1rem;
+            padding: 2rem 1rem;
+            margin-top: var(--header-height);
         }
 
         .card {
@@ -27,10 +112,16 @@
             padding: 1.25rem;
         }
 
+        @media (min-width: 992px) {
+            .content-wrapper {
+                margin-left: var(--sidebar-width);
+            }
+        }
+
         @media (max-width: 991.98px) {
             .content-wrapper {
-                margin-left: 0 !important;
-                padding: 0.5rem;
+                margin-left: 0;
+                padding: 1rem 0.5rem;
             }
 
             .card {
@@ -85,10 +176,6 @@
         .badge-secondary {
             background-color: #6c757d !important;
             color: #fff !important;
-        }
-
-        .alert {
-            display: none;
         }
 
         .filter-container {
@@ -201,5 +288,20 @@
 
         .select.changed {
             animation: selectChange 0.3s ease;
+        }
+
+        /* Add these new styles for the no results message */
+        #noStatusMessage {
+            display: none; /* Hidden by default */
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+        }
+
+        #noStatusMessage.show {
+            display: block;
         }
    

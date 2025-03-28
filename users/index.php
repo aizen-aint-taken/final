@@ -2,10 +2,6 @@
 
 include("../config/conn.php");
 session_start();
-// header("X-Frame-Options: DENY");
-// header("X-XSS-Protection: 1; mode=block");
-// header("X-Content-Type-Options: nosniff");
-// header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 
 
 if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
@@ -18,30 +14,34 @@ if ($_SESSION['usertype'] !== 'u') {
     exit;
 }
 
-
-
 $resultsPerPage = 5;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($currentPage - 1) * $resultsPerPage;
 
-if (isset($_POST['searchBtn']) && !empty(trim($_POST['search']))) {
-    $searchTerm = trim($_POST['search']);
+if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
+    $searchTerm = trim($_GET['search']);
     $searchPattern = "%{$searchTerm}%";
 
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 AND (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR Source_of_Acquisition LIKE ? OR Subject LIKE ?) LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0 AND (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?)");
+    $stmt->bind_param("sssss", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern);
+    $stmt->execute();
+    $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
+
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 AND (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?) ORDER BY BookID LIMIT ? OFFSET ?");
     $stmt->bind_param("sssssii", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $resultsPerPage, $offset);
     $stmt->execute();
     $books = $stmt->get_result();
 } else {
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
+    $stmt->execute();
+    $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
+
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 ORDER BY BookID LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $resultsPerPage, $offset);
     $stmt->execute();
     $books = $stmt->get_result();
 }
 
-$stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
-$stmt->execute();
-$totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 $totalPages = ceil($totalBooks / $resultsPerPage);
 
 $stmt = $conn->prepare("SELECT DISTINCT Subject FROM books");
@@ -227,7 +227,7 @@ if (isset($_POST['filter'])) {
     <?php include("./sidebar.php") ?>
     <div class="main-content w-90">
         <?php include('./header.php') ?>
-        <div class="container-fluid mt-5">
+        <div class="container-fluid mt-5 w-100" style="margin-right: 250px;">
             <div class="row">
                 <div class="col-12">
                     <h1 class="text-center mb-4 primary">List of Library Collection</h1>
@@ -265,7 +265,7 @@ if (isset($_POST['filter'])) {
                                         <!-- Search Bar -->
                                         <div class="search-section">
                                             <label for="searchBar" class="form-label">Search Books</label>
-                                            <div class="input-group input-group-lg">
+                                            <form action="index.php" method="GET" class="input-group input-group-lg">
                                                 <span class="input-group-text bg-transparent border-end-0">
                                                     <i class="fas fa-search text-primary"></i>
                                                 </span>
@@ -275,11 +275,16 @@ if (isset($_POST['filter'])) {
                                                     name="search"
                                                     class="form-control border-start-0 ps-0"
                                                     placeholder="Search by title, author, or subject..."
-                                                    value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
-                                                <button type="submit" name="searchBtn" class="btn btn-primary px-4">
+                                                    value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                                                <button type="submit" class="btn btn-primary px-4">
                                                     <i class="fas fa-search me-2"></i>Search
                                                 </button>
-                                            </div>
+                                            </form>
+                                        </div>
+
+                                        <!-- Add this after your search bar -->
+                                        <div id="noResultsMessage" class="alert alert-warning mt-3" style="display: none;">
+                                            No books found matching your search.
                                         </div>
                                     </div>
                                 </div>
@@ -356,11 +361,52 @@ if (isset($_POST['filter'])) {
                     <!-- Pagination -->
                     <nav class="mt-4">
                         <ul class="pagination justify-content-center">
-                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                <li class="page-item <?= ($i == $currentPage) ? 'active' : '' ?>">
-                                    <a class="page-link" href="index.php?page=<?= $i ?>"> <?= $i ?> </a>
-                                </li>
-                            <?php endfor; ?>
+                            <?php if ($totalPages > 1): ?>
+                                <!-- Previous page link -->
+                                <?php if ($currentPage > 1): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="index.php?page=<?= ($currentPage - 1) ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Previous</a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <!-- Page numbers -->
+                                <?php
+                                // Show limited page numbers with ellipsis
+                                $startPage = max(1, $currentPage - 2);
+                                $endPage = min($totalPages, $currentPage + 2);
+
+                                if ($startPage > 1) {
+                                    echo '<li class="page-item"><a class="page-link" href="index.php?page=1' . (isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '') . '">1</a></li>';
+                                    if ($startPage > 2) {
+                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    }
+                                }
+
+                                for ($i = $startPage; $i <= $endPage; $i++):
+                                ?>
+                                    <li class="page-item <?= ($i == $currentPage) ? 'active' : '' ?>">
+                                        <a class="page-link" href="index.php?page=<?= $i ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                <?php
+                                endfor;
+
+                                if ($endPage < $totalPages) {
+                                    if ($endPage < $totalPages - 1) {
+                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    }
+                                    echo '<li class="page-item"><a class="page-link" href="index.php?page=' . $totalPages . (isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '') . '">' . $totalPages . '</a></li>';
+                                }
+                                ?>
+
+                                <!-- Next page link -->
+                                <?php if ($currentPage < $totalPages): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="index.php?page=<?= ($currentPage + 1) ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Next</a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </ul>
                     </nav>
                 </div>
@@ -420,6 +466,7 @@ if (isset($_POST['filter'])) {
         <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                // Modal handling
                 const modal = document.getElementById('modalId');
                 modal.addEventListener('show.bs.modal', event => {
                     const button = event.relatedTarget;
@@ -432,30 +479,65 @@ if (isset($_POST['filter'])) {
                     document.getElementById('reserveBookAuthor').value = bookAuthor;
                 });
 
-                document.getElementById('searchBar').addEventListener('input', function() {
-                    const searchValue = this.value.toLowerCase();
-                    const rows = document.querySelectorAll('#booksTable tbody tr');
-                    const cards = document.querySelectorAll('.book-card');
+                // Real-time search functionality
+                const searchBar = document.getElementById('searchBar');
+                const searchForm = searchBar.closest('form');
 
-                    rows.forEach(row => {
+                // Handle form submission
+                searchForm.addEventListener('submit', function(e) {
+                    if (!searchBar.value.trim()) {
+                        e.preventDefault(); // Prevent empty searches
+                        return;
+                    }
+                });
+
+                // Handle real-time search for current page
+                searchBar.addEventListener('input', function() {
+                    const searchValue = this.value.toLowerCase().trim();
+                    const tableRows = document.querySelectorAll('#booksTable tbody tr');
+                    const mobileCards = document.querySelectorAll('.book-card');
+                    let hasResults = false;
+
+                    // Search in desktop view
+                    tableRows.forEach(row => {
                         const rowText = row.textContent.toLowerCase();
-                        row.style.display = rowText.includes(searchValue) ? '' : 'none';
+                        if (rowText.includes(searchValue)) {
+                            row.style.display = '';
+                            hasResults = true;
+                        } else {
+                            row.style.display = 'none';
+                        }
                     });
 
-                    cards.forEach(card => {
+                    // Search in mobile view
+                    mobileCards.forEach(card => {
                         const cardText = card.textContent.toLowerCase();
-                        card.style.display = cardText.includes(searchValue) ? '' : 'none';
+                        if (cardText.includes(searchValue)) {
+                            card.style.display = '';
+                            hasResults = true;
+                        } else {
+                            card.style.display = 'none';
+                        }
                     });
+
+                    // Show/hide no results message
+                    const noResultsMsg = document.getElementById('noResultsMessage');
+                    if (noResultsMsg) {
+                        noResultsMsg.style.display = hasResults ? 'none' : 'block';
+                    }
                 });
 
-                // Add animation when changing select value
-                document.getElementById('booksFilter').addEventListener('change', function() {
-                    this.classList.add('changed');
-                    setTimeout(() => this.classList.remove('changed'), 300);
-                });
+                // Filter animations
+                const booksFilter = document.getElementById('booksFilter');
+                if (booksFilter) {
+                    booksFilter.addEventListener('change', function() {
+                        this.classList.add('changed');
+                        setTimeout(() => this.classList.remove('changed'), 300);
+                    });
+                }
 
-                // Add animation for search input
-                document.getElementById('searchBar').addEventListener('input', function() {
+                // Search input animation
+                searchBar.addEventListener('input', function() {
                     this.classList.add('typing');
                     clearTimeout(this.timeout);
                     this.timeout = setTimeout(() => this.classList.remove('typing'), 300);

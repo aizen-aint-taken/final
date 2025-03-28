@@ -2,17 +2,21 @@
 
 session_start();
 
-// Check if user is not logged in or is not an admin
-if (!isset($_SESSION['usertype']) || ($_SESSION['usertype'] !== 'a' && $_SESSION['usertype'] !== 'sa')) {
+// Debug line - temporarily add this to see session contents
+error_log("Session contents: " . print_r($_SESSION, true));
+
+// Simple check for admin access
+if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['a', 'sa'])) {
     header('Location: ../index.php');
-    exit();
+    exit;
 }
+
+// Remove or comment out any other session/redirect checks here
+// DO NOT check for sessions again after this point
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Debug session data
-error_log("Admin page - Session data: " . print_r($_SESSION, true));
 
 include('../config/conn.php');
 
@@ -146,11 +150,13 @@ include('../includes/sidebar.php');
         // client mqtt
         // wss://broker.hivemq.com:8884/mqtt
         // wss://broker.emqx.io:8084/mqtt
-        const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
+        const client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt', {
             reconnectPeriod: 5000,
             clean: true,
             clientId: 'libraryAdmin_' + Math.random().toString(16).substr(2, 8),
-        });
+            username: '',
+            password: '',
+        })
         let notificationCount = 0;
 
         client.on('connect', () => {

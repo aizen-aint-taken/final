@@ -1,5 +1,5 @@
 <?php
-// Add this at the very top of the file, before session_start()
+
 ob_start();
 session_start();
 
@@ -11,13 +11,10 @@ if ($_SESSION['usertype'] !== 'u') {
 include("../config/conn.php");
 $studentId = $_SESSION['student_id'];
 
-// Handle AJAX requests first
 if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     header('Content-Type: application/json');
 
-    // Debug logging
-    error_log("Status: " . $_GET['status']);
-    error_log("Student ID: " . $_SESSION['student_id']);
+
 
     // Build the query
     $query = "SELECT 
@@ -46,8 +43,6 @@ if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequ
             $data[] = $row;
         }
 
-        // Debug logging
-        error_log("Results: " . print_r($data, true));
 
         $stmt->close();
         echo json_encode(['success' => true, 'data' => $data]);
@@ -153,7 +148,7 @@ if ($notifications->num_rows == 0) {
     }
 }
 
-// Add this function after your includes
+
 function getStatusBadgeClass($status)
 {
     switch ($status) {
@@ -189,9 +184,9 @@ function getStatusBadgeClass($status)
     <?php include("../users/sidebar.php"); ?>
     <?php include("../users/header.php"); ?>
 
-    <div class="content-wrapper" style="margin-left: 250px;">
-        <div class="container mt-5">
-            <div class="filter-container mb-5">
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="filter-container mb-4">
                 <label for="form-select" class="filter-label mb-2">
                     <i class="fas fa-filter me-2"></i>Filter by Status
                 </label>
@@ -215,6 +210,11 @@ function getStatusBadgeClass($status)
                         <i class="fas fa-search me-2"></i>Filter
                     </button>
                 </div>
+            </div>
+
+            <!-- Add this right after the filter container -->
+            <div id="noStatusMessage" class="alert alert-warning mt-3" style="display: none;">
+                No reservations found for the selected filter.
             </div>
 
             <!-- Notifications Section -->
@@ -288,31 +288,8 @@ function getStatusBadgeClass($status)
             </div>
 
             <!-- Mobile View -->
-            <div class="d-lg-none">
-                <?php
-                // Reset the result pointer again for mobile view
-                $reservations->data_seek(0);
-                while ($row = $reservations->fetch_assoc()):
-                ?>
-                    <div class="card reservation-card mb-3">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0"><?= htmlspecialchars($row['BOOK_TITLE']) ?></h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                <strong>Reserved Date:</strong><br>
-                                <?= htmlspecialchars($row['RESERVEDATE']) ?>
-                            </p>
-                            <span class="badge <?= getStatusBadgeClass($row['STATUS']) ?>">
-                                <?= htmlspecialchars($row['STATUS']) ?>
-                            </span>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
-            </div>
-
-            <div id="noStatusMessage" class="alert alert-warning mt-3" style="display: none;">
-                No reservations found for the selected filter.
+            <div class="d-lg-none" id="mobileReservations">
+                <!-- Mobile content will be dynamically updated here -->
             </div>
         </div>
     </div>
@@ -352,8 +329,10 @@ function getStatusBadgeClass($status)
 
                         // Clear existing content first
                         $('#reservationTable tbody').empty();
-                        $('.d-lg-none').empty();
+                        $('#mobileReservations').empty();
+                        $('#noStatusMessage').hide();
 
+                        // Update the views
                         updateViews(response.data);
                     },
                     error: function(xhr, status, error) {
@@ -368,11 +347,20 @@ function getStatusBadgeClass($status)
             });
 
             function updateViews(data) {
-                // Update desktop view
                 const tableBody = $('#reservationTable tbody');
+                const mobileContainer = $('#mobileReservations');
+                const noStatusMessage = $('#noStatusMessage');
+
                 if (data.length === 0) {
+                    // Clear both views
                     tableBody.html('<tr><td colspan="3" class="text-center">No reservations found</td></tr>');
+                    mobileContainer.empty();
+                    noStatusMessage.show();
                 } else {
+                    // Hide no results message
+                    noStatusMessage.hide();
+
+                    // Update desktop view
                     const rows = data.map(item => `
                         <tr>
                             <td>${item.RESERVEDATE}</td>
@@ -381,16 +369,11 @@ function getStatusBadgeClass($status)
                         </tr>
                     `).join('');
                     tableBody.html(rows);
-                }
 
-                // Update mobile view
-                const mobileContainer = $('.d-lg-none');
-                if (data.length === 0) {
-                    mobileContainer.html('<div class="alert alert-warning">No reservations found for the selected status.</div>');
-                } else {
-                    const cards = data.map(item => `
+                    // Update mobile view
+                    const mobileContent = data.map(item => `
                         <div class="card reservation-card mb-3">
-                            <div class="card-header">
+                            <div class="card-header bg-primary text-white">
                                 <h5 class="card-title mb-0">${item.BOOK_TITLE}</h5>
                             </div>
                             <div class="card-body">
@@ -404,11 +387,10 @@ function getStatusBadgeClass($status)
                             </div>
                         </div>
                     `).join('');
-                    mobileContainer.html(cards);
-                }
 
-                // Update no results message
-                $('#noStatusMessage').toggle(data.length === 0);
+                    // Replace entire mobile container content
+                    mobileContainer.html(mobileContent);
+                }
             }
         });
 

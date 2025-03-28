@@ -51,11 +51,30 @@ while ($row = $result4->fetch_assoc()) {
 }
 
 
-$sql5 = "SELECT 
-    (SELECT COUNT(*) FROM reservations WHERE STATUS = 'Returned') as returned_count,
-    (SELECT COUNT(*) FROM reservations WHERE STATUS = 'Approved') as borrowed_count";
-$result5 = $conn->query($sql5);
-$borrowStats = $result5->fetch_assoc();
+$borrowStats = [
+    'approved_count' => 0,
+    'returned_count' => 0
+];
+
+try {
+    // Count approved books
+    $stmt = $conn->prepare("SELECT COUNT(*) as approved_count 
+                           FROM reservations 
+                           WHERE STATUS = 'Approved'");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $borrowStats['approved_count'] = $result->fetch_assoc()['approved_count'];
+
+    // Count returned books
+    $stmt = $conn->prepare("SELECT COUNT(*) as returned_count 
+                           FROM reservations 
+                           WHERE STATUS = 'Returned'");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $borrowStats['returned_count'] = $result->fetch_assoc()['returned_count'];
+} catch (Exception $e) {
+    error_log("Error fetching borrow stats: " . $e->getMessage());
+}
 
 
 $data = [

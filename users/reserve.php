@@ -36,29 +36,35 @@ if (isset($_POST['reserve'])) {
             $stmt->execute();
 
 
-            $mqtt = new MqttClient('broker.hivemq.com', 1883, uniqid());
+            $server   = 'broker.hivemq.com';
+            $port     = 1883;
+            $clientId = 'phpMQTT-publisher-' . rand(1, 10000);
 
-            $settings = (new ConnectionSettings)->setUsername(null)->setPassword(null);
-            // var_dump($settings);
-            $mqtt->connect($settings, true);
+            try {
+                $mqtt = new MqttClient($server, $port, $clientId);
 
-            $notification = [
-                'type' => 'reserve',
-                'message' => 'A book has been reserved!',
-                'book_id' => $bookID,
-                'name' => $name,
-                'student_id' => $studentID,
-                'title' => $_POST['book_title'],
-                'author' => $_POST['book_author']
-            ];
+                $connectionSettings = (new ConnectionSettings)
+                    ->setConnectTimeout(5)
+                    ->setUseTls(false)
+                    ->setTlsSelfSignedAllowed(true);
 
-            // var_dump($notification);
+                $mqtt->connect($connectionSettings, true);
 
+                // Your message data
+                $message = json_encode([
+                    'title' => $_POST['book_title'],
+                    'author' => $_POST['book_author'],
+                    'name' => $name
+                ]);
 
-            $mqtt->publish('library/admin/notifications', json_encode($notification), MqttClient::QOS_AT_MOST_ONCE);
-            $mqtt->disconnect();
-            file_put_contents('mqtt_log.txt', json_encode($notification) . PHP_EOL, FILE_APPEND);
-
+                // Publish the message
+                $mqtt->publish('library/admin/notifications', $message, 0);
+                $mqtt->disconnect();
+            } catch (Exception $e) {
+                // Log the error but don't stop the reservation process
+                error_log("MQTT Error: " . $e->getMessage());
+                // Continue with the rest of the reservation process
+            }
 
             $_SESSION['success'] = "Reservation successful!";
         } else {

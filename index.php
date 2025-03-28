@@ -16,7 +16,7 @@ if (isset($_SESSION['usertype'])) {
     if ($_SESSION['usertype'] === 'u') {
         header('Location: users/index.php');
         exit();
-    } elseif ($_SESSION['usertype'] === 'a') {
+    } elseif ($_SESSION['usertype'] === 'a' || $_SESSION['usertype'] === 'sa') {
         header('Location: admin/index.php');
         exit();
     }

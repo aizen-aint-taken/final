@@ -151,7 +151,6 @@ if (isset($_POST['addAdmin'])) {
 if (isset($_GET['delete'])) {
     $deleteEmail = $_GET['delete'];
 
-    // First check if the target account is a super admin
     $checkRole = $conn->prepare("SELECT role FROM admin WHERE email = ?");
     $checkRole->bind_param("s", $deleteEmail);
     $checkRole->execute();
@@ -185,12 +184,12 @@ if (isset($_POST['updateAdmin'])) {
     $conn->begin_transaction();
 
     try {
-        // Update admin table
+
         $stmt = $conn->prepare("UPDATE admin SET name = ?, role = ? WHERE email = ?");
         $stmt->bind_param("sss", $name, $role, $email);
         $stmt->execute();
 
-        // Update webuser table to match the role
+
         $usertype = ($role === 'sa') ? 'sa' : 'a';
         $stmt2 = $conn->prepare("UPDATE webuser SET usertype = ? WHERE email = ?");
         $stmt2->bind_param("ss", $usertype, $email);
@@ -210,7 +209,7 @@ $admins = $conn->query("SELECT * FROM admin");
 include('../includes/header.php');
 include('../includes/sidebar.php');
 
-// Redirect if not super admin
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
     header('Location: ../index.php');
     exit;
@@ -547,9 +546,23 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Add this for handling the change password modal
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle change password button clicks
+            // Add event listeners for edit buttons
+            document.querySelectorAll('.editAdmin').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Get data from button attributes
+                    const name = this.getAttribute('data-name');
+                    const email = this.getAttribute('data-email');
+                    const role = this.getAttribute('data-role');
+
+                    // Populate the edit modal fields
+                    document.getElementById('editName').value = name;
+                    document.getElementById('editEmail').value = email;
+                    document.getElementById('editEmail').readOnly = true; // Make email readonly since it's used as identifier
+                    document.getElementById('editRole').value = role;
+                });
+            });
+
             document.querySelectorAll('[data-bs-target="#changeAdminPasswordModal"]').forEach(button => {
                 button.addEventListener('click', function() {
                     const adminEmail = this.getAttribute('data-email');
@@ -559,7 +572,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
                 });
             });
 
-            // Handle password change form submission
+
             const changePasswordForm = document.querySelector('#changeAdminPasswordModal form');
             if (changePasswordForm) {
                 changePasswordForm.addEventListener('submit', function(e) {
@@ -568,7 +581,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
                     const formData = new FormData(this);
                     formData.append('change_admin_password', '1');
 
-                    fetch('change_password.php', { // Changed the fetch URL to point to change_password.php
+                    fetch('change_password.php', {
+
                             method: 'POST',
                             body: formData
                         })

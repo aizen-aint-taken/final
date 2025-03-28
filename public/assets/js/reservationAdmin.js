@@ -18,20 +18,19 @@
                     let newStatus = dropdownElement.value;
                     let previousStatus = dropdownElement.dataset.previous;
 
-                    // Status transition validation rules
+                 
                     const invalidTransitions = {
                         'Approved': ['Pending', 'Rejected'],
                         'Returned': ['Pending', 'Approved', 'Rejected']
                     };
 
-                    // Check if the transition is invalid
+                
                     if (invalidTransitions[previousStatus] && invalidTransitions[previousStatus].includes(newStatus)) {
                         alert(`❌ Cannot change status from "${previousStatus}" to "${newStatus}"`);
                         dropdownElement.value = previousStatus;
                         return;
                     }
 
-                    // Special validation for Returned status
                     if (newStatus === 'Returned' && previousStatus !== 'Approved') {
                         alert("❌ Can only mark approved books as returned.");
                         dropdownElement.value = previousStatus;
@@ -58,10 +57,8 @@
                                 alert(`✅ ${data.message}`);
                                 dropdownElement.dataset.previous = newStatus;
 
-                                // Update the row display
                                 const row = dropdownElement.closest('tr');
 
-                                // If marking as Returned, hide the due date input
                                 if (newStatus === 'Returned') {
                                     const dueDateInput = row.querySelector('.due-date-input');
                                     if (dueDateInput) {
@@ -69,7 +66,6 @@
                                     }
                                 }
 
-                                // Update due date display if status is Approved
                                 if (newStatus === 'Approved' && data.dueDate) {
                                     const dueDateCell = row.querySelector('[data-label="Return Date"]');
                                     if (dueDateCell) {
