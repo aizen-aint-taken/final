@@ -27,7 +27,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset($_POST['password'])) {
     try {
         // Check if user exists in webuser table by email or username
-        $stmt = $conn->prepare("SELECT * FROM webuser WHERE email = ? OR name = ?");
+        $stmt = $conn->prepare("SELECT * FROM webuser WHERE BINARY email = ? OR BINARY name = ?");
         $login_id = trim($_POST['login_id']);
         $userpassword = $_POST['password'];
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
 
             if ($usertype == 'u') {
                 // Check user credentials
-                $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR name = ?");
+                $stmt = $conn->prepare("SELECT * FROM users WHERE BINARY email = ? OR BINARY name = ?");
                 $stmt->bind_param("ss", $usermail, $username);
                 $stmt->execute();
                 $validate = $stmt->get_result();
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
                 }
             } else if ($usertype == 'a' || $usertype == 'sa') {
                 // Check admin credentials
-                $stmt = $conn->prepare("SELECT * FROM admin WHERE email = ? OR name = ?");
+                $stmt = $conn->prepare("SELECT * FROM admin WHERE BINARY email = ? OR BINARY name = ?");
                 $stmt->bind_param("ss", $usermail, $username);
                 $stmt->execute();
                 $validate = $stmt->get_result();
@@ -106,6 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
     }
 }
 ?>
+
+
 
 
 

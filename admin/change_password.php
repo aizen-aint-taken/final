@@ -14,7 +14,6 @@ if (!isset($_SESSION['usertype']) || ($_SESSION['usertype'] !== 'a' && $_SESSION
     exit;
 }
 
-// Handle student password change
 if (isset($_POST['change_password'])) {
     try {
         if (!isset($_POST['student_id'], $_POST['student_email'], $_POST['new_password'], $_POST['confirm_password'])) {
