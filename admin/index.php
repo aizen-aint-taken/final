@@ -2,17 +2,15 @@
 
 session_start();
 
-// Debug line - temporarily add this to see session contents
+
 error_log("Session contents: " . print_r($_SESSION, true));
 
-// Simple check for admin access
+
 if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['a', 'sa'])) {
     header('Location: ../index.php');
     exit;
 }
 
-// Remove or comment out any other session/redirect checks here
-// DO NOT check for sessions again after this point
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
