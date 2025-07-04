@@ -1,0 +1,39 @@
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card-custom {
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    background-color: white;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.btn-primary {
+    border-radius: 10px;
+}
+
+@media (max-width: 576px) {
+    .card-custom {
+        margin-top: 60px;
+        padding: 20px 15px;
+    }
+}
+
+@media (min-width: 577px) {
+    .card-custom {
+        margin-top: 100px;
+        padding: 30px 40px;
+    }
+}

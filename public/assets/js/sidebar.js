@@ -40,7 +40,6 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Handle window resize
 window.addEventListener('resize', function() {
     const sidebar = document.querySelector('.main-sidebar');
     const backdrop = document.querySelector('.sidebar-backdrop');

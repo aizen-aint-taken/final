@@ -1,11 +1,11 @@
 <?php
 require_once 'config/conn.php';
 
-// Start transaction
+
 $conn->begin_transaction();
 
 try {
-    // Function to check if password is already hashed
+
     function isHashed($password)
     {
         return strlen($password) > 32 && (strpos($password, '$2y$') === 0 || strpos($password, '$2a$') === 0);

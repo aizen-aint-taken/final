@@ -57,7 +57,7 @@ $borrowStats = [
 ];
 
 try {
-    // Count approved books
+
     $stmt = $conn->prepare("SELECT COUNT(*) as approved_count 
                            FROM reservations 
                            WHERE STATUS = 'Approved'");
@@ -65,7 +65,7 @@ try {
     $result = $stmt->get_result();
     $borrowStats['approved_count'] = $result->fetch_assoc()['approved_count'];
 
-    // Count returned books
+ 
     $stmt = $conn->prepare("SELECT COUNT(*) as returned_count 
                            FROM reservations 
                            WHERE STATUS = 'Returned'");

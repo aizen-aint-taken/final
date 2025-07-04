@@ -1,7 +1,7 @@
   $(document).ready(function() {
 
                 $('.rb').on('click', function() {
-                    // alert()
+                  
                     const bookId = $(this).data('id');
                     const bookTitle = $(this).data('title');
                     const bookAuthor = $(this).data('author');
@@ -13,7 +13,7 @@
                 });
 
                 $('.rbm').on('click', function() {
-                    // alert()
+                
                     const bookId = $(this).data('id');
                     const bookTitle = $(this).data('title');
                     const bookAuthor = $(this).data('author');

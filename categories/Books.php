@@ -17,7 +17,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     exit;
 }
 
-// Pagination with prepared statements
+
 $booksPerPage = 5;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $booksPerPage;
@@ -234,14 +234,14 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                             data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
                                             data-language="<?= htmlspecialchars($book['Subject']) ?>"
                                             data-stock="<?= htmlspecialchars($book['Stock']) ?>">
-                                            <i class="bi bi-pencil-square fs-5"></i> Edit
+                                            <i class="bi bi-pencil-square fs-5"></i>
                                         </button>
 
                                         <button class="btn btn-danger btn-sm delete-btn"
                                             data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteBookModal">
-                                            <i class="bi bi-trash fs-5"></i> Delete
+                                            <i class="bi bi-trash fs-5"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -295,11 +295,11 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                 data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
                                 data-language="<?= htmlspecialchars($book['Subject']) ?>"
                                 data-stock="<?= htmlspecialchars($book['Stock']) ?>">
-                                <i class="bi bi-pencil-square fs-5"></i> Edit
+                                <i class="bi bi-pencil-square fs-5"></i>
                             </button>
                             <button class="btn btn-danger btn-sm mb-2 edit-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                 data-bs-toggle="modal" data-bs-target="#deleteBookModal">
-                                <i class="bi bi-trash fs-5"></i> Delete
+                                <i class="bi bi-trash fs-5"></i>
                             </button>
                         </div>
                     </div>

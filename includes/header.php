@@ -58,8 +58,8 @@
 <body class="hold-transition sidebar-mini layout-fixed light-mode">
   <div class="wrapper">
 
-    <form id="logout-form" action="logout.php" method="POST" style="display:none;">
-      <!-- Form content, if needed (hidden form for server-side session handling) -->
+    <form id="logout-form" action="../logout.php" method="POST" style="display:none;">
+
     </form>
 
     <nav class="main-header navbar navbar-expand navbar-light">
@@ -69,7 +69,19 @@
         </li>
       </ul>
 
+      <div class=" notification-bell text-center" onclick="toggleNotifications()">
+        <i class="fa fa-bell" style="font-size: 30px; color: black;"></i>
+        <span class="badge" id="notification-count">0</span>
+      </div>
+
+
+      <div class="notification-dropdown" id="notification-dropdown">
+        <div id="notifications"></div>
+      </div>
+
       <ul class="navbar-nav ms-auto">
+
+
         <li class="nav-item">
           <a href="index.php" class="nav-link">Home</a>
         </li>

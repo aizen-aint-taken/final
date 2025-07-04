@@ -9,28 +9,20 @@
     }
 
 
-    .container {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px) saturate(150%) brightness(120%);
-        -webkit-backdrop-filter: blur(10px) saturate(150%) brightness(120%);
-        border-radius: 15px;
-        /* border: 1px solid rgba(255, 255, 255, 0.4); */
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-    }
+ 
 
     /* Alerts with enhanced glassy feel */
     .alert {
         background: rgba(255, 255, 255, 0.3);
-        /* Slightly transparent */
+        
         backdrop-filter: blur(12px);
-        /* Softer, noticeable blur */
+       
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.5);
-        /* Thin, frosty border */
+       
         padding: 15px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        /* Makes alerts pop */
+     
     }
 
     .alert .handler-message,

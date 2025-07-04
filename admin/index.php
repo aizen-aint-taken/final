@@ -30,11 +30,8 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['a', 'sa'])) {
     exit;
 }
 
-// restrict access to admin only 
-// if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'a') {
-//     header('location: ../index.php');
-//     exit;
-// }
+
+
 
 $subject = isset($_GET['subject']) ? $_GET['subject'] : '';
 
@@ -63,44 +60,40 @@ include('../includes/sidebar.php');
     <meta name="author" content="Ely Gian Ga">
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/assets/css/font-awesome.css">
-    <link rel="stylesheet" href="../public/assets/css/admin_index.css">
+    <!-- <link rel="stylesheet" href="../public/assets/css/admin_index.css"> -->
     <link rel="stylesheet" href="../public/assets/css/useradmin.css">
     <title>Library Inventory</title>
 </head>
 <style>
-    body {
-        background: url('../maharlika/login image.jpg') no-repeat center center fixed;
-        background-size: cover;
-        color: #fff;
+    .content-wrapper {
+        background-color: rgba(234, 219, 205, 0.91);
+
+    }
+
+    .container {
+        padding: 30px;
+    }
+
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #333;
+        margin: 20px 0;
     }
 </style>
 
-
-
 <body>
     <div class="content-wrapper">
-        <div class="container">
-            <h2 class="text-center text-white">List of Library Collection</h2>
-            <!-- Notification Bell -->
-            <div class="notification-bell text-center" onclick="toggleNotifications()">
-                <i class="fa fa-bell" style="font-size: 24px; color: white;"></i>
-                <span class="badge" id="notification-count">0</span>
-            </div>
-            <!-- Notification Dropdown -->
-            <div class="notification-dropdown" id="notification-dropdown">
-                <div id="notifications"></div>
-            </div>
-        </div>
 
         <!-- Main Content -->
         <section class="content">
+
             <div class="container-fluid">
                 <!-- Tabs Navigation -->
                 <ul class="nav nav-tabs justify-content-center" id="dashboard-tabs" role="tablist">
                     <li class="nav-item">
-                        <!-- <a class="nav-link active" id="literature-tab" data-bs-toggle="tab" href="#literature" role="tab" aria-controls="literature" aria-selected="true">
-                            <i class="fas fa-book"></i> Books
-                        </a> -->
+
                     </li>
                 </ul>
 
@@ -109,6 +102,11 @@ include('../includes/sidebar.php');
                     <!-- Literature Tab -->
                     <div class="tab-pane fade show active" id="literature" role="tabpanel" aria-labelledby="literature-tab">
                         <div class="card">
+
+                            <div class="container">
+                                <h2 class="text-center text-black" style="font-size: 50px;">List of Library Collection</h2>
+                            </div>
+                            <hr class="hr">
                             <div class="card-body">
                                 <?php
                                 include("../categories/Books.php");

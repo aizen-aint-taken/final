@@ -1,11 +1,10 @@
 
     .content-wrapper {
-        background-color: rgba(0, 0, 0, 0.5);
         padding: 20px;
-        border-radius: 10px;
+       
     }
 
-    /* Notification Bell Styles */
+ 
     .notification-bell {
         position: relative;
         display: inline-block;
@@ -25,7 +24,7 @@
 
     .notification-dropdown {
         display: none;
-        /* position: fixed; */
+       
         top: 70px;
         right: 20px;
         background-color: white;

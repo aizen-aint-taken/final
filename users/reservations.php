@@ -16,7 +16,7 @@ if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequ
 
 
 
-    // Build the query
+
     $query = "SELECT 
                 R.ReserveDate AS RESERVEDATE,
                 B.Title AS BOOK_TITLE,
@@ -212,6 +212,24 @@ function getStatusBadgeClass($status)
                 </div>
             </div>
 
+            <!-- QR Code na part -->
+            <div class="mb-4 text-center">
+                <?php
+
+                $qrStmt = $conn->prepare("SELECT COUNT(*) as cnt FROM reservations WHERE StudentID = ? AND STATUS = 'Approved' AND (DueDate IS NOT NULL AND DueDate >= CURDATE())");
+                $qrStmt->bind_param("i", $studentId);
+                $qrStmt->execute();
+                $qrResult = $qrStmt->get_result();
+                $qrCount = $qrResult->fetch_assoc()['cnt'];
+                $qrStmt->close();
+                if ($qrCount > 3): ?>
+                    <div class="alert alert-info">You have more than 3 borrowed books. Please present this QR code to the admin when returning your books.</div>
+                    <img src="generate_qr.php?<?= time() ?>" alt="Your QR Code" style="max-width: 200px;" />
+                <?php else: ?>
+                    <div class="alert alert-secondary">QR code will be available when you have more than 3 active borrowings.</div>
+                <?php endif; ?>
+            </div>
+
             <!-- Add this right after the filter container -->
             <div id="noStatusMessage" class="alert alert-warning mt-3" style="display: none;">
                 No reservations found for the selected filter.
@@ -297,118 +315,7 @@ function getStatusBadgeClass($status)
 
     <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Use event delegation
-            $(document).on('click', '#filterButton', function(e) {
-                e.preventDefault();
-                e.stopPropagation(); // Stop event from bubbling up
-
-                const status = $('#form-select').val();
-                const $button = $(this);
-                const originalHtml = $button.html();
-
-                // Set loading state
-                $button.html('<span class="spinner-border spinner-border-sm me-2"></span>Filtering...');
-
-                $.ajax({
-                    url: window.location.pathname,
-                    method: 'GET',
-                    data: {
-                        status: status
-                    },
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function(response) {
-                        if (!response.data) {
-                            console.error('Invalid response:', response);
-                            return;
-                        }
-
-                        // Clear existing content first
-                        $('#reservationTable tbody').empty();
-                        $('#mobileReservations').empty();
-                        $('#noStatusMessage').hide();
-
-                        // Update the views
-                        updateViews(response.data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', error);
-                        alert('An error occurred while filtering. Please try again.');
-                    },
-                    complete: function() {
-                        // Reset button state
-                        $button.html(originalHtml);
-                    }
-                });
-            });
-
-            function updateViews(data) {
-                const tableBody = $('#reservationTable tbody');
-                const mobileContainer = $('#mobileReservations');
-                const noStatusMessage = $('#noStatusMessage');
-
-                if (data.length === 0) {
-                    // Clear both views
-                    tableBody.html('<tr><td colspan="3" class="text-center">No reservations found</td></tr>');
-                    mobileContainer.empty();
-                    noStatusMessage.show();
-                } else {
-                    // Hide no results message
-                    noStatusMessage.hide();
-
-                    // Update desktop view
-                    const rows = data.map(item => `
-                        <tr>
-                            <td>${item.RESERVEDATE}</td>
-                            <td>${item.BOOK_TITLE}</td>
-                            <td><span class="badge ${getStatusBadgeClass(item.STATUS)}">${item.STATUS}</span></td>
-                        </tr>
-                    `).join('');
-                    tableBody.html(rows);
-
-                    // Update mobile view
-                    const mobileContent = data.map(item => `
-                        <div class="card reservation-card mb-3">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="card-title mb-0">${item.BOOK_TITLE}</h5>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <strong>Reserved Date:</strong><br>
-                                    ${item.RESERVEDATE}
-                                </p>
-                                <span class="badge ${getStatusBadgeClass(item.STATUS)}">
-                                    ${item.STATUS}
-                                </span>
-                            </div>
-                        </div>
-                    `).join('');
-
-                    // Replace entire mobile container content
-                    mobileContainer.html(mobileContent);
-                }
-            }
-        });
-
-        function getStatusBadgeClass(status) {
-            switch (status) {
-                case 'Approved':
-                    return 'badge-success';
-                case 'Rejected':
-                    return 'badge-danger';
-                case 'Returned':
-                    return 'badge-warning';
-                case 'Pending':
-                    return 'badge-secondary';
-                default:
-                    return 'badge-secondary';
-            }
-        }
-    </script>
+    <script src="../public/assets/userReservations.js"></script>
 </body>
 
 </html>

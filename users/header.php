@@ -24,11 +24,7 @@
                         <span><?= htmlspecialchars($_SESSION['user']) ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
-                        <!-- <li>
-                            <a class="dropdown-item py-2" href="profile.php">
-                                <i class="fas fa-user me-2"></i> Profile
-                            </a>
-                        </li> -->
+
                         <li>
                             <hr class="dropdown-divider">
                         <li>
@@ -75,6 +71,7 @@
         background: linear-gradient(135deg, rgb(184, 172, 175), rgb(97, 115, 115));
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         min-height: var(--header-height);
+        z-index: 1;
     }
 
     .navbar-brand {
@@ -168,7 +165,6 @@
         transform: scale(0.95);
     }
 </style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const toggleBtn = document.getElementById('sidebarToggleBtn');

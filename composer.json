@@ -1,6 +1,8 @@
 {
   "require": {
-    "php-mqtt/client": "*"
+    "php-mqtt/client": "*",
+    "kreait/firebase-php": "^5.26",
+    "endroid/qr-code": "^5.1"
   },
   "require-dev": {
     "phpunit/phpunit": "10"

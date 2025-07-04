@@ -57,13 +57,12 @@ if (isset($_POST['reserve'])) {
                     'name' => $name
                 ]);
 
-                // Publish the message
+
                 $mqtt->publish('library/admin/notifications', $message, 0);
                 $mqtt->disconnect();
             } catch (Exception $e) {
-                // Log the error but don't stop the reservation process
+
                 error_log("MQTT Error: " . $e->getMessage());
-                // Continue with the rest of the reservation process
             }
 
             $_SESSION['success'] = "Reservation successful!";

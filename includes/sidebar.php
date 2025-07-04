@@ -1,11 +1,11 @@
 <?php
-// Add this at the top of sidebar.php
+
 error_log('Current page: ' . $_SERVER['PHP_SELF']);
 error_log('User type: ' . (isset($_SESSION['usertype']) ? $_SESSION['usertype'] : 'not set'));
 
 include '../config/conn.php';
 
-// Secure function to check if current user is super admin
+
 function isSuperAdmin()
 {
   return isset($_SESSION['role']) && $_SESSION['role'] === 'sa';
@@ -40,7 +40,7 @@ function isSuperAdmin()
         <li class="nav-item">
           <a href="../analysis/displayStats.php" class="nav-link">
             <i class="nav-icon fas fa-chart-line"></i>
-            <p>Analytics</p>
+            <p>Analysis</p>
 
           </a>
         </li>
