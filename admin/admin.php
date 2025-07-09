@@ -201,8 +201,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'sa') {
     include('../adminModals/editModal.php');
     ?>
     <div class="main-content">
-        <div class="page-header">
+        <div class="page-header d-flex flex-column flex-md-row align-items-center justify-content-between">
             <h1 class="text-center mb-4">List of Librarian Accounts</h1>
+            <a href="scan_qr.php" class="btn btn-primary mb-3 mb-md-0"><i class="fas fa-qrcode me-2"></i>Scan Student QR Code</a>
         </div>
 
         <div class="container-fluid px-4">

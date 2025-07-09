@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once '../config/conn.php';
-// require_once '../student/edit.php';
 require_once 'change_password.php';
 
 if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
@@ -11,10 +10,19 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     exit;
 }
 
-// if ($_SESSION['usertype'] !== 'a') {
-//     header("Location: ../index.php");
-//     exit;
-// }
+
+
+$years = $conn->query("SELECT DISTINCT year FROM users ORDER BY year DESC");
+
+$SectionYear =  isset($_GET['year']) && $_GET['year'] !== '' ? $_GET['year'] : null;
+if ($SectionYear) {
+    $stmt = $conn->prepare("SELECT * FROM users WHERE year = ?");
+    $stmt->bind_param("s", $SectionYear);
+    $stmt->execute();
+    $users = $stmt->get_result();
+} else {
+    $users = $conn->query("SELECT * FROM users");
+}
 
 $error = '';
 $success = '';
@@ -115,8 +123,6 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
     }
 }
 
-$users = $conn->query("SELECT * FROM `users`");
-
 include('../includes/header.php');
 include('../includes/sidebar.php');
 
@@ -135,157 +141,10 @@ include('../includes/sidebar.php');
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/assets/css/addStudent.css">
-    <!-- <link rel="stylesheet" href="../public/assets/css/student.css"> -->
+    <link rel="stylesheet" href="../public/assets/css/student.css">
     <title>Student Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            padding: 2rem;
-            transition: margin-left 0.3s ease;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-add-student {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-add-student:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-            color: #1e3c72;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-            transform: scale(1.01);
-        }
-
-        .btn-edit,
-        .btn-delete {
-            padding: 0.5rem;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-edit {
-            background-color: #ffc107;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-edit:hover,
-        .btn-delete:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            border-radius: 15px 15px 0 0;
-            border: none;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-control {
-            border-radius: 10px;
-            padding: 0.8rem;
-            border: 1px solid #dee2e6;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
-            border-color: #1e3c72;
-        }
-
-        .alert {
-            border-radius: 10px;
-            border: none;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-
-            .page-header {
-                margin-top: 60px;
-                padding: 1.5rem;
-            }
-
-            .table-container {
-                padding: 1rem;
-            }
-
-            .table {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -294,27 +153,33 @@ include('../includes/sidebar.php');
             <h1 class="h3 mb-0 text-center">Student Management</h1>
             <p class="mb-0 text-center">Manage student accounts and information</p>
         </div>
-
+        <div class="row mb-3">
+            <div class="col-12 mb-2">
+                <div class="input-group search-group w-100">
+                    <input type="text" id="studentSearchInput" class="form-control" placeholder="Search by name, email, section...">
+                </div>
+            </div>
+            <div class="col-12">
+                <form id="yearFilterForm" class="w-100">
+                    <label for="year" class="form-label">Filter by Year Level Who Borrowed:</label>
+                    <select name="year" class="form-select w-100" id="yearFilterSelect">
+                        <option value="">All Year Level</option>
+                        <?php foreach ($years as $row): ?>
+                            <option value="<?= htmlspecialchars($row['year']) ?>" <?= ($SectionYear == $row['year']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($row['year']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
+            </div>
+        </div>
         <div class="d-flex justify-content-end mb-4">
             <button class="btn btn-add-student" data-bs-toggle="modal" data-bs-target="#addBookModal">
                 <i class="fas fa-plus me-2"></i>Add Student
             </button>
         </div>
-
-        <?php if (!empty($success)): ?>
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle me-2"></i><?= htmlspecialchars($success) ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (!empty($error)): ?>
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i><?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-
-        <div class="table-container" style="border-top: 10px solidrgb(185, 22, 177);">
-            <table class="table table-hover">
+        <div class="table-responsive">
+            <table class="table table-hover d-none d-md-table">
                 <thead>
                     <tr>
                         <th>FULL NAME</th>
@@ -368,7 +233,7 @@ include('../includes/sidebar.php');
             </table>
         </div>
 
-        <!-- Add this after your table-container div -->
+
         <div class="mobile-cards d-md-none">
             <?php foreach ($users as $user): ?>
                 <div class="card mb-3">
@@ -410,43 +275,6 @@ include('../includes/sidebar.php');
                 </div>
             <?php endforeach; ?>
         </div>
-
-        <!-- Add these styles to your existing style section -->
-        <style>
-            @media (max-width: 768px) {
-                .table-container {
-                    display: none;
-                }
-
-                .mobile-cards {
-                    padding: 15px;
-                }
-
-                .mobile-cards .card {
-                    border-radius: 15px;
-                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                    border: none;
-                }
-
-                .mobile-cards .card-title {
-                    color: #1e3c72;
-                    font-weight: 600;
-                    text-align: center;
-                    margin-bottom: 15px;
-                }
-
-                .mobile-cards .card-text p {
-                    margin-bottom: 8px;
-                    border-bottom: 1px solid #eee;
-                    padding-bottom: 8px;
-                }
-
-                .main-content {
-                    padding-top: 60px;
-                    /* Add space for fixed menu toggle */
-                }
-            }
-        </style>
 
         <!-- Add Student Modal -->
         <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
@@ -569,15 +397,14 @@ include('../includes/sidebar.php');
                 </div>
             </div>
         </div>
-
-
-
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../student/editStudent.js"></script>
     <script src="../public/assets/js/resetpassword.js"></script>
+    <script src="../public/assets/js/student.js"></script>
 
 
 </body>

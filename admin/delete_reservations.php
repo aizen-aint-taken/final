@@ -2,13 +2,11 @@
 session_start();
 require_once '../config/conn.php';
 
-// Check if user is authorized
 if (!isset($_SESSION['usertype']) || ($_SESSION['usertype'] !== 'a' && $_SESSION['usertype'] !== 'sa')) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
     exit;
 }
 
-// Get the POST data
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (!isset($data['ids']) || empty($data['ids'])) {
@@ -17,10 +15,9 @@ if (!isset($data['ids']) || empty($data['ids'])) {
 }
 
 try {
-    // Start transaction
+
     $conn->begin_transaction();
 
-    // Prepare the delete statement
     $ids = array_map('intval', $data['ids']);
     $placeholders = str_repeat('?,', count($ids) - 1) . '?';
 

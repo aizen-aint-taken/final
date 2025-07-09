@@ -301,4 +301,8 @@ body {
         #noStatusMessage.show {
             display: block;
         }
+
+.qr-section {
+    margin-bottom: 3rem !important;
+}
    

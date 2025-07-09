@@ -213,7 +213,7 @@ function getStatusBadgeClass($status)
             </div>
 
             <!-- QR Code na part -->
-            <div class="mb-4 text-center">
+            <div class="mb-4 text-center qr-section">
                 <?php
 
                 $qrStmt = $conn->prepare("SELECT COUNT(*) as cnt FROM reservations WHERE StudentID = ? AND STATUS = 'Approved' AND (DueDate IS NOT NULL AND DueDate >= CURDATE())");
@@ -224,7 +224,7 @@ function getStatusBadgeClass($status)
                 $qrStmt->close();
                 if ($qrCount > 3): ?>
                     <div class="alert alert-info">You have more than 3 borrowed books. Please present this QR code to the admin when returning your books.</div>
-                    <img src="generate_qr.php?<?= time() ?>" alt="Your QR Code" style="max-width: 200px;" />
+                    <img src="generate_qr.php?<?= time() ?>" alt="Your QR Code" style="max-width: 150px;" />
                 <?php else: ?>
                     <div class="alert alert-secondary">QR code will be available when you have more than 3 active borrowings.</div>
                 <?php endif; ?>
@@ -315,7 +315,10 @@ function getStatusBadgeClass($status)
 
     <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../public/assets/userReservations.js"></script>
+    <script src="../public/assets/js/userReservations.js"></script>
+
+
+
 </body>
 
 </html>

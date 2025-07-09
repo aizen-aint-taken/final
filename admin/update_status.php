@@ -12,15 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatus = $_POST['status'];
     $previousStatus = $_POST['previous_status'];
 
-    // Define valid status transitions
+
     $validTransitions = [
         'Pending' => ['Approved', 'Rejected'],
         'Approved' => ['Returned'],
         'Rejected' => ['Pending'],
-        'Returned' => [] // No valid transitions from Returned
     ];
 
-    // Validate status transition
+
     if (
         !isset($validTransitions[$previousStatus]) ||
         !in_array($newStatus, $validTransitions[$previousStatus])
@@ -32,12 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Start transaction
     $conn->begin_transaction();
 
     try {
         if ($newStatus === 'Approved') {
-            // Set due date to 7 days from now when approving
+
             $dueDate = date('Y-m-d', strtotime('+7 days'));
             $updateStmt = $conn->prepare("UPDATE reservations SET STATUS = ?, DueDate = ? WHERE id = ?");
             $updateStmt->bind_param("ssi", $newStatus, $dueDate, $reservationId);

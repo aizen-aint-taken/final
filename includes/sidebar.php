@@ -61,6 +61,17 @@ function isSuperAdmin()
         </li>
 
         <li class="nav-item">
+          <a href="../admin/scan_qr.php" class="nav-link">
+            <i class="nav-icon fas fa-qrcode"></i>
+            <p>Scan QR</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <hr class="sidebar-divider">
+        </li>
+
+        <li class="nav-item">
           <a href="../admin/student.php" class="nav-link">
             <i class="nav-icon fa-regular fa-circle-user"></i>
             <p>Add Student</p>

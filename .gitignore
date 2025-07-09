@@ -1,2 +1,3 @@
 private/firebase-credentials.json
-ac
+acprivate/firebase-credentials.json
+git rm --cached error.log

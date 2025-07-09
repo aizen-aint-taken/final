@@ -1,79 +1,47 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // DELETE USER
-    document.querySelectorAll(".btn-delete").forEach((button) => {
-        button.addEventListener("click", function (e) {
-            e.preventDefault();
-            let row = this.closest("tr");
-            let userId = row.querySelector("input[name='delete_id']").value;
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "This action cannot be undone!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch("../admin/deleteStudent.php", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: `delete_id=${userId}`
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        if (data.trim() === "success") {
-                            row.remove();
-                            Swal.fire("Deleted!", "Student has been deleted.", "success");
-                        } else {
-                            Swal.fire("Error!", "Failed to delete student.", "error");
-                        }
-                    });
-                }
-            });
-        });
-    });
-
- 
-    document.querySelector("#editStudentModal form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-
-        fetch("../admin/student.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            if (data.trim() === "success") {
-                Swal.fire("Updated!", "Student details updated.", "success").then(() => {
-                    location.reload();
-                });
+$(document).ready(function() {
+    function filterStudents() {
+        var search = $('#studentSearchInput').val().toLowerCase();
+        var year = $('#yearFilterSelect').val();
+        $('table.table tbody tr').each(function() {
+            var row = $(this);
+            var name = row.find('td:nth-child(1)').text().toLowerCase();
+            var age = row.find('td:nth-child(2)').text().toLowerCase();
+            var yearLevel = row.find('td:nth-child(3)').text().toLowerCase();
+            var sect = row.find('td:nth-child(4)').text().toLowerCase();
+            var email = row.find('td:nth-child(5)').text().toLowerCase();
+            var match = (
+                (name.indexOf(search) !== -1 ||
+                email.indexOf(search) !== -1 ||
+                sect.indexOf(search) !== -1)
+            );
+            var yearMatch = (!year || yearLevel === year.toLowerCase());
+            if (match && yearMatch) {
+                row.show();
             } else {
-                Swal.fire("Error!", "Update failed.", "error");
+                row.hide();
             }
         });
-    });
-
-    // ADD USER
-    document.querySelector("#addBookModal form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-
-        fetch("../admin/student.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            if (data.trim() === "success") {
-                Swal.fire("Added!", "New student has been added.", "success").then(() => {
-                    location.reload();
-                });
+        $('.mobile-cards .card').each(function() {
+            var card = $(this);
+            var name = card.find('.card-title').text().toLowerCase();
+            var age = card.find('.card-text p').eq(0).text().toLowerCase();
+            var yearLevel = card.find('.card-text p').eq(1).text().replace('Year Level:', '').trim().toLowerCase();
+            var sect = card.find('.card-text p').eq(2).text().replace('Section:', '').trim().toLowerCase();
+            var email = card.find('.card-text p').eq(3).text().replace('Email:', '').trim().toLowerCase();
+            var match = (
+                (name.indexOf(search) !== -1 ||
+                email.indexOf(search) !== -1 ||
+                sect.indexOf(search) !== -1)
+            );
+            var yearMatch = (!year || yearLevel === year.toLowerCase());
+            if (match && yearMatch) {
+                card.show();
             } else {
-                Swal.fire("Error!", "Failed to add student.", "error");
+                card.hide();
             }
         });
-    });
-});
+    }
+    $('#studentSearchInput').on('input', filterStudents);
+    $('#yearFilterSelect').on('change', filterStudents);
+    filterStudents();
+}); 
