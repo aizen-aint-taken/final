@@ -65,6 +65,11 @@ if (isset($_POST['reserve'])) {
                 error_log("MQTT Error: " . $e->getMessage());
             }
 
+            // Save notification to database
+            $stmt = $conn->prepare("INSERT INTO notifications (title, author, name) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $_POST['book_title'], $_POST['book_author'], $name);
+            $stmt->execute();
+
             $_SESSION['success'] = "Reservation successful!";
         } else {
             $_SESSION['error'] = "Failed to reserve the book.";

@@ -1,122 +1,124 @@
-$(document).ready(() => {
-
-    $("#Search").on("input", function () {
-        let query = $(this).val().toLowerCase();
-        console.log(query);
-
-        $("table tbody tr, .card").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(query) > -1);
-        });
-    });
-
-    $("#Search").on("focus", function () {
-        if ($(this).val() === "") {
-            $("table tbody tr, .card").show();
-        }
-    });
-
-   
-    function clearSearch() {
-        $("#Search").val("");
-        $("table tbody tr, .card").show();
-    }
-
-  
-    $("#filterForm").on("submit", function (event) {
-        var select = $("#booksFilter");
-        if (select.val() === "Select Subject" || select.val() === "") {
-            event.preventDefault();
-            alert("Please select a subject.");
-        }
-    });
-
-
-    $(document).on("click", ".delete-btn", function () {
-        $("#deleteBookId").val($(this).data("id"));
-    });
-
- 
-    $(document).on("click", ".edit-btn", function () {
-        $("#editBookId").val($(this).data("id"));
-        $("#editBookTitle").val($(this).data("title"));
-        $("#editBookAuthor").val($(this).data("author"));
-        $("#editBookPublisher").val($(this).data("publisher"));
-        $("#editBookSourceOfAcquisition").val($(this).data("source"));
-        $("#editBookPublishedDate").val($(this).data("published"));
-        $("#editBookLanguage").val($(this).data("language"));
-        $("#editBookStock").val($(this).data("stock"));
-    });
-
-
- $(document).ready(function () {
-    $("#exportForm").on("submit", function (event) {
-        var confirmExport = confirm("Are you sure you want to export the Excel file?");
-        if (!confirmExport) {
-            event.preventDefault(); 
-        } else {
-            alert("Exporting Excel file... Please wait.");
-        }
-    });
-});
+// Remove all jQuery code and use only vanilla JavaScript for all event listeners and DOM manipulations.
 
 document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('Search');
-    const tableBody = document.querySelector('table tbody');
-    
-  
-    const noResultsDiv = document.createElement('div');
-    noResultsDiv.className = 'alert alert-info mt-3 mb-3 text-center';
-    noResultsDiv.style.display = 'none';
-    noResultsDiv.innerHTML = '<i class="bi bi-info-circle"></i> No books found matching your search criteria';
-    
-    // Insert the message before the table
-    const table = document.querySelector('.table');
-    table.parentNode.insertBefore(noResultsDiv, table);
-
-    searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase().trim();
-        const rows = Array.from(tableBody.getElementsByTagName('tr'));
-        let hasVisibleRows = false;
-
-        rows.forEach(row => {
-            const cells = row.getElementsByTagName('td');
-            let rowText = '';
-            
-            // Combine text from title, author, publisher, and subject cells
-            if(cells.length > 0) {
-                rowText = [
-                    cells[1].textContent, // Title
-                    cells[2].textContent, // Author
-                    cells[3].textContent, // Publisher
-                    cells[6].textContent  // Subject
-                ].join(' ').toLowerCase();
-            }
-
-            // Show row if it matches search term (using includes for partial matches)
-            if (searchTerm === '' || rowText.includes(searchTerm)) {
-                row.style.display = '';
-                hasVisibleRows = true;
-            } else {
-                row.style.display = 'none';
+    // Filter form validation
+    var filterForm = document.getElementById('filterForm');
+    if (filterForm) {
+        filterForm.addEventListener('submit', function(event) {
+            var select = document.getElementById('booksFilter');
+            if (!select || select.value === 'Select Subject' || select.value === '') {
+                event.preventDefault();
+                alert('Please select a subject.');
             }
         });
+    }
 
-        // Show/hide no results message
-        noResultsDiv.style.display = hasVisibleRows ? 'none' : 'block';
+    // Delete button modal population
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-btn')) {
+            var deleteBookId = document.getElementById('deleteBookId');
+            if (deleteBookId) {
+                deleteBookId.value = event.target.getAttribute('data-id');
+            }
+        }
     });
+
+    // Edit button modal population
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('edit-btn')) {
+            var editBookId = document.getElementById('editBookId');
+            var editBookTitle = document.getElementById('editBookTitle');
+            var editBookAuthor = document.getElementById('editBookAuthor');
+            var editBookPublisher = document.getElementById('editBookPublisher');
+            var editBookSourceOfAcquisition = document.getElementById('editBookSourceOfAcquisition');
+            var editBookPublishedDate = document.getElementById('editBookPublishedDate');
+            var editBookLanguage = document.getElementById('editBookLanguage');
+            var editBookStock = document.getElementById('editBookStock');
+            if (editBookId && editBookTitle && editBookAuthor && editBookPublisher && editBookSourceOfAcquisition && editBookPublishedDate && editBookLanguage && editBookStock) {
+                editBookId.value = event.target.getAttribute('data-id');
+                editBookTitle.value = event.target.getAttribute('data-title');
+                editBookAuthor.value = event.target.getAttribute('data-author');
+                editBookPublisher.value = event.target.getAttribute('data-publisher');
+                editBookSourceOfAcquisition.value = event.target.getAttribute('data-source');
+                editBookPublishedDate.value = event.target.getAttribute('data-published');
+                editBookLanguage.value = event.target.getAttribute('data-language');
+                editBookStock.value = event.target.getAttribute('data-stock');
+            }
+        }
+    });
+
+    // Export form confirmation
+    var exportForm = document.getElementById('exportForm');
+    if (exportForm) {
+        exportForm.addEventListener('submit', function(event) {
+            var confirmExport = confirm('Are you sure you want to export the Excel file?');
+            if (!confirmExport) {
+                event.preventDefault();
+            } else {
+                alert('Exporting Excel file... Please wait.');
+            }
+        });
+    }
+
+    // Search logic with no results message inside the table
+    var searchInput = document.getElementById('Search');
+    var tableBody = document.querySelector('table tbody');
+    var table = document.querySelector('.table');
+    if (searchInput && tableBody && table) {
+        function removeNoResultsRow() {
+            var noResultsRow = tableBody.querySelector('.no-results-row');
+            if (noResultsRow) {
+                tableBody.removeChild(noResultsRow);
+            }
+        }
+
+        searchInput.addEventListener('input', function(e) {
+            var searchTerm = e.target.value.toLowerCase().trim();
+            var rows = Array.from(tableBody.querySelectorAll('tr:not(.no-results-row)'));
+            var hasVisibleRows = false;
+
+            // Remove any previous 'no results' row
+            removeNoResultsRow();
+
+            rows.forEach(function(row) {
+                var cells = row.getElementsByTagName('td');
+                var rowText = '';
+                if (cells.length > 0) {
+                    rowText = [
+                        cells[1] ? cells[1].textContent : '',
+                        cells[2] ? cells[2].textContent : '',
+                        cells[3] ? cells[3].textContent : '',
+                        cells[6] ? cells[6].textContent : ''
+                    ].join(' ').toLowerCase();
+                }
+                if (searchTerm === '' || rowText.includes(searchTerm)) {
+                    row.style.display = '';
+                    hasVisibleRows = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (!hasVisibleRows) {
+                var colCount = 9; // Adjust if your table has a different number of columns
+                var noResultsRow = document.createElement('tr');
+                noResultsRow.className = 'no-results-row';
+                var td = document.createElement('td');
+                td.colSpan = colCount;
+                td.className = 'text-center';
+                td.style.background = 'rgba(255,255,255,0.7)';
+                td.innerHTML = '<i class="bi bi-info-circle"></i> No books found matching your search criteria';
+                noResultsRow.appendChild(td);
+                tableBody.appendChild(noResultsRow);
+            }
+        });
+    }
 });
 
 function clearSearch() {
-    const searchInput = document.getElementById('Search');
-    const noResultsDiv = document.querySelector('.alert.alert-info');
-    
-    searchInput.value = '';
-    // Trigger the input event to reset the table
-    searchInput.dispatchEvent(new Event('input'));
-  
-    if (noResultsDiv) {
-        noResultsDiv.style.display = 'none';
+    var searchInput = document.getElementById('Search');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
     }
 }
-
-});

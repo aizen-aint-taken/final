@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $updateStmt->execute();
 
-        // Handle stock increment for returned books
+
         if ($newStatus === 'Returned' && $previousStatus === 'Approved') {
             $bookStmt = $conn->prepare("SELECT BookID FROM reservations WHERE id = ?");
             $bookStmt->bind_param("i", $reservationId);

@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const mobileContent = data.map(item => `
                 <div class="card reservation-card mb-3">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="card-title mb-0">${item.BOOK_TITLE}</h5>
+                        <h5 class="card-title reservation-title mb-0">${item.BOOK_TITLE}</h5>
                     </div>
                     <div class="card-body">
                         <p class="card-text">

@@ -2,13 +2,12 @@
 session_start();
 include("../config/conn.php");
 
-// if ($_SESSION['usertype'] == 'a') {
-//     header("Location: ../index.php");
-// } elseif ($_SESSION['usertype'] == 'sa') {
-//     header("Location: ../index.php");
-//     exit;
-// }
 
+if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['sa', 'a'])) {
+    $_SESSION['error'] = "You must be an admin to access that page.";
+    header('Location: ../index.php');
+    exit;
+}
 
 $studentId = isset($_SESSION['student_id']) ? $_SESSION['student_id'] : null;
 $selectedUserId = isset($_GET['user_id']) ? $_GET['user_id'] : 'all';

@@ -71,12 +71,16 @@ function isSuperAdmin()
           <hr class="sidebar-divider">
         </li>
 
+
+
         <li class="nav-item">
           <a href="../admin/student.php" class="nav-link">
             <i class="nav-icon fa-regular fa-circle-user"></i>
             <p>Add Student</p>
           </a>
         </li>
+
+
 
         <!-- dapat super admin ray maka ray makakita ani na divider -->
         <?php if (isSuperAdmin()): ?>

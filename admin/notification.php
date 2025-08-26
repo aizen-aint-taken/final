@@ -1,9 +1,8 @@
 <?php
 include("../config/conn.php");
 
-// Check for books due tomorrow
 $tomorrow = date('Y-m-d', strtotime('+1 day'));
-// Check for books due in 7 days
+
 $sevenDays = date('Y-m-d', strtotime('+7 days'));
 
 $query = "

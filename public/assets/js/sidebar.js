@@ -11,7 +11,9 @@ function toggleSidebar() {
     
    
     if (window.innerWidth <= 768) {
-        mainContent.style.marginLeft = sidebar.classList.contains('open') ? '0' : '0';
+        if (mainContent) {
+            mainContent.style.marginLeft = sidebar.classList.contains('open') ? '0' : '0';
+        }
     }
 }
 
@@ -45,10 +47,14 @@ window.addEventListener('resize', function() {
     const backdrop = document.querySelector('.sidebar-backdrop');
     const mainContent = document.querySelector('.main-content');
     
-    if (window.innerWidth > 768) {
-        mainContent.style.marginLeft = '250px';
-    } else {
-        mainContent.style.marginLeft = '0';
+    if (mainContent) {
+        if (window.innerWidth > 768) {
+            mainContent.style.marginLeft = '250px';
+        } else {
+            mainContent.style.marginLeft = '0';
+        }
+    }
+    if (window.innerWidth <= 768) {
         if (sidebar.classList.contains('open')) {
             sidebar.classList.remove('open');
             backdrop.classList.remove('show');

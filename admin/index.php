@@ -64,24 +64,7 @@ include('../includes/sidebar.php');
     <link rel="stylesheet" href="../public/assets/css/useradmin.css">
     <title>Library Inventory</title>
 </head>
-<style>
-    .content-wrapper {
-        background-color: rgba(234, 219, 205, 0.91);
 
-    }
-
-    .container {
-        padding: 30px;
-    }
-
-
-    .hr {
-        border: none;
-        height: 2px;
-        background-color: #333;
-        margin: 20px 0;
-    }
-</style>
 
 <body>
     <div class="content-wrapper">
@@ -120,9 +103,21 @@ include('../includes/sidebar.php');
     </div>
     <?php include('../includes/footer.php'); ?>
 
-    <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/assets/js/jquery-3.5.1.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/plugins/card-refresh/card-refresh.js"></script>
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+
+
+    <script src="../public/assets/js/Books.js"></script>
     <script>
         fetch('getSession.php')
             .then(response => {
@@ -146,7 +141,7 @@ include('../includes/sidebar.php');
         // client mqtt
         // wss://broker.hivemq.com:8884/mqtt
         // wss://broker.emqx.io:8084/mqtt
-        const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
+        const client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt', {
             reconnectPeriod: 5000,
             clean: true,
             clientId: 'libraryAdmin_' + Math.random().toString(16).substr(2, 8),
@@ -182,7 +177,7 @@ include('../includes/sidebar.php');
                     </div>`;
                     document.getElementById('notifications').insertAdjacentHTML('afterbegin', notification);
 
-                    file_put_contents('mqtt_log.txt', json_encode($notification).PHP_EOL, FILE_APPEND);
+                    // file_put_contents('mqtt_log.txt', json_encode($notification).PHP_EOL, FILE_APPEND);
                 } catch (e) {
                     console.error('Error parsing message:', e);
                 }
@@ -229,6 +224,7 @@ include('../includes/sidebar.php');
             client.end();
         });
     </script>
+
 </body>
 
 </html>

@@ -175,7 +175,7 @@ function getStatusBadgeClass($status)
     <meta name="description" content="RESERVATION USER PAGE">
     <meta name="author" content="Ely Gian Ga">
     <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="reservations.css">
+    <link rel="stylesheet" href="../public/assets/css/users_main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Reservations</title>
 </head>
@@ -226,7 +226,7 @@ function getStatusBadgeClass($status)
                     <div class="alert alert-info">You have more than 3 borrowed books. Please present this QR code to the admin when returning your books.</div>
                     <img src="generate_qr.php?<?= time() ?>" alt="Your QR Code" style="max-width: 150px;" />
                 <?php else: ?>
-                    <div class="alert alert-secondary">QR code will be available when you have more than 3 active borrowings.</div>
+                    <div class="alert alert-secondary">QR code will be available when you have more than 3 active borrowed books.</div>
                 <?php endif; ?>
             </div>
 

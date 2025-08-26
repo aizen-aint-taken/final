@@ -82,15 +82,15 @@ if (isset($_POST['filter'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="../public/assets/css/datatables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../public/assets/css/users_main.css">
 
 
 </head>
 
 <body>
-    <?php include("./sidebar.php") ?>
-    <div class="main-content w-90">
-        <?php include('./header.php') ?>
+    <?php include("sidebar.php") ?>
+    <div class="main-content w-80">
+        <?php include('header.php') ?>
         <div class="container-fluid mt-5 w-100" style="margin-right: 250px;">
             <div class="row">
                 <div class="col-12">
@@ -203,7 +203,7 @@ if (isset($_POST['filter'])) {
                             <div class="col">
                                 <div class="card h-100 book-card">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= htmlspecialchars($book['Title']) ?></h5>
+                                        <h5 class="card-title text-primary"><?= htmlspecialchars($book['Title']) ?></h5>
                                         <div class="card-text">
                                             <p><strong>Author:</strong> <?= htmlspecialchars($book['Author']) ?></p>
                                             <p><strong>Publisher:</strong> <?= htmlspecialchars($book['Publisher']) ?></p>

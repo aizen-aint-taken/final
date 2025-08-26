@@ -49,9 +49,12 @@ $qr = Builder::create()
     ->writer(new PngWriter())
     ->data($qrData)
     ->encoding(new Encoding('UTF-8'))
-    ->errorCorrectionLevel(ErrorCorrectionLevel::High)
-    ->size(300)
+    ->errorCorrectionLevel(ErrorCorrectionLevel::Medium)
+    ->size(400)
     ->margin(10)
+    ->logoPath(__DIR__ . '/../maharlika/logo.jpg')
+    ->logoResizeToWidth(60)
+    ->logoResizeToHeight(60)
     ->build();
 
 echo $qr->getString();

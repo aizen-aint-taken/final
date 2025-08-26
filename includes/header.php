@@ -9,6 +9,7 @@
   <title>Admin</title>
   <link rel="stylesheet" href="../public/assets/css/adminLTE.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body.light-mode {
       background-color: #f8f9fa;
@@ -52,6 +53,36 @@
     body {
       transition: background-color 0.3s, color 0.3s;
     }
+
+    .notification-bell {
+      position: relative;
+      z-index: 1100;
+      /* higher than sidebar */
+    }
+
+    #notification-dropdown {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50px;
+      transform: translateX(-50%);
+      background: white;
+      border: 1px solid #ccc;
+      width: 350px;
+      max-height: 400px;
+      overflow-y: auto;
+      z-index: 1200;
+
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 500px) {
+      #notification-dropdown {
+        width: 95vw;
+        left: 2.5vw;
+        transform: none;
+      }
+    }
   </style>
 </head>
 
@@ -62,6 +93,16 @@
 
     </form>
 
+    <?php
+    include_once("../config/conn.php");
+    if (!isset(
+      $conn
+    )) {
+
+      $conn = $GLOBALS['conn'];
+    }
+    $result = $conn->query("SELECT * FROM notifications ORDER BY created_at DESC LIMIT 10");
+    ?>
     <nav class="main-header navbar navbar-expand navbar-light">
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -69,19 +110,30 @@
         </li>
       </ul>
 
-      <div class=" notification-bell text-center" onclick="toggleNotifications()">
+      <div class="notification-bell" onclick="toggleNotifications()">
         <i class="fa fa-bell" style="font-size: 30px; color: black;"></i>
-        <span class="badge" id="notification-count">0</span>
-      </div>
-
-
-      <div class="notification-dropdown" id="notification-dropdown">
-        <div id="notifications"></div>
+        <span id="notification-count" style="position: absolute; top: 0; right: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;">
+          <?= $result->num_rows ?>
+        </span>
+        <div id="notification-dropdown">
+          <div id="notifications">
+            <?php while ($row = $result->fetch_assoc()): ?>
+              <div class="notification-item" style="padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="margin-bottom: 2px;"><strong>Book Title:</strong> <span class="text-info"><?= htmlspecialchars($row['title']) ?></span></div>
+                <div style="margin-bottom: 2px;"><strong>Author:</strong> <?= htmlspecialchars($row['author']) ?></div>
+                <div style="margin-bottom: 2px;"><strong>Reserved by:</strong> <span class="text-success"><?= htmlspecialchars($row['name']) ?></span></div>
+                <div style="font-size: 12px; color: #888;">Reserved on: <?= date('F j, Y \a\t g:i A', strtotime($row['created_at'])) ?></div>
+                <hr style="border: 2px solid #007bff; margin: 6px 0; border-radius: 2px;">
+              </div>
+            <?php endwhile; ?>
+            <?php if ($result->num_rows === 0): ?>
+              <div class="notification-item" style="padding: 10px;">No notifications yet.</div>
+            <?php endif; ?>
+          </div>
+        </div>
       </div>
 
       <ul class="navbar-nav ms-auto">
-
-
         <li class="nav-item">
           <a href="index.php" class="nav-link">Home</a>
         </li>
@@ -91,7 +143,6 @@
         <li class="nav-item">
           <a href="../admin/reservations.php" class="nav-link">Reservations</a>
         </li>
-
         <!-- User Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -103,13 +154,25 @@
               ?>
             </span>
           </a>
-
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
           </ul>
         </li>
       </ul>
     </nav>
+    <script>
+      function toggleNotifications() {
+        const dropdown = document.getElementById('notification-dropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      }
+
+      document.addEventListener('click', (event) => {
+        const bell = document.querySelector('.notification-bell');
+        if (!bell.contains(event.target)) {
+          document.getElementById('notification-dropdown').style.display = 'none';
+        }
+      });
+    </script>
 
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -130,6 +193,7 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </div>
 </body>
 
