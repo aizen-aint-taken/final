@@ -111,7 +111,7 @@ include('../includes/sidebar.php');
                             <?php endforeach; ?>
                         </select>
                         <button id="filter-btn" class="btn btn-primary">
-                            <i class="fas fa-filter me-2"></i>Apply
+                            <i class="fa-solid fa-magnifying-glass"></i> Search
                         </button>
                     </div>
                 </div>

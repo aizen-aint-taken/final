@@ -1,18 +1,22 @@
 function toggleSidebar() {
     const sidebar = document.querySelector('.main-sidebar');
     const backdrop = document.querySelector('.sidebar-backdrop');
-    const mainContent = document.querySelector('.main-content');
+    const contentWrapper = document.querySelector('.content-wrapper');
     
     sidebar.classList.toggle('open');
     backdrop.classList.toggle('show');
     
- 
-    document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
-    
-   
+    // Prevent body scrolling when sidebar is open on mobile
     if (window.innerWidth <= 768) {
-        if (mainContent) {
-            mainContent.style.marginLeft = sidebar.classList.contains('open') ? '0' : '0';
+        document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+    }
+    
+    // Adjust content wrapper margin for desktop
+    if (window.innerWidth > 768 && contentWrapper) {
+        if (sidebar.classList.contains('open')) {
+            contentWrapper.style.marginLeft = '0';
+        } else {
+            contentWrapper.style.marginLeft = '250px';
         }
     }
 }
@@ -45,20 +49,17 @@ document.addEventListener('click', function(event) {
 window.addEventListener('resize', function() {
     const sidebar = document.querySelector('.main-sidebar');
     const backdrop = document.querySelector('.sidebar-backdrop');
-    const mainContent = document.querySelector('.main-content');
+    const contentWrapper = document.querySelector('.content-wrapper');
     
-    if (mainContent) {
+    if (contentWrapper) {
         if (window.innerWidth > 768) {
-            mainContent.style.marginLeft = '250px';
-        } else {
-            mainContent.style.marginLeft = '0';
-        }
-    }
-    if (window.innerWidth <= 768) {
-        if (sidebar.classList.contains('open')) {
+            contentWrapper.style.marginLeft = '250px';
+            // Reset mobile-specific styles on desktop
             sidebar.classList.remove('open');
             backdrop.classList.remove('show');
             document.body.style.overflow = '';
+        } else {
+            contentWrapper.style.marginLeft = '0';
         }
     }
 });

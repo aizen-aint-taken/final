@@ -150,8 +150,8 @@ include('../includes/sidebar.php');
 <body>
     <div class="main-content">
         <div class="page-header">
-            <h1 class="h3 mb-0 text-center">Student Management</h1>
-            <p class="mb-0 text-center">Manage student accounts and information</p>
+            <h1 class="h3 mb- text-center">Student Management</h1>
+            <p class="mb-2 text-center">Manage student accounts and information</p>
         </div>
         <div class="row mb-3">
             <div class="col-12 mb-2">
@@ -161,7 +161,7 @@ include('../includes/sidebar.php');
             </div>
             <div class="col-12">
                 <form id="yearFilterForm" class="w-100">
-                    <label for="year" class="form-label">Filter by Year Level Who Borrowed:</label>
+                    <label for="year" class="form-label text-black">Filter by Year Level Who Borrowed:</label>
                     <select name="year" class="form-select w-100" id="yearFilterSelect">
                         <option value="">All Year Level</option>
                         <?php foreach ($years as $row): ?>

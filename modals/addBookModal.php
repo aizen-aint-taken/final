@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="../BooksCrud/Add.php" method="POST">
+                <form action="../BooksCrud/Add.php" method="POST" id="addBookForm">
                     <div class="form-group">
                         <label for="addBookTitle">Title</label>
                         <input type="text" class="form-control" name="title" id="addBookTitle" required>
@@ -37,58 +37,12 @@
                         <label for="addBookStock">Stock</label>
                         <input type="number" class="form-control" name="stock" id="addBookStock" min="0" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Add Book</button>
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Add Book</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    // form.addEventListener('submit', async function(e) {
-    //     e.preventDefault();
-
-    //     const formData = new FormData(form);
-
-    //     try {
-    //         let response = await fetch(form.action, {
-    //             method: 'POST',
-    //             body: formData
-    //         });
-
-    //         let result = await response.text();
-    //         console.log('Response:', result); // Debugging
-
-    //         if (result.trim() === 'success') {
-    //             await Swal.fire({
-    //                 icon: 'success',
-    //                 title: 'Book Added!',
-    //                 text: 'The book has been added successfully.',
-    //             });
-
-    //             // Close modal after SweetAlert
-    //             let modal = document.getElementById('addBookModal');
-    //             let modalInstance = bootstrap.Modal.getInstance(modal);
-    //             modalInstance.hide();
-
-    //             form.reset();
-    //         } else {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Error!',
-    //                 text: 'There was an issue adding the book. Please try again.',
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error('Fetch Error:', error);
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Error!',
-    //             text: 'Something went wrong. Please try again.',
-    //         });
-    //     }
-    // });
-</script>

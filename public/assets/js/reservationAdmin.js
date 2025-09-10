@@ -102,17 +102,31 @@
                 dropdown.dataset.previous = dropdown.value;
             });
 
-            // Handle select all checkbox
+            // Handle select all checkbox (desktop)
             const selectAllCheckbox = document.getElementById('selectAll');
             const deleteSelectedBtn = document.getElementById('deleteSelected');
 
-            selectAllCheckbox.addEventListener('change', function() {
-                const checkboxes = document.querySelectorAll('.reservation-checkbox');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function() {
+                    const checkboxes = document.querySelectorAll('.reservation-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateDeleteButtonVisibility();
                 });
-                updateDeleteButtonVisibility();
-            });
+            }
+
+            // Handle select all checkbox (mobile)
+            const selectAllMobileCheckbox = document.getElementById('selectAllMobile');
+            if (selectAllMobileCheckbox) {
+                selectAllMobileCheckbox.addEventListener('change', function() {
+                    const checkboxes = document.querySelectorAll('.reservation-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateDeleteButtonVisibility();
+                });
+            }
 
             // Handle individual checkboxes
             document.addEventListener('change', function(e) {
@@ -124,7 +138,9 @@
             // Update delete button visibility
             function updateDeleteButtonVisibility() {
                 const checkedBoxes = document.querySelectorAll('.reservation-checkbox:checked');
-                deleteSelectedBtn.style.display = checkedBoxes.length > 0 ? 'block' : 'none';
+                if (deleteSelectedBtn) {
+                    deleteSelectedBtn.style.display = checkedBoxes.length > 0 ? 'block' : 'none';
+                }
             }
 
             // Handle single deletion
@@ -136,14 +152,16 @@
             });
 
             // Handle bulk deletion
-            deleteSelectedBtn.addEventListener('click', function() {
-                const selectedIds = Array.from(document.querySelectorAll('.reservation-checkbox:checked'))
-                    .map(checkbox => checkbox.getAttribute('data-id'));
+            if (deleteSelectedBtn) {
+                deleteSelectedBtn.addEventListener('click', function() {
+                    const selectedIds = Array.from(document.querySelectorAll('.reservation-checkbox:checked'))
+                        .map(checkbox => checkbox.getAttribute('data-id'));
 
-                if (selectedIds.length > 0) {
-                    deleteReservations(selectedIds);
-                }
-            });
+                    if (selectedIds.length > 0) {
+                        deleteReservations(selectedIds);
+                    }
+                });
+            }
 
             // Function to handle deletion
             function deleteReservations(ids) {
@@ -181,18 +199,22 @@
             }
         });
 
-        document.getElementById("sendNotificationsBtn").addEventListener("click", function() {
-            fetch('notification.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(`✅ ${data.message}`);
-                    } else {
+        // Handle notification sending (only if button exists)
+        const sendNotificationsBtn = document.getElementById("sendNotificationsBtn");
+        if (sendNotificationsBtn) {
+            sendNotificationsBtn.addEventListener("click", function() {
+                fetch('notification.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(`✅ ${data.message}`);
+                        } else {
+                            alert("❌ Error sending notifications.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
                         alert("❌ Error sending notifications.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("❌ Error sending notifications.");
-                });
-        });
+                    });
+            });
+        }

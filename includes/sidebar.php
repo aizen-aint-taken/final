@@ -5,6 +5,11 @@ error_log('User type: ' . (isset($_SESSION['usertype']) ? $_SESSION['usertype'] 
 
 include '../config/conn.php';
 
+// Get notifications for sidebar
+if (!isset($conn)) {
+  $conn = $GLOBALS['conn'];
+}
+$notifications_result = $conn->query("SELECT * FROM notifications ORDER BY created_at DESC LIMIT 10");
 
 function isSuperAdmin()
 {
@@ -12,12 +17,14 @@ function isSuperAdmin()
 }
 ?>
 
-<aside class="main-sidebar sidebar-light-secondary elevation-5">
-  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="d-flex justify-content-center align-items-center">
-    <img class="w-100 h-50" src="../maharlika/logo.jpg" alt="">
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-light-secondary elevation-4 border border-indigo">
+  <!-- Brand Logo -->
+  <div class="d-flex justify-content-center align-items-center py-3">
+    <img class="sidebar-logo" src="../maharlika/logo.jpg" alt="Maharlika Logo" onerror="this.style.display='none'">
   </div>
 
+  <!-- Sidebar -->
   <div class="sidebar">
     <nav class="mt-3">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -27,9 +34,8 @@ function isSuperAdmin()
 
         <li class="nav-item">
           <a href="../admin/index.php" class="nav-link">
-            <i class="nav-icon fas fa-home"></i>
-            <p>Home</p>
-
+            <i class="fa-solid fa-border-all"></i>
+            <p>All Books</p>
           </a>
         </li>
 
@@ -38,10 +44,64 @@ function isSuperAdmin()
         </li>
 
         <li class="nav-item">
+          <a href="../admin/depedbooks.php" class="nav-link">
+            <i class="fa-solid fa-book"></i>
+            <p>Deped Books</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <hr class="sidebar-divider">
+        </li>
+
+
+
+        <!-- Notifications Section -->
+        <li class="nav-item has-treeview" id="notifications-section">
+          <a href="#" class="nav-link" id="notifications-toggle">
+            <i class="nav-icon fas fa-bell"></i>
+            <p>
+              Notifications
+              <span class="badge badge-warning right" id="sidebar-notification-count">
+                <?= $notifications_result->num_rows ?>
+              </span>
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" id="notifications-dropdown" style="display: none;">
+            <li class="nav-header">📔 Recent Notifications</li>
+            <?php
+            $notifications_result->data_seek(0); // Reset result pointer
+            while ($row = $notifications_result->fetch_assoc()): ?>
+              <li class="nav-item">
+                <div class="nav-link notification-item-sidebar">
+                  <div class="notification-content">
+                    <div style="font-size: 12px; font-weight: 600;">📚 <?= htmlspecialchars($row['title']) ?></div>
+                    <div style="font-size: 11px; color: #666; margin-top: 2px;">👤 <?= htmlspecialchars($row['name']) ?></div>
+                    <div style="font-size: 10px; color: #999; margin-top: 2px;">🕒 <?= date('M j, g:i A', strtotime($row['created_at'])) ?></div>
+                  </div>
+                </div>
+              </li>
+            <?php endwhile; ?>
+            <?php if ($notifications_result->num_rows === 0): ?>
+              <li class="nav-item">
+                <div class="nav-link text-center text-muted">
+                  📭 No notifications
+                </div>
+              </li>
+            <?php endif; ?>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <hr class="sidebar-divider">
+        </li>
+
+
+        <li class="nav-item">
           <a href="../analysis/displayStats.php" class="nav-link">
             <i class="nav-icon fas fa-chart-line"></i>
             <p>Analysis</p>
-
           </a>
         </li>
 
@@ -71,8 +131,6 @@ function isSuperAdmin()
           <hr class="sidebar-divider">
         </li>
 
-
-
         <li class="nav-item">
           <a href="../admin/student.php" class="nav-link">
             <i class="nav-icon fa-regular fa-circle-user"></i>
@@ -80,17 +138,12 @@ function isSuperAdmin()
           </a>
         </li>
 
-
-
-        <!-- dapat super admin ray maka ray makakita ani na divider -->
         <?php if (isSuperAdmin()): ?>
           <li class="nav-item">
             <hr class="sidebar-divider">
           </li>
         <?php endif; ?>
 
-
-        <!-- dapat super admin ray maka ray makakita ani -->
         <?php if (isSuperAdmin()): ?>
           <li class="nav-item">
             <a href="../admin/admin.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'admin.php' ? 'active' : ''; ?>">
@@ -99,7 +152,6 @@ function isSuperAdmin()
             </a>
           </li>
         <?php endif; ?>
-
 
         <li class="nav-item">
           <hr class="sidebar-divider">
@@ -118,152 +170,64 @@ function isSuperAdmin()
       </ul>
     </nav>
   </div>
-  <div class="sidebar-backdrop"></div>
 </aside>
 
 <style>
   .main-sidebar {
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    z-index: 1038;
-    background: linear-gradient(180deg, rgb(218, 208, 223), rgb(206, 225, 238));
-    overflow-y: auto;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
-    border-right: 1px solid #dee2e6;
-    padding-top: 20px;
-  }
+    position: fixed !important;
+    top: 56px !important;
 
-  img {
-    margin: 15px;
-    border-radius: 50%;
-    padding: 20px;
-    height: 200px;
-    width: 200px;
-    box-shadow: #007bff;
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 56px) !important;
+
+    z-index: 1037;
+    overflow-y: auto;
   }
 
   .sidebar-logo {
     width: 80%;
     max-height: 100px;
     object-fit: contain;
-    border-radius: 5px;
+    border-radius: 50%;
     display: block;
     margin: 10px auto;
   }
 
-  .nav-link {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 12px 20px;
-    position: relative;
-    transition: background-color 0.3s, color 0.3s, transform 0.3s;
-    border-radius: 10px;
-  }
-
-  .nav-link:hover {
-    background-color: #1c74b0;
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05);
-  }
-
-  .nav-link i {
-    margin-right: 10px;
-    transition: transform 0.2s ease, color 0.2s ease;
-  }
-
-  .nav-link:hover i {
-    transform: scale(1.2);
-    color: #ffd700;
-  }
-
-  .nav-item.active .nav-link {
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    animation: pulse 1s infinite;
-  }
-
-  .badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 12px;
-    padding: 5px;
-    border-radius: 50%;
-  }
-
   .sidebar-divider {
-    border-top: 3px solid rgba(25, 116, 206, 0.8);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding-top: 10px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-top: 2px solid rgba(25, 116, 206, 0.8);
     margin: 10px 0;
   }
 
-  .menu-toggle {
-    display: none;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 24px;
-    background-color: transparent;
-    border: none;
-    color: #495057;
-    cursor: pointer;
-    z-index: 1050;
+  .nav-link {
+    transition: background-color 0.3s, color 0.3s;
   }
 
-  @media (max-width: 768px) {
-    .main-sidebar {
-      transform: translateX(-100%);
-      width: 250px;
-    }
-
-    .main-sidebar.open {
-      transform: translateX(0);
-    }
-
-    .content-wrapper {
-      margin-left: 0;
-    }
-
-    .menu-toggle {
-      z-index: 1039;
-    }
+  .nav-link:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
   }
 
-  .main-sidebar::-webkit-scrollbar {
-    width: 8px;
+  .nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
   }
 
-  .main-sidebar::-webkit-scrollbar-thumb {
-    background: #adb5bd;
-    border-radius: 4px;
+  /* Sidebar Notifications Styling */
+  #notifications-section .nav-link {
+    position: relative;
   }
 
-  .main-sidebar::-webkit-scrollbar-thumb:hover {
-    background: #6c757d;
-  }
-
-  .sidebar-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    z-index: 1037;
-  }
-
-  .sidebar-backdrop.show {
-    display: block;
+  #sidebar-notification-count {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    animation: pulse 2s infinite;
   }
 
   @keyframes pulse {
@@ -280,17 +244,91 @@ function isSuperAdmin()
     }
   }
 
-  .main-content {
-    transition: margin-left 0.3s ease;
+  .notification-item-sidebar {
+    background: rgba(0, 123, 255, 0.05);
+    margin: 2px 8px;
+    border-radius: 8px;
+    border-left: 3px solid #007bff;
+    transition: all 0.3s ease;
+    cursor: pointer;
   }
 
-  @media (min-width: 769px) {
-    .main-content {
-      margin-left: 250px;
-    }
+  .notification-item-sidebar:hover {
+    background: rgba(0, 123, 255, 0.1);
+    transform: translateX(5px);
+  }
+
+  .notification-content {
+    padding: 8px;
+  }
+
+  .nav-treeview {
+    background: rgba(0, 0, 0, 0.02);
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .nav-treeview .nav-header {
+    font-weight: 600;
+    color: #495057;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 16px;
+  }
+
+  /* Notification toggle animation */
+  #notifications-toggle .fas.fa-angle-left {
+    transition: transform 0.3s ease;
+  }
+
+  #notifications-section.menu-open #notifications-toggle .fas.fa-angle-left {
+    transform: rotate(-90deg);
   }
 </style>
 
-<script src="../public/assets/js/sidebar.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const notificationsToggle = document.getElementById('notifications-toggle');
+    const notificationsDropdown = document.getElementById('notifications-dropdown');
+    const notificationsSection = document.getElementById('notifications-section');
 
-<!-- Backdrop for mobile -->
+    if (notificationsToggle && notificationsDropdown) {
+      notificationsToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isOpen = notificationsDropdown.style.display === 'block';
+
+        if (isOpen) {
+
+          notificationsDropdown.style.display = 'none';
+          notificationsSection.classList.remove('menu-open');
+        } else {
+
+          notificationsDropdown.style.display = 'block';
+          notificationsSection.classList.add('menu-open');
+        }
+      });
+    }
+
+
+    document.addEventListener('click', function(event) {
+      if (notificationsSection && !notificationsSection.contains(event.target)) {
+        if (notificationsDropdown) {
+          notificationsDropdown.style.display = 'none';
+        }
+        if (notificationsSection) {
+          notificationsSection.classList.remove('menu-open');
+        }
+      }
+    });
+
+
+    if (notificationsDropdown) {
+      notificationsDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+  });
+</script>

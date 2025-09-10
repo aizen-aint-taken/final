@@ -1,7 +1,35 @@
 
+    /* AdminLTE Content Wrapper - ensure proper layout alignment */
     .content-wrapper {
+        margin-left: 250px !important;
+        margin-top: 56px !important;
+        min-height: calc(100vh - 56px);
+        transition: margin-left 0.3s ease;
+        padding: 0 !important; /* Remove default padding to let content control spacing */
+    }
+    
+    /* Content section inside wrapper */
+    .content-wrapper .content {
         padding: 20px;
-       
+        width: 100%;
+    }
+    
+    /* Container within content */
+    .content-wrapper .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+        max-width: 100%;
+    }
+
+    /* Sidebar collapse behavior */
+    .sidebar-collapse .content-wrapper {
+        margin-left: 0 !important;
+    }
+
+    @media (max-width: 991.98px) {
+        .content-wrapper {
+            margin-left: 0 !important;
+        }
     }
 
  
@@ -55,4 +83,41 @@
 
     .notification-dropdown .notification-item small {
         color: #666;
+    }
+
+    /* Page-specific content alignment */
+    .page-header {
+        margin-bottom: 30px;
+        padding: 20px 0;
+        background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+        border-radius: 10px;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .filter-container {
+        background: #f8f9fc;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Ensure tables and cards align properly */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    .reservation-card {
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
     }

@@ -147,7 +147,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                 <?php endforeach; ?>
                             </select>
                             <button type="submit" name="filter" class="btn btn-primary">
-                                <i class="bi bi-funnel"></i> Apply
+                                <i class="fa-solid fa-magnifying-glass"></i>Search
                             </button>
                         </div>
                     </form>
@@ -209,10 +209,11 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                 <tbody>
                     <?php
                     if ($books && $books->num_rows > 0):
+                        $rowNumber = ($page - 1) * $booksPerPage + 1; // Calculate starting row number for pagination
                         foreach ($books as $book):
                     ?>
                             <tr>
-                                <td><?= htmlspecialchars($book['BookID']) ?></td>
+                                <td><?= $rowNumber++ ?></td>
                                 <td><?= htmlspecialchars($book['Title']) ?></td>
                                 <td><?= htmlspecialchars($book['Author']) ?></td>
                                 <td><?= htmlspecialchars($book['Publisher']) ?></td>
@@ -240,7 +241,8 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                         <button class="btn btn-danger btn-sm delete-btn"
                                             data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#deleteBookModal">
+                                            data-bs-target="#deleteBookModal"
+                                            title="Delete Book ID: <?= htmlspecialchars($book['BookID']) ?>">
                                             <i class="bi bi-trash fs-5"></i>
                                         </button>
                                     </div>
@@ -273,38 +275,48 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
 
         <!-- Card View Cellphone gamay na screen -->
         <div class="card-container text-center">
-            <?php foreach ($books as $book): ?>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title text-center"><?= htmlspecialchars($book['Title']) ?></h5>
-                        <p class="card-text">
-                            <strong>Author:</strong> <?= htmlspecialchars($book['Author']) ?><br>
-                            <strong>Publisher:</strong> <?= htmlspecialchars($book['Publisher']) ?><br>
-                            <strong>Source of Acquisition</strong> <?= htmlspecialchars($book['Source of Acquisition']) ?><br>
-                            <strong>Published Date:</strong> <?= htmlspecialchars($book['PublishedDate']) ?><br>
-                            <strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?><br>
-                            <strong>Stock:</strong> <?= htmlspecialchars($book['Stock']) ?>
-                        </p>
-                        <div class="d-flex justify-content-between">
-                            <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" data-bs-target="#editBookModal"
-                                data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                                data-title="<?= htmlspecialchars($book['Title']) ?>"
-                                data-author="<?= htmlspecialchars($book['Author']) ?>"
-                                data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
-                                data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
-                                data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
-                                data-language="<?= htmlspecialchars($book['Subject']) ?>"
-                                data-stock="<?= htmlspecialchars($book['Stock']) ?>">
-                                <i class="bi bi-pencil-square fs-5"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm mb-2 edit-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                                data-bs-toggle="modal" data-bs-target="#deleteBookModal">
-                                <i class="bi bi-trash fs-5"></i>
-                            </button>
+            <?php
+            // Reset the result pointer to use the data again for cards
+            if ($books && $books->num_rows > 0) {
+                $books->data_seek(0); // Reset to beginning
+                $cardRowNumber = ($page - 1) * $booksPerPage + 1; // Reset counter for cards
+                foreach ($books as $book):
+            ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="badge badge-primary mb-2">Book #<?= $cardRowNumber++ ?></div>
+                            <h5 class="card-title text-center"><?= htmlspecialchars($book['Title']) ?></h5>
+                            <p class="card-text">
+                                <strong>Author:</strong> <?= htmlspecialchars($book['Author']) ?><br>
+                                <strong>Publisher:</strong> <?= htmlspecialchars($book['Publisher']) ?><br>
+                                <strong>Source of Acquisition</strong> <?= htmlspecialchars($book['Source of Acquisition']) ?><br>
+                                <strong>Published Date:</strong> <?= htmlspecialchars($book['PublishedDate']) ?><br>
+                                <strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?><br>
+                                <strong>Stock:</strong> <?= htmlspecialchars($book['Stock']) ?>
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" data-bs-target="#editBookModal"
+                                    data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                                    data-title="<?= htmlspecialchars($book['Title']) ?>"
+                                    data-author="<?= htmlspecialchars($book['Author']) ?>"
+                                    data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
+                                    data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
+                                    data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
+                                    data-language="<?= htmlspecialchars($book['Subject']) ?>"
+                                    data-stock="<?= htmlspecialchars($book['Stock']) ?>">
+                                    <i class="bi bi-pencil-square fs-5"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm mb-2 delete-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
+                                    data-bs-toggle="modal" data-bs-target="#deleteBookModal">
+                                    <i class="bi bi-trash fs-5"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+            <?php
+                endforeach;
+            } // Close the if statement
+            ?>
         </div>
     </div>
 

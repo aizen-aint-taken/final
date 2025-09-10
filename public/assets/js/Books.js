@@ -15,17 +15,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Delete button modal population
     document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('delete-btn')) {
+        // Find the closest delete button (handles clicks on child elements like icons)
+        const deleteButton = event.target.closest('.delete-btn');
+        if (deleteButton) {
             var deleteBookId = document.getElementById('deleteBookId');
+            var deleteBookIdDisplay = document.getElementById('deleteBookIdDisplay');
             if (deleteBookId) {
-                deleteBookId.value = event.target.getAttribute('data-id');
+                const bookId = deleteButton.getAttribute('data-id');
+                console.log('Delete button clicked for book ID:', bookId); // Debug log
+                deleteBookId.value = bookId;
+                if (deleteBookIdDisplay) {
+                    deleteBookIdDisplay.textContent = bookId;
+                }
+                console.log('Hidden input value set to:', deleteBookId.value); // Debug log
+            } else {
+                console.error('deleteBookId element not found!');
             }
         }
     });
 
     // Edit button modal population
     document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('edit-btn')) {
+        // Find the closest edit button (handles clicks on child elements like icons)
+        const editButton = event.target.closest('.edit-btn');
+        if (editButton) {
             var editBookId = document.getElementById('editBookId');
             var editBookTitle = document.getElementById('editBookTitle');
             var editBookAuthor = document.getElementById('editBookAuthor');
@@ -34,15 +47,27 @@ document.addEventListener('DOMContentLoaded', function() {
             var editBookPublishedDate = document.getElementById('editBookPublishedDate');
             var editBookLanguage = document.getElementById('editBookLanguage');
             var editBookStock = document.getElementById('editBookStock');
+            
             if (editBookId && editBookTitle && editBookAuthor && editBookPublisher && editBookSourceOfAcquisition && editBookPublishedDate && editBookLanguage && editBookStock) {
-                editBookId.value = event.target.getAttribute('data-id');
-                editBookTitle.value = event.target.getAttribute('data-title');
-                editBookAuthor.value = event.target.getAttribute('data-author');
-                editBookPublisher.value = event.target.getAttribute('data-publisher');
-                editBookSourceOfAcquisition.value = event.target.getAttribute('data-source');
-                editBookPublishedDate.value = event.target.getAttribute('data-published');
-                editBookLanguage.value = event.target.getAttribute('data-language');
-                editBookStock.value = event.target.getAttribute('data-stock');
+                // Get data from the button attributes
+                const bookId = editButton.getAttribute('data-id');
+                const title = editButton.getAttribute('data-title');
+                const author = editButton.getAttribute('data-author');
+                const publisher = editButton.getAttribute('data-publisher');
+                const source = editButton.getAttribute('data-source');
+                const published = editButton.getAttribute('data-published');
+                const language = editButton.getAttribute('data-language');
+                const stock = editButton.getAttribute('data-stock');
+                
+                // Populate the form fields
+                editBookId.value = bookId || '';
+                editBookTitle.value = title || '';
+                editBookAuthor.value = author || '';
+                editBookPublisher.value = publisher || '';
+                editBookSourceOfAcquisition.value = source || '';
+                editBookPublishedDate.value = published || '';
+                editBookLanguage.value = language || '';
+                editBookStock.value = stock || '';
             }
         }
     });

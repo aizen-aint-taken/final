@@ -9,6 +9,9 @@
             </div>
             <div class="modal-body">
                 Are you sure you want to delete this book?
+                <div class="mt-2">
+                    <small class="text-muted">Book ID: <span id="deleteBookIdDisplay">Not set</span></small>
+                </div>
             </div>
             <div class="modal-footer">
                 <form action="../BooksCrud/Delete.php" method="POST">

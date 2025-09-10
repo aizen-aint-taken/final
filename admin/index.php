@@ -50,104 +50,51 @@ include('../includes/sidebar.php');
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="UI PAGE">
-    <meta name="author" content="Ely Gian Ga">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/assets/css/font-awesome.css">
-    <!-- <link rel="stylesheet" href="../public/assets/css/admin_index.css"> -->
-    <link rel="stylesheet" href="../public/assets/css/useradmin.css">
-    <title>Library Inventory</title>
-</head>
-
-
-<body>
-    <div class="content-wrapper">
-
-        <!-- Main Content -->
-        <section class="content">
-
-            <div class="container-fluid">
-                <!-- Tabs Navigation -->
-                <ul class="nav nav-tabs justify-content-center" id="dashboard-tabs" role="tablist">
-                    <li class="nav-item">
-
-                    </li>
-                </ul>
-
-                <!-- Tab Content -->
-                <div class="tab-content mt-5" id="dashboard-tabContent">
-                    <!-- Literature Tab -->
-                    <div class="tab-pane fade show active" id="literature" role="tabpanel" aria-labelledby="literature-tab">
-                        <div class="card">
-
-                            <div class="container">
-                                <h2 class="text-center text-black" style="font-size: 50px;">List of Library Collection</h2>
-                            </div>
-                            <hr class="hr">
-                            <div class="card-body">
-                                <?php
-                                include("../categories/Books.php");
-                                ?>
-                            </div>
+<div class="content-wrapper" style="padding-top: 40px;">
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Tab Content -->
+            <div class="tab-content mt-3" id="dashboard-tabContent">
+                <!-- Literature Tab -->
+                <div class="tab-pane fade show active" id="literature" role="tabpanel" aria-labelledby="literature-tab">
+                    <div class="card">
+                        <div class="container">
+                            <h2 class="text-center text-black" style="font-size: 50px;">List of Library Collection</h2>
+                        </div>
+                        <hr class="hr">
+                        <div class="card-body">
+                            <?php
+                            include("../categories/Books.php");
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-    <?php include('../includes/footer.php'); ?>
+        </div>
+    </section>
+</div>
+<?php include('../includes/footer.php'); ?>
 
-    <script src="../public/assets/js/jquery-3.5.1.min.js"></script>
+<!-- MQTT and additional scripts -->
+<script>
+    // Wait for AdminLTE to fully load before initializing MQTT
+    document.addEventListener('DOMContentLoaded', function() {
+        // Small delay to ensure AdminLTE is fully initialized
+        setTimeout(function() {
+            initializeMQTT();
+        }, 100);
+    });
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/plugins/card-refresh/card-refresh.js"></script>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
-
-
-    <script src="../public/assets/js/Books.js"></script>
-    <script>
-        fetch('getSession.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then(text => {
-                console.log('Raw Response:', text);
-                try {
-                    return JSON.parse(text);
-                } catch (error) {
-                    throw new Error('Invalid JSON: ' + text);
-                }
-            })
-            .then(data => console.log('Session Data:', data))
-            .catch(error => console.error('Error fetching session data:', error));
-
-
-        // client mqtt
-        // wss://broker.hivemq.com:8884/mqtt
-        // wss://broker.emqx.io:8084/mqtt
+    function initializeMQTT() {
+        // MQTT Client Configuration
         const client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt', {
             reconnectPeriod: 5000,
             clean: true,
             clientId: 'libraryAdmin_' + Math.random().toString(16).substr(2, 8),
             username: '',
             password: '',
-        })
+        });
         let notificationCount = 0;
 
         client.on('connect', () => {
@@ -168,16 +115,20 @@ include('../includes/sidebar.php');
                 try {
                     const data = JSON.parse(message.toString());
                     notificationCount++;
-                    document.getElementById('notification-count').textContent = notificationCount;
+                    const notificationElement = document.getElementById('notification-count');
+                    if (notificationElement) {
+                        notificationElement.textContent = notificationCount;
+                    }
 
-                    const notification = `
-                    <div class="notification-item">
-                        <strong>New Reservation:</strong><br> Book Reserved: <strong> ${data.title}</strong> by ${data.author}<br>
-                        <small>Reserved by: ${data.name}</small>
-                    </div>`;
-                    document.getElementById('notifications').insertAdjacentHTML('afterbegin', notification);
-
-                    // file_put_contents('mqtt_log.txt', json_encode($notification).PHP_EOL, FILE_APPEND);
+                    const notificationsContainer = document.getElementById('notifications');
+                    if (notificationsContainer) {
+                        const notification = `
+                            <div class="notification-item">
+                                <strong>New Reservation:</strong><br> Book Reserved: <strong> ${data.title}</strong> by ${data.author}<br>
+                                <small>Reserved by: ${data.name}</small>
+                            </div>`;
+                        notificationsContainer.insertAdjacentHTML('afterbegin', notification);
+                    }
                 } catch (e) {
                     console.error('Error parsing message:', e);
                 }
@@ -200,31 +151,12 @@ include('../includes/sidebar.php');
             console.log('Reconnecting to MQTT broker...');
         });
 
-
-        function toggleNotifications() {
-            const dropdown = document.getElementById('notification-dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-            if (dropdown.style.display === 'block') {
-                notificationCount = 0;
-                document.getElementById('notification-count').textContent = notificationCount;
-            }
-        }
-
-
-        document.addEventListener('click', (event) => {
-            const dropdown = document.getElementById('notification-dropdown');
-            const bell = document.querySelector('.notification-bell');
-            if (!bell.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.style.display = 'none';
-            }
-        });
-
-
         window.addEventListener('beforeunload', () => {
             client.end();
         });
-    </script>
+    }
+</script>
 
-</body>
-
-</html>
+<!-- Load MQTT library after everything else -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+<script src="../public/assets/js/Books.js"></script>

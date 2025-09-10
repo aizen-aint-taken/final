@@ -6,6 +6,7 @@
         }
 
         .main-content {
+            padding-top: 20px;
             margin-left: 250px;
             padding: 2rem;
             transition: margin-left 0.3s ease;
@@ -21,6 +22,7 @@
         }
 
         .dashboard-header h1 {
+            padding: 20px;
             margin: 0;
             font-size: 2rem;
             font-weight: 600;
