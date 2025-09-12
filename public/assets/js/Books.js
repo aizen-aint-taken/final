@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
             var editBookPublishedDate = document.getElementById('editBookPublishedDate');
             var editBookLanguage = document.getElementById('editBookLanguage');
             var editBookStock = document.getElementById('editBookStock');
+            var editBookGradeLevel = document.getElementById('editBookGradeLevel');
+            var editBookQuantityDelivered = document.getElementById('editBookQuantityDelivered');
+            var editBookQuantityAllocated = document.getElementById('editBookQuantityAllocated');
+            var editBookDeliveryDate = document.getElementById('editBookDeliveryDate');
+            var editBookDeliverySite = document.getElementById('editBookDeliverySite');
             
             if (editBookId && editBookTitle && editBookAuthor && editBookPublisher && editBookSourceOfAcquisition && editBookPublishedDate && editBookLanguage && editBookStock) {
                 // Get data from the button attributes
@@ -58,6 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const published = editButton.getAttribute('data-published');
                 const language = editButton.getAttribute('data-language');
                 const stock = editButton.getAttribute('data-stock');
+                const gradeLevel = editButton.getAttribute('data-grade-level');
+                const quantityDelivered = editButton.getAttribute('data-quantity-delivered');
+                const quantityAllocated = editButton.getAttribute('data-quantity-allocated');
+                const deliveryDate = editButton.getAttribute('data-delivery-date');
+                const deliverySite = editButton.getAttribute('data-delivery-site');
                 
                 // Populate the form fields
                 editBookId.value = bookId || '';
@@ -68,6 +78,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 editBookPublishedDate.value = published || '';
                 editBookLanguage.value = language || '';
                 editBookStock.value = stock || '';
+                
+                // Populate new fields if they exist
+                if (editBookGradeLevel) editBookGradeLevel.value = gradeLevel || '';
+                if (editBookQuantityDelivered) editBookQuantityDelivered.value = quantityDelivered || '0';
+                if (editBookQuantityAllocated) editBookQuantityAllocated.value = quantityAllocated || '0';
+                if (editBookDeliveryDate) editBookDeliveryDate.value = deliveryDate || '';
+                if (editBookDeliverySite) editBookDeliverySite.value = deliverySite || 'MAHARLIKA NHS';
             }
         }
     });

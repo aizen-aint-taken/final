@@ -36,28 +36,34 @@ if (isset($_POST['import'])) {
             ];
         }
 
-        // sulod og data
+        // Process data
         $values = [];
         $placeholders = [];
         $updates = [];
         $sourceOfAcquisitionLists = ["Government", "Private", "Donated", "Other", "Purchased"];
-        // var_dump($sourceOfAcquisitionLists);
 
         foreach ($rows as $row) {
-            [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock] = $row;
+            // Handle both old format (7 columns) and new format (up to 12 columns)
+            $row = array_pad($row, 12, ''); // Pad to 12 columns
+            [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock, $grade_level, $quantity_delivered, $quantity_allocated, $delivery_date, $delivery_site] = $row;
+
+            // Set defaults for new columns if not provided
+            $grade_level = $grade_level ?: '';
+            $quantity_delivered = is_numeric($quantity_delivered) ? (int)$quantity_delivered : 0;
+            $quantity_allocated = is_numeric($quantity_allocated) ? (int)$quantity_allocated : 0;
+            $delivery_date = !empty($delivery_date) ? $delivery_date : null;
+            $delivery_site = $delivery_site ?: 'MAHARLIKA NHS';
 
             if (empty($title) || empty($author) || empty($publisher) || empty($sourceOfAcquisition) || empty($publishDate) || empty($language) || !is_numeric($stock)) {
                 $_SESSION['error'][] = "Invalid data in row: " . $sourceOfAcquisition . implode(", ", $row);
                 continue;
             }
 
-
             $sourceOfAcquisition = ucfirst(strtolower(trim($sourceOfAcquisition)));
             if (!in_array($sourceOfAcquisition, $sourceOfAcquisitionLists)) {
                 $_SESSION['error'][] = "Invalid source of acquisition in row: " . implode(", ", $row);
                 continue;
             }
-
 
             try {
                 $date = new DateTime($publishDate);
@@ -69,7 +75,6 @@ if (isset($_POST['import'])) {
 
             $key = $title . "|" . $author;
             if (isset($existingBooks[$key])) {
-
                 $newStock = $existingBooks[$key]['stock'] + $stock;
                 $bookId = $existingBooks[$key]['id'];
                 $updates[] = "UPDATE books SET Stock = $newStock WHERE BookID = $bookId";
@@ -77,8 +82,18 @@ if (isset($_POST['import'])) {
                 continue;
             }
 
-            $values = array_merge($values, [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock]);
-            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
+            // Validate delivery_date if provided
+            if ($delivery_date && !empty($delivery_date)) {
+                try {
+                    $date = new DateTime($delivery_date);
+                    $delivery_date = $date->format('Y-m-d');
+                } catch (Exception $e) {
+                    $delivery_date = null; // Set to null if invalid
+                }
+            }
+
+            $values = array_merge($values, [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock, $grade_level, $quantity_delivered, $quantity_allocated, $delivery_date, $delivery_site]);
+            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         }
 
         foreach ($updates as $updateSql) {
@@ -88,7 +103,7 @@ if (isset($_POST['import'])) {
         }
 
         if (!empty($placeholders)) {
-            $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock) VALUES " . implode(", ", $placeholders);
+            $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock, grade_level, quantity_delivered, quantity_allocated, delivery_date, delivery_site) VALUES " . implode(", ", $placeholders);
             $stmt = $conn->prepare($sql);
             $stmt->bind_param(str_repeat('s', count($values)), ...$values);
 

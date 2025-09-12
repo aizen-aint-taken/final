@@ -125,13 +125,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
     <style>
+        /* Loading Animation Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
 
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 16px;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Disable form when loading */
+        .form-disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Enhanced button loading state */
+        .btn-login.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn-login.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 
 <body>
     <div class="background-wrapper">
         <div class="background-image"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Signing you in...</div>
+        </div>
     </div>
 
     <div class="login-container">
@@ -142,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
                 <?php echo $error; ?>
             </div>
         <?php endif; ?>
-        <form action="" method="POST">
+        <form action="" method="POST" id="loginForm">
             <div class="input-group">
                 <span class="input-group-text">
                     <i class="fa-solid fa-user"></i>
@@ -155,7 +232,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
                 </span>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="btn btn-login w-100">Sign In</button>
+            <button type="submit" class="btn btn-login w-100" id="loginBtn">
+                <span class="btn-text">Sign In</span>
+            </button>
         </form>
     </div>
 
@@ -210,6 +289,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
             updateClock();
         });
 
+        // Login form loading animation
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        loginForm.addEventListener('submit', function(e) {
+            const loginId = document.querySelector('input[name="login_id"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value;
+
+            // Validate inputs
+            if (!loginId || !password) {
+                e.preventDefault();
+                alert('Please fill in all fields!');
+                return false;
+            }
+
+            // Show loading animation
+            showLoading();
+        });
+
+        function showLoading() {
+            // Show overlay
+            loadingOverlay.style.display = 'flex';
+
+            // Add loading class to button
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+
+            // Disable form
+            loginForm.classList.add('form-disabled');
+        }
+
+        function hideLoading() {
+            // Hide overlay
+            loadingOverlay.style.display = 'none';
+
+            // Remove loading class from button
+            loginBtn.classList.remove('loading');
+            loginBtn.disabled = false;
+
+            // Enable form
+            loginForm.classList.remove('form-disabled');
+        }
+
+        // Hide loading if there's an error (page reloads)
+        <?php if (!empty($error) && $_SERVER['REQUEST_METHOD'] === 'POST') : ?>
+            document.addEventListener('DOMContentLoaded', function() {
+                hideLoading();
+            });
+        <?php endif; ?>
+
+        // Forgot password modal form validation
         document.querySelector('#forgotPasswordModal form').addEventListener('submit', function(e) {
             const password = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;

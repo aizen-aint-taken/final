@@ -39,20 +39,22 @@ function isSuperAdmin()
           </a>
         </li>
 
+
+
         <li class="nav-item">
           <hr class="sidebar-divider">
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="../admin/depedbooks.php" class="nav-link">
             <i class="fa-solid fa-book"></i>
-            <p>Deped Books</p>
+            <p>Books(Grade 7-12)</p>
           </a>
-        </li>
+        </li> -->
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <hr class="sidebar-divider">
-        </li>
+        </li> -->
 
 
 
