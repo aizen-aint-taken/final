@@ -21,7 +21,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'export') {
 
         if ($result->num_rows === 0) {
             $_SESSION['error'][] = "No delivery records found to export.";
-            header("Location: ../analysis/displayStats.php");
+            header("Location: ../delivery/delivery.php");
             exit;
         }
 
@@ -98,7 +98,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'export') {
         exit;
     } catch (Exception $e) {
         $_SESSION['error'][] = "Error exporting data: " . $e->getMessage();
-        header('Location: ../analysis/displayStats.php');
+        header('Location: ../delivery/delivery.php');
         exit;
     }
 }
@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
             $_SESSION['error'] = $errors;
         } else {
             $conn->commit();
-            $_SESSION['success'] = "📊 Import completed: {$successCount} records imported successfully";
+            $_SESSION['success'] = ["📊 Import completed: {$successCount} records imported successfully"];
 
             if ($errorCount > 0) {
                 $_SESSION['error'] = array_slice($errors, 0, 10); // Show only first 10 errors
@@ -239,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
         $_SESSION['error'][] = "📤 Import error: " . $e->getMessage();
     }
 
-    header('Location: ../analysis/displayStats.php');
+    header('Location: ../delivery/delivery.php');
     exit;
 }
 
@@ -313,11 +313,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'template') {
         exit;
     } catch (Exception $e) {
         $_SESSION['error'][] = "Error creating template: " . $e->getMessage();
-        header('Location: ../analysis/displayStats.php');
+        header('Location: ../delivery/delivery.php');
         exit;
     }
 }
 
 // If no action specified, redirect back
-header('Location: ../analysis/displayStats.php');
+header('Location: ../delivery/delivery.php');
 exit;

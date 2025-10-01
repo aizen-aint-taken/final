@@ -110,7 +110,7 @@ function isSuperAdmin()
         </li>
 
         <li class="nav-item">
-          <a href="../analysis/displayStats.php" class="nav-link">
+          <a href="../delivery/delivery.php" class="nav-link">
             <i class="fa-solid fa-truck"></i>
             <p>Delivery Confirmation</p>
           </a>

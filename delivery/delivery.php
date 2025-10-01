@@ -588,7 +588,7 @@ include('../includes/sidebar.php');
     }
 
     function exportToExcel() {
-        window.location.href = 'displayStats.php?export=excel';
+        window.location.href = 'delivery.php?export=excel';
     }
 
     function downloadTemplate() {

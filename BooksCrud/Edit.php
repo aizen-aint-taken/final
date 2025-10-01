@@ -17,12 +17,12 @@ if (isset($_POST['update'])) {
         $stmt->bind_param("ssssssii", $title, $author, $publisher, $sourceOfAcquisition, $publishedDate, $language, $stock, $bookID);
 
         if ($stmt->execute()) {
-            $_SESSION['success'] = "Book updated successfully.";
+            $_SESSION['success'] = ["Book updated successfully."];
         } else {
-            $_SESSION['error'] = "Error updating book: " . $stmt->error;
+            $_SESSION['error'] = ["Error updating book: " . $stmt->error];
         }
     } catch (Exception $e) {
-        $_SESSION['error'] = "Error updating book: " . $e->getMessage();
+        $_SESSION['error'] = ["Error updating book: " . $e->getMessage()];
     }
 
     header("Location: ../admin/index.php");

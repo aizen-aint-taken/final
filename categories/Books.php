@@ -80,21 +80,26 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                         <div style='color: red;'>
                             <h2>Record Already Exists</h2>
                             <h2>If existed you can just edit </h2>
-                            <?php foreach ($_SESSION['exists'] as $message) : ?>
+                            <?php
+                            // Ensure $_SESSION['exists'] is always treated as an array
+                            $exists = is_array($_SESSION['exists']) ? $_SESSION['exists'] : [$_SESSION['exists']];
+                            foreach ($exists as $message) : ?>
                                 <p><?= $message ?></p>
                             <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
                 <?php unset($_SESSION['exists']); ?>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])) : ?>
+            <?php endif; ?> <?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])) : ?>
                 <div class="alert alert-success">
                     <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
                     <div class=" handler-message-success">
                         <div style='color: green;'>
                             <h2>Successfully Imported</h2>
-                            <?php foreach ($_SESSION['success'] as $message) : ?>
+                            <?php
+                                // Ensure $_SESSION['success'] is always treated as an array
+                                $successes = is_array($_SESSION['success']) ? $_SESSION['success'] : [$_SESSION['success']];
+                                foreach ($successes as $message) : ?>
                                 <p><?= $message ?></p>
                             <?php endforeach; ?>
                         </div>
@@ -108,7 +113,10 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                     <span class="close-btn" onclick="this.parentElement.style.display='none';" style="cursor:pointer;">&times;</span>
                     <div class="">
                         <div style='color: red;'>
-                            <?php foreach ($_SESSION['error'] as $error) : ?>
+                            <?php
+                            // Ensure $_SESSION['error'] is always treated as an array
+                            $errors = is_array($_SESSION['error']) ? $_SESSION['error'] : [$_SESSION['error']];
+                            foreach ($errors as $error) : ?>
                                 <p><?= htmlspecialchars($error) ?></p>
                             <?php endforeach; ?>
                         </div>

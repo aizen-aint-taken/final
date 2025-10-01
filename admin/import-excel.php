@@ -26,7 +26,6 @@ if (isset($_POST['import'])) {
         $rows = $worksheet->toArray();
         array_shift($rows); // Skip the header row
 
-        // Fetch existing books to check for duplicates
         $existingBooks = [];
         $result = $conn->query("SELECT Title, Author, Stock, BookID FROM books");
         while ($book = $result->fetch_assoc()) {

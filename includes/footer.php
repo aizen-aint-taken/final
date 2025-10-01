@@ -2,7 +2,7 @@
   <div>
     <p>&copy; <span id="current-year"></span> Maharlika National High School All rights reserved.</p>
     <nav>
-      <a href="/privacy-policy" style="margin-right: 15px;">Privacy Policy</a>
+
       <a href="../aboutUs/index.php" style="margin-right: 15px;">About Us</a>
     </nav>
   </div>

@@ -29,12 +29,12 @@ if (isset($_POST['reset_password'])) {
         // Commit transaction
         $conn->commit();
 
-        $_SESSION['success'] = "Password has been reset successfully. Please login with your new password.";
+        $_SESSION['success'] = ["Password has been reset successfully. Please login with your new password."];
         header('Location: index.php');
         exit();
     } catch (Exception $e) {
         $conn->rollback();
-        $_SESSION['error'] = "Password reset failed: " . $e->getMessage();
+        $_SESSION['error'] = ["Password reset failed: " . $e->getMessage()];
         header('Location: index.php');
         exit();
     }

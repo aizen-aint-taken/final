@@ -4,7 +4,7 @@ include("../config/conn.php");
 
 
 if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['sa', 'a'])) {
-    $_SESSION['error'] = "You must be an admin to access that page.";
+    $_SESSION['error'] = ["You must be an admin to access that page."];
     header('Location: ../index.php');
     exit;
 }

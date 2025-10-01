@@ -157,12 +157,13 @@ include('../includes/sidebar.php');
         <div class="row mb-3">
             <div class="col-12 mb-2">
                 <div class="input-group search-group w-100">
+                    <label for="search" class="text-black">Search</label>
                     <input type="text" id="studentSearchInput" class="form-control" placeholder="Search by name, email, section...">
                 </div>
             </div>
             <div class="col-12">
                 <form id="yearFilterForm" class="w-100">
-                    <label for="year" class="form-label text-black">Filter by Year Level Who Borrowed:</label>
+                    <label for="year" class="form-label text-black">Filter by Year Level: </label>
                     <select name="year" class="form-select w-100" id="yearFilterSelect">
                         <option value="">All Year Level</option>
                         <?php foreach ($years as $row): ?>
