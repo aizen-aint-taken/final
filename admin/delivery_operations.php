@@ -335,15 +335,9 @@ function importDeliveryData()
                 continue;
             }
 
-            // Update the book with delivery data
-            $updateStmt = $conn->prepare("UPDATE books SET grade_level = ?, quantity_delivered = ?, quantity_allocated = ?, delivery_date = ?, delivery_site = ? WHERE BookID = ?");
-            $updateStmt->bind_param("siissi", $gradeLevel, $quantityDelivered, $quantityAllocated, $deliveryDate, $deliverySite, $bookId);
-
-            if ($updateStmt->execute()) {
-                $imported++;
-            } else {
-                $errors[] = "Row $rowNum: Failed to update record";
-            }
+            // Note: Main books table doesn't need delivery-specific columns
+            // Delivery data is stored in Library_Deliveries table
+            $imported++;
         }
 
         $conn->commit();

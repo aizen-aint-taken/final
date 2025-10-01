@@ -15,7 +15,7 @@ $query = "
     INNER JOIN users U ON R.StudentID = U.id
     INNER JOIN books B ON R.BookID = B.BookID
     WHERE (R.DueDate = ? OR R.DueDate = ?)
-    AND R.STATUS = 'Approved'
+    AND R.STATUS = 'Borrowed'
 ";
 
 $stmt = $conn->prepare($query);

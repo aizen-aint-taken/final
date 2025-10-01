@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $age = mysqli_real_escape_string($conn, $_POST['age']);
     $year = mysqli_real_escape_string($conn, $_POST['year']);
     $sect = mysqli_real_escape_string($conn, $_POST['sect']);
+    $advicer = mysqli_real_escape_string($conn, $_POST['advicer']);
     $new_email = filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL);
 
     if ($new_email === false) {
@@ -25,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
 
-        $stmt = $conn->prepare("UPDATE `users` SET name=?, age=?, year=?, sect=?, email=? WHERE id=?");
-        $stmt->bind_param("sssssi", $name, $age, $year, $sect, $new_email, $id);
+        $stmt = $conn->prepare("UPDATE `users` SET name=?, age=?, year=?, sect=?, advicer=?, email=? WHERE id=?");
+        $stmt->bind_param("ssssssi", $name, $age, $year, $sect, $advicer, $new_email, $id);
         $stmt->execute();
 
         // Update webuser table - both name and email if needed

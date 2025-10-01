@@ -19,7 +19,7 @@ $response = [];
 foreach ($reservations as $reserve) {
 
     $statusClass = 'badge-secondary';
-    if ($reserve['STATUS'] == 'Approved') {
+    if ($reserve['STATUS'] == 'Borrowed') {
         $statusClass = 'badge-success';
     } elseif ($reserve['STATUS'] == 'Rejected') {
         $statusClass = 'badge-danger';

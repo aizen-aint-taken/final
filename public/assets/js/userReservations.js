@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function getStatusBadgeClass(status) {
     switch (status) {
-        case 'Approved':
+        case 'Borrowed':
             return 'badge-success';
         case 'Rejected':
             return 'badge-danger';

@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $validTransitions = [
-        'Pending' => ['Approved', 'Rejected'],
-        'Approved' => ['Returned'],
+        'Pending' => ['Borrowed', 'Rejected'],
+        'Borrowed' => ['Returned'],
         'Rejected' => ['Pending'],
     ];
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->begin_transaction();
 
     try {
-        if ($newStatus === 'Approved') {
+        if ($newStatus === 'Borrowed') {
 
             $dueDate = date('Y-m-d', strtotime('+7 days'));
             $updateStmt = $conn->prepare("UPDATE reservations SET STATUS = ?, DueDate = ? WHERE id = ?");
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateStmt->execute();
 
 
-        if ($newStatus === 'Returned' && $previousStatus === 'Approved') {
+        if ($newStatus === 'Returned' && $previousStatus === 'Borrowed') {
             $bookStmt = $conn->prepare("SELECT BookID FROM reservations WHERE id = ?");
             $bookStmt->bind_param("i", $reservationId);
             $bookStmt->execute();
@@ -65,9 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'message' => 'Status updated successfully'
         ];
 
-        if ($newStatus === 'Approved') {
+        if ($newStatus === 'Borrowed') {
             $response['dueDate'] = $dueDate;
-            $response['message'] = 'Book approved. Due date set to ' . date('M d, Y', strtotime($dueDate));
+            $response['message'] = 'Book borrowed. Due date set to ' . date('M d, Y', strtotime($dueDate));
         }
 
         echo json_encode($response);

@@ -50,6 +50,7 @@ include('../includes/sidebar.php');
 
 ?>
 
+
 <div class="content-wrapper" style="padding-top: 40px;">
     <!-- Main Content -->
     <section class="content">

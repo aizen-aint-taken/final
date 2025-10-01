@@ -34,11 +34,11 @@ try {
     $sheet->getStyle('A8:F8')->getFill()->setFillType('solid')->getStartColor()->setRGB('D3D3D3');
 
     // Sample data
-    $sampleData = [
-        [1, 'G7', 25, 30, '2025-01-15', 'MAHARLIKA NHS'],
-        [2, 'G10', 15, 20, '2025-01-16', 'MAHARLIKA NHS'],
-        [3, 'SHS', 40, 40, '2025-01-17', 'MAHARLIKA NHS']
-    ];
+    // $sampleData = [
+    //     [1, 'G7', 25, 30, '2025-01-15', 'MAHARLIKA NHS'],
+    //     [2, 'G10', 15, 20, '2025-01-16', 'MAHARLIKA NHS'],
+    //     [3, 'SHS', 40, 40, '2025-01-17', 'MAHARLIKA NHS']
+    // ];
 
     $sheet->fromArray($sampleData, NULL, 'A9');
 

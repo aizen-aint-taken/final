@@ -39,22 +39,32 @@ function isSuperAdmin()
           </a>
         </li>
 
-
-
         <li class="nav-item">
           <hr class="sidebar-divider">
         </li>
 
-        <!-- <li class="nav-item">
-          <a href="../admin/depedbooks.php" class="nav-link">
-            <i class="fa-solid fa-book"></i>
-            <p>Books(Grade 7-12)</p>
+        <!-- Inventory Management Section -->
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-boxes"></i>
+            <p>
+              📦 Inventory
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
-        </li> -->
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="../admin/inventory.php" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>📊 Dashboard</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <hr class="sidebar-divider">
-        </li> -->
+        </li>
 
 
 
@@ -99,11 +109,10 @@ function isSuperAdmin()
           <hr class="sidebar-divider">
         </li>
 
-
         <li class="nav-item">
           <a href="../analysis/displayStats.php" class="nav-link">
-            <i class="nav-icon fas fa-chart-line"></i>
-            <p>Analysis</p>
+            <i class="fa-solid fa-truck"></i>
+            <p>Delivery Confirmation</p>
           </a>
         </li>
 
@@ -287,10 +296,49 @@ function isSuperAdmin()
   #notifications-section.menu-open #notifications-toggle .fas.fa-angle-left {
     transform: rotate(-90deg);
   }
+
+  /* Inventory menu styles */
+  .nav-item.has-treeview>.nav-link .fas.fa-angle-left {
+    transition: transform 0.3s ease;
+  }
+
+  .nav-item.has-treeview.menu-open>.nav-link .fas.fa-angle-left {
+    transform: rotate(-90deg);
+  }
+
+  .nav-item.has-treeview .nav-treeview {
+    display: none;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 5px;
+    margin: 5px 10px;
+    padding: 5px 0;
+  }
+
+  .nav-item.has-treeview.menu-open .nav-treeview {
+    display: block;
+  }
+
+  .nav-treeview .nav-item .nav-link {
+    padding: 8px 15px 8px 35px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin: 2px 5px;
+  }
+
+  .nav-treeview .nav-item .nav-link:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+  }
+
+  .nav-treeview .nav-item .nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // Notifications Toggle
     const notificationsToggle = document.getElementById('notifications-toggle');
     const notificationsDropdown = document.getElementById('notifications-dropdown');
     const notificationsSection = document.getElementById('notifications-section');
@@ -303,18 +351,40 @@ function isSuperAdmin()
         const isOpen = notificationsDropdown.style.display === 'block';
 
         if (isOpen) {
-
           notificationsDropdown.style.display = 'none';
           notificationsSection.classList.remove('menu-open');
         } else {
-
           notificationsDropdown.style.display = 'block';
           notificationsSection.classList.add('menu-open');
         }
       });
     }
 
+    // Inventory Menu Toggle
+    const inventoryToggles = document.querySelectorAll('.nav-item.has-treeview > .nav-link');
+    inventoryToggles.forEach(function(toggle) {
+      if (toggle.textContent.includes('Inventory')) {
+        const parentItem = toggle.parentElement;
+        const dropdown = parentItem.querySelector('.nav-treeview');
 
+        toggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const isOpen = dropdown.style.display === 'block';
+
+          if (isOpen) {
+            dropdown.style.display = 'none';
+            parentItem.classList.remove('menu-open');
+          } else {
+            dropdown.style.display = 'block';
+            parentItem.classList.add('menu-open');
+          }
+        });
+      }
+    });
+
+    // Close dropdowns when clicking outside
     document.addEventListener('click', function(event) {
       if (notificationsSection && !notificationsSection.contains(event.target)) {
         if (notificationsDropdown) {
@@ -324,13 +394,54 @@ function isSuperAdmin()
           notificationsSection.classList.remove('menu-open');
         }
       }
+
+      // Close inventory dropdown when clicking outside
+      const inventoryMenus = document.querySelectorAll('.nav-item.has-treeview');
+      inventoryMenus.forEach(function(menu) {
+        if (!menu.contains(event.target)) {
+          const dropdown = menu.querySelector('.nav-treeview');
+          if (dropdown) {
+            dropdown.style.display = 'none';
+          }
+          menu.classList.remove('menu-open');
+        }
+      });
     });
 
-
+    // Prevent dropdown close when clicking inside
     if (notificationsDropdown) {
       notificationsDropdown.addEventListener('click', function(e) {
         e.stopPropagation();
       });
     }
+
+    // Prevent inventory dropdown close when clicking inside
+    const inventoryDropdowns = document.querySelectorAll('.nav-treeview');
+    inventoryDropdowns.forEach(function(dropdown) {
+      dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+
+    // Set active state based on current page
+    const currentPage = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(function(link) {
+      const href = link.getAttribute('href');
+      if (href && currentPage.includes(href.replace('../', ''))) {
+        link.classList.add('active');
+
+        // If it's in a dropdown, open the parent
+        const parentTreeview = link.closest('.nav-treeview');
+        if (parentTreeview) {
+          parentTreeview.style.display = 'block';
+          const parentItem = parentTreeview.closest('.nav-item.has-treeview');
+          if (parentItem) {
+            parentItem.classList.add('menu-open');
+          }
+        }
+      }
+    });
   });
 </script>

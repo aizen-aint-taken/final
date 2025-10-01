@@ -38,12 +38,13 @@
 
         .container-fluid {
             max-width: 100%;
-            margin: 0 !important;
+            margin: 0 auto !important;
             padding: 2rem !important;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(0, 123, 255, 0.1);
+            width: 90%;
         }
 
         .page-header {
@@ -394,6 +395,125 @@
         .form-check-input:checked {
             background-color: #667eea;
             border-color: #667eea;
+        }
+
+        /* Bulk Actions Container Styles */
+        .bulk-actions-container {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(40, 167, 69, 0.2);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bulk-actions-container::before {
+            content: '⚡';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            opacity: 0.2;
+        }
+
+        .bulk-actions-container .form-check-label {
+            color: #155724;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .bulk-actions-container .form-check-input {
+            transform: scale(1.2);
+            margin-right: 10px;
+        }
+
+        .bulk-actions-container .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        #bulkActionButtons .btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #bulkActionButtons .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #bulkActionButtons .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+        }
+
+        #bulkActionButtons .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            border: none;
+            color: #212529;
+        }
+
+        #bulkActionButtons .btn-info {
+            background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+            border: none;
+        }
+
+        #bulkActionButtons .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+        }
+
+        #bulkActionInfo {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            color: #155724;
+            font-weight: 600;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .bulk-actions-container {
+                padding: 15px;
+            }
+            
+            #bulkActionButtons .btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Checkbox Column Visibility */
+        .checkbox-cell {
+            width: 50px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        #selectAllColumn {
+            width: 50px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-checkbox-container {
+            transition: all 0.3s ease;
+        }
+
+        #mobileSelectAllContainer {
+            transition: all 0.3s ease;
+        }
+
+        /* Smooth transitions for showing/hiding checkboxes */
+        .table th,
+        .table td {
+            transition: all 0.3s ease;
         }
 
         .action-buttons {

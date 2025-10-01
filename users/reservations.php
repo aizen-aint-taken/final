@@ -152,7 +152,7 @@ if ($notifications->num_rows == 0) {
 function getStatusBadgeClass($status)
 {
     switch ($status) {
-        case 'Approved':
+        case 'Borrowed':
             return 'badge-success';
         case 'Rejected':
             return 'badge-danger';
@@ -188,13 +188,13 @@ function getStatusBadgeClass($status)
         <div class="container">
             <div class="filter-container mb-4">
                 <label for="form-select" class="filter-label mb-2">
-                    <i class="fas fa-filter me-2"></i>Filter by Status
+                    <i class="fas fa-filter me-2"></i>Select by Status
                 </label>
                 <div class="d-flex gap-2">
                     <select class="select form-select" name="status" id="form-select">
                         <option value="All">All Reservations</option>
-                        <option value="Approved">
-                            <i class="fas fa-check-circle"></i> Approved
+                        <option value="Borrowed">
+                            <i class="fas fa-check-circle"></i> Borrowed
                         </option>
                         <option value="Pending">
                             <i class="fas fa-clock"></i> Pending
@@ -207,7 +207,7 @@ function getStatusBadgeClass($status)
                         </option>
                     </select>
                     <button class="btn btn-primary" id="filterButton">
-                        <i class="fas fa-search me-2"></i>Filter
+                        <i class="fas fa-search me-2"></i>Select
                     </button>
                 </div>
             </div>
@@ -216,7 +216,7 @@ function getStatusBadgeClass($status)
             <div class="mb-4 text-center qr-section">
                 <?php
 
-                $qrStmt = $conn->prepare("SELECT COUNT(*) as cnt FROM reservations WHERE StudentID = ? AND STATUS = 'Approved' AND (DueDate IS NOT NULL AND DueDate >= CURDATE())");
+                $qrStmt = $conn->prepare("SELECT COUNT(*) as cnt FROM reservations WHERE StudentID = ? AND STATUS = 'Borrowed' AND (DueDate IS NOT NULL AND DueDate >= CURDATE())");
                 $qrStmt->bind_param("i", $studentId);
                 $qrStmt->execute();
                 $qrResult = $qrStmt->get_result();
@@ -273,7 +273,7 @@ function getStatusBadgeClass($status)
             <!-- Desktop View -->
             <div class="card shadow-lg d-none d-lg-block">
                 <div class="card-header bg-primary text-white text-center">
-                    <h2 class="fw-bold">Reservation List</h2>
+                    <h2 class="fw-bold">Student Books List</h2>
                 </div>
                 <div class="card-body">
                     <table id="reservationTable" class="table table-striped table-hover text-center align-middle">
@@ -281,7 +281,7 @@ function getStatusBadgeClass($status)
                             <tr>
                                 <th scope="col">Reserved Date</th>
                                 <th scope="col">Book Title</th>
-                                <th scope="col">Approval Status</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>

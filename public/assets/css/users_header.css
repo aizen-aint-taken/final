@@ -1,43 +1,174 @@
-.navbar {
-    background: linear-gradient(135deg, rgb(184, 172, 175), rgb(97, 115, 115));
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: var(--header-height);
-    z-index: 1;
+.modern-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    min-height: 60px;
+    width: 100%;
 }
 
-.navbar-brand {
-    font-weight: 600;
-    font-size: 1.25rem;
+.modern-brand {
+    color: white !important;
+    text-decoration: none;
 }
 
-.nav-link {
-    padding: 0.5rem 1rem !important;
-    color: rgba(255, 255, 255, 0.9) !important;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.nav-link:hover {
-    color: #fff !important;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.dropdown-menu {
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+.brand-icon {
+    background: rgba(255, 255, 255, 0.2);
     padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
 }
 
-.dropdown-item {
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+.brand-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.welcome-section {
+    margin-left: 2rem;
+}
+
+.welcome-text h6 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.user-avatar {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 0.25rem;
     transition: all 0.3s ease;
 }
 
-.dropdown-item:hover {
-    background-color: #f8f9fa;
+.user-avatar:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.quick-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.quick-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.quick-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.user-dropdown-toggle {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+}
+
+.user-dropdown-toggle:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar-container {
+    position: relative;
+}
+
+.user-status-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.dropdown-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.dropdown.show .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.modern-dropdown {
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.98) !important;
+    min-width: 280px;
+}
+
+.dropdown-header {
+    padding: 1rem !important;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 0.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-info i {
+    font-size: 1.5rem;
+    color: #667eea;
+}
+
+.modern-dropdown .dropdown-item {
+    border-radius: 10px !important;
+    padding: 0.75rem 1rem !important;
+    margin: 0.125rem 0;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.modern-dropdown .dropdown-item:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
     transform: translateX(5px);
+}
+
+.modern-dropdown .dropdown-item i {
+    font-size: 1rem;
+    width: 20px;
+}
+
+.modern-dropdown .dropdown-item span {
+    flex: 1;
 }
 
 #mobileSidebarToggle {

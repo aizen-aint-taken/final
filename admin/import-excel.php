@@ -43,16 +43,9 @@ if (isset($_POST['import'])) {
         $sourceOfAcquisitionLists = ["Government", "Private", "Donated", "Other", "Purchased"];
 
         foreach ($rows as $row) {
-            // Handle both old format (7 columns) and new format (up to 12 columns)
-            $row = array_pad($row, 12, ''); // Pad to 12 columns
-            [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock, $grade_level, $quantity_delivered, $quantity_allocated, $delivery_date, $delivery_site] = $row;
-
-            // Set defaults for new columns if not provided
-            $grade_level = $grade_level ?: '';
-            $quantity_delivered = is_numeric($quantity_delivered) ? (int)$quantity_delivered : 0;
-            $quantity_allocated = is_numeric($quantity_allocated) ? (int)$quantity_allocated : 0;
-            $delivery_date = !empty($delivery_date) ? $delivery_date : null;
-            $delivery_site = $delivery_site ?: 'MAHARLIKA NHS';
+            // Handle standard book import format (7 columns)
+            $row = array_pad($row, 7, ''); // Pad to 7 columns
+            [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock] = $row;
 
             if (empty($title) || empty($author) || empty($publisher) || empty($sourceOfAcquisition) || empty($publishDate) || empty($language) || !is_numeric($stock)) {
                 $_SESSION['error'][] = "Invalid data in row: " . $sourceOfAcquisition . implode(", ", $row);
@@ -82,18 +75,8 @@ if (isset($_POST['import'])) {
                 continue;
             }
 
-            // Validate delivery_date if provided
-            if ($delivery_date && !empty($delivery_date)) {
-                try {
-                    $date = new DateTime($delivery_date);
-                    $delivery_date = $date->format('Y-m-d');
-                } catch (Exception $e) {
-                    $delivery_date = null; // Set to null if invalid
-                }
-            }
-
-            $values = array_merge($values, [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock, $grade_level, $quantity_delivered, $quantity_allocated, $delivery_date, $delivery_site]);
-            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $values = array_merge($values, [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock]);
+            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, NOW())";
         }
 
         foreach ($updates as $updateSql) {
@@ -103,12 +86,12 @@ if (isset($_POST['import'])) {
         }
 
         if (!empty($placeholders)) {
-            $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock, grade_level, quantity_delivered, quantity_allocated, delivery_date, delivery_site) VALUES " . implode(", ", $placeholders);
+            $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock, created_date) VALUES " . implode(", ", $placeholders);
             $stmt = $conn->prepare($sql);
             $stmt->bind_param(str_repeat('s', count($values)), ...$values);
 
             if ($stmt->execute()) {
-                $_SESSION['success'][] = "Books imported successfully.";
+                $_SESSION['success'][] = "Books imported successfully with import tracking.";
 
                 // Reorder all BookIDs sequentially
                 $conn->query("SET @new_id = 0;");

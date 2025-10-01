@@ -23,13 +23,15 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] :
 $offset = ($page - 1) * $booksPerPage;
 
 
-$stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 LIMIT ? OFFSET ?");
+$stmt = $conn->prepare("SELECT b.*, 
+    COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
+FROM books b ORDER BY b.Stock DESC, b.Title ASC LIMIT ? OFFSET ?");
 $stmt->bind_param("ii", $booksPerPage, $offset);
 $stmt->execute();
 $books = $stmt->get_result();
 
 
-$stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM books");
 $stmt->execute();
 $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 $totalPages = ceil($totalBooks / $booksPerPage);
@@ -42,7 +44,9 @@ $filterBooks = $stmt->get_result();
 
 if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
     $booksFilter = trim($_POST['booksFilter']);
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Subject = ? AND Stock > 0");
+    $stmt = $conn->prepare("SELECT b.*, 
+        COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
+    FROM books b WHERE b.Subject = ? ORDER BY b.Stock DESC, b.Title ASC");
     $stmt->bind_param("s", $booksFilter);
     $stmt->execute();
     $books = $stmt->get_result();
@@ -203,24 +207,38 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                         <th>Published Date</th>
                         <th>Subject</th>
                         <th>Available</th>
+                        <th>Currently Borrowed</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     if ($books && $books->num_rows > 0):
-                        $rowNumber = ($page - 1) * $booksPerPage + 1; // Calculate starting row number for pagination
+                        $rowNumber = ($page - 1) * $booksPerPage + 1;
                         foreach ($books as $book):
+                            $currentRowNumber = $rowNumber++;
                     ?>
                             <tr>
-                                <td><?= $rowNumber++ ?></td>
+                                <td><?= $currentRowNumber ?></td>
                                 <td><?= htmlspecialchars($book['Title']) ?></td>
                                 <td><?= htmlspecialchars($book['Author']) ?></td>
                                 <td><?= htmlspecialchars($book['Publisher']) ?></td>
                                 <td><?= htmlspecialchars($book['Source of Acquisition']) ?></td>
                                 <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
                                 <td><?= htmlspecialchars($book['Subject']) ?></td>
-                                <td><?= htmlspecialchars($book['Stock']) ?></td>
+                                <td>
+                                    <?php if ($book['Stock'] > 0): ?>
+                                        <span class="badge bg-success"><?= htmlspecialchars($book['Stock']) ?></span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger">0</span>
+                                        <br><small class="text-muted fst-italic">Book not currently available</small>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <span class="badge <?= $book['currently_borrowed'] > 0 ? 'bg-warning text-dark' : 'bg-secondary' ?>">
+                                        <?= htmlspecialchars($book['currently_borrowed']) ?>
+                                    </span>
+                                </td>
                                 <td>
                                     <div class="d-flex flex-column">
                                         <button class="btn btn-success btn-sm mb-2 edit-btn"
@@ -242,7 +260,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                             data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteBookModal"
-                                            title="Delete Book ID: <?= htmlspecialchars($book['BookID']) ?>">
+                                            title="Delete Book #<?= $currentRowNumber ?>: <?= htmlspecialchars($book['Title']) ?>">
                                             <i class="bi bi-trash fs-5"></i>
                                         </button>
                                     </div>
@@ -292,7 +310,17 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                 <strong>Source of Acquisition</strong> <?= htmlspecialchars($book['Source of Acquisition']) ?><br>
                                 <strong>Published Date:</strong> <?= htmlspecialchars($book['PublishedDate']) ?><br>
                                 <strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?><br>
-                                <strong>Stock:</strong> <?= htmlspecialchars($book['Stock']) ?>
+                                <strong>Stock:</strong>
+                                <?php if ($book['Stock'] > 0): ?>
+                                    <span class="badge bg-success"><?= htmlspecialchars($book['Stock']) ?></span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">0</span>
+                                    <br><small class="text-muted fst-italic">Book not currently available</small>
+                                <?php endif; ?><br>
+                                <strong>Currently Borrowed:</strong>
+                                <span class="badge <?= $book['currently_borrowed'] > 0 ? 'bg-warning text-dark' : 'bg-secondary' ?>">
+                                    <?= htmlspecialchars($book['currently_borrowed']) ?>
+                                </span>
                             </p>
                             <div class="d-flex justify-content-between">
                                 <button class="btn btn-success btn-sm mb-2 edit-btn" data-bs-toggle="modal" data-bs-target="#editBookModal"
@@ -307,7 +335,8 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                     <i class="bi bi-pencil-square fs-5"></i>
                                 </button>
                                 <button class="btn btn-danger btn-sm mb-2 delete-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"
-                                    data-bs-toggle="modal" data-bs-target="#deleteBookModal">
+                                    data-bs-toggle="modal" data-bs-target="#deleteBookModal"
+                                    title="Delete Book #<?= $cardRowNumber - 1 ?>: <?= htmlspecialchars($book['Title']) ?>">
                                     <i class="bi bi-trash fs-5"></i>
                                 </button>
                             </div>

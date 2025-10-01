@@ -13,7 +13,7 @@ if (!isset($_SESSION['student_id'])) {
 $studentId = $_SESSION['student_id'];
 
 
-$stmt = $conn->prepare("SELECT B.Title, R.DueDate FROM reservations R INNER JOIN books B ON R.BookID = B.BookID WHERE R.StudentID = ? AND R.STATUS = 'Approved' AND (R.DueDate IS NOT NULL AND R.DueDate >= CURDATE())");
+$stmt = $conn->prepare("SELECT B.Title, R.DueDate FROM reservations R INNER JOIN books B ON R.BookID = B.BookID WHERE R.StudentID = ? AND R.STATUS = 'Borrowed' AND (R.DueDate IS NOT NULL AND R.DueDate >= CURDATE())");
 $stmt->bind_param("i", $studentId);
 $stmt->execute();
 $result = $stmt->get_result();

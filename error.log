@@ -927,3 +927,1093 @@ Stack trace:
 [10-Sep-2025 08:31:44 Europe/Berlin] User type: a
 [12-Sep-2025 05:14:50 Europe/Berlin] Current page: /maharlika/admin/student.php
 [12-Sep-2025 05:14:50 Europe/Berlin] User type: sa
+[25-Sep-2025 08:18:09 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:18:09 Europe/Berlin] User type: a
+[25-Sep-2025 08:18:14 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:18:14 Europe/Berlin] User type: a
+[25-Sep-2025 08:18:18 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:18:18 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:18 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:18 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:29 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:29 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:30 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:30 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:30 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:30 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:32 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:32 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:32 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:32 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:33 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:33 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:40 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:40 Europe/Berlin] User type: a
+[25-Sep-2025 08:21:55 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:21:55 Europe/Berlin] User type: a
+[25-Sep-2025 08:29:11 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:29:11 Europe/Berlin] User type: a
+[25-Sep-2025 08:29:53 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:29:53 Europe/Berlin] User type: a
+[25-Sep-2025 08:30:06 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:30:06 Europe/Berlin] User type: a
+[25-Sep-2025 08:30:27 Europe/Berlin] Password changed successfully for user ID: 1, Email: jems@gmail.com
+[25-Sep-2025 08:30:29 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 08:30:29 Europe/Berlin] User type: a
+[25-Sep-2025 10:31:19 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:31:19 Europe/Berlin] User type: a
+[25-Sep-2025 10:44:21 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:44:21 Europe/Berlin] User type: a
+[25-Sep-2025 10:45:23 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:45:23 Europe/Berlin] User type: a
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:45:23 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 201
+[25-Sep-2025 10:53:42 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:53:42 Europe/Berlin] User type: a
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:53:42 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:00 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:00 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:01 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:01 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:01 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:02 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:02 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:03 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:03 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:03 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:03 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:10 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:10 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:20 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:20 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:20 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:21 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:21 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:21 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:22 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:54:22 Europe/Berlin] User type: a
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 202
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 214
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 250
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Warning:  Undefined array key "advicer" in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:54:22 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\maharlika\admin\student.php on line 262
+[25-Sep-2025 10:55:04 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:55:04 Europe/Berlin] User type: a
+[25-Sep-2025 10:55:30 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:55:30 Europe/Berlin] User type: a
+[25-Sep-2025 10:59:10 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 10:59:10 Europe/Berlin] User type: a
+[25-Sep-2025 11:00:05 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:00:05 Europe/Berlin] User type: a
+[25-Sep-2025 11:00:30 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:00:30 Europe/Berlin] User type: a
+[25-Sep-2025 11:00:41 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:00:41 Europe/Berlin] User type: a
+[25-Sep-2025 11:00:42 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:00:42 Europe/Berlin] User type: a
+[25-Sep-2025 11:02:49 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:02:49 Europe/Berlin] User type: a
+[25-Sep-2025 11:05:10 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:05:10 Europe/Berlin] User type: a
+[25-Sep-2025 11:05:29 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:05:29 Europe/Berlin] User type: a
+[25-Sep-2025 11:05:46 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:05:46 Europe/Berlin] User type: a
+[25-Sep-2025 11:05:47 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:05:47 Europe/Berlin] User type: a
+[25-Sep-2025 11:06:32 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:06:32 Europe/Berlin] User type: a
+[25-Sep-2025 11:06:47 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:06:47 Europe/Berlin] User type: a
+[25-Sep-2025 11:07:31 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:07:31 Europe/Berlin] User type: a
+[25-Sep-2025 11:07:51 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:07:51 Europe/Berlin] User type: a
+[25-Sep-2025 11:13:21 Europe/Berlin] Current page: /maharlika/admin/student.php
+[25-Sep-2025 11:13:21 Europe/Berlin] User type: a
+[26-Sep-2025 09:52:24 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 09:52:24 Europe/Berlin] User type: a
+[26-Sep-2025 10:02:57 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 10:02:57 Europe/Berlin] User type: a
+[26-Sep-2025 11:21:19 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 11:21:19 Europe/Berlin] User type: a
+[26-Sep-2025 11:21:45 Europe/Berlin] Password changed successfully for user ID: 34, Email: ichigo@gmail.com
+[26-Sep-2025 11:21:46 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 11:21:46 Europe/Berlin] User type: a
+[26-Sep-2025 11:39:32 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 11:39:32 Europe/Berlin] User type: a
+[26-Sep-2025 11:44:08 Europe/Berlin] Form submitted with data: Array
+(
+    [name] => Junel Sotil
+    [age] => 17
+    [year] => Grade 9
+    [sect] =>  Integrity
+    [advicer] => Ms. Keziah Presto
+    [mail] => junel@gmail.com
+    [password] => 12345678
+)
+
+[26-Sep-2025 11:44:08 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 11:44:08 Europe/Berlin] User type: a
+[26-Sep-2025 11:54:44 Europe/Berlin] Form submitted with data: Array
+(
+    [name] => Joel Miller Go
+    [age] => 18
+    [year] => Grade 12
+    [sect] => Chastity
+    [advicer] => Ms. Grace Vallescas
+    [mail] => joel@gmail.com
+    [password] => 12345678
+)
+
+[26-Sep-2025 11:54:44 Europe/Berlin] Current page: /maharlika/admin/student.php
+[26-Sep-2025 11:54:44 Europe/Berlin] User type: a

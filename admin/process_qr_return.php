@@ -32,7 +32,7 @@ $updated = 0;
 foreach ($books as $book) {
     if (!isset($book['title']) || !isset($book['due_date'])) continue;
 
-    $stmt = $conn->prepare("SELECT id FROM reservations R INNER JOIN books B ON R.BookID = B.BookID WHERE R.StudentID = ? AND B.Title = ? AND R.DueDate = ? AND R.STATUS = 'Approved'");
+    $stmt = $conn->prepare("SELECT id FROM reservations R INNER JOIN books B ON R.BookID = B.BookID WHERE R.StudentID = ? AND B.Title = ? AND R.DueDate = ? AND R.STATUS = 'Borrowed'");
     $stmt->bind_param("iss", $studentId, $book['title'], $book['due_date']);
     $stmt->execute();
     $result = $stmt->get_result();

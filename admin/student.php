@@ -67,6 +67,7 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
     $age = mysqli_real_escape_string($conn, $_POST['age']);
     $year = mysqli_real_escape_string($conn, $_POST['year']);
     $sect = mysqli_real_escape_string($conn, $_POST['sect']);
+    $advicer = mysqli_real_escape_string($conn, $_POST['advicer']);
     $email = filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL);
 
     $password = $_POST['password'];
@@ -91,8 +92,8 @@ if ($_POST && isset($_POST['mail']) && isset($_POST['password'])) {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 
-                $stmt = $conn->prepare("INSERT INTO users (email, password, name, age, year, sect) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("ssssss", $email, $hashed_password, $name, $age, $year, $sect);
+                $stmt = $conn->prepare("INSERT INTO users (email, password, name, age, year, sect, advicer) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssssss", $email, $hashed_password, $name, $age, $year, $sect, $advicer);
 
                 if (!$stmt->execute()) {
                     throw new Exception("Error creating user account: " . $stmt->error);
@@ -186,6 +187,7 @@ include('../includes/sidebar.php');
                         <th>AGE</th>
                         <th>YEAR LEVEL</th>
                         <th>SECTION</th>
+                        <th>Advicer</th>
                         <th>EMAIL</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -197,6 +199,7 @@ include('../includes/sidebar.php');
                             <td><?= htmlspecialchars($user['age']) ?></td>
                             <td><?= htmlspecialchars($user['year']) ?></td>
                             <td><?= htmlspecialchars($user['sect']) ?></td>
+                            <td><?= htmlspecialchars($user['advicer']) ?></td>
                             <td><?= htmlspecialchars($user['email']) ?></td>
                             <td>
                                 <div class="d-flex gap-2">
@@ -208,6 +211,7 @@ include('../includes/sidebar.php');
                                         data-age="<?= htmlspecialchars($user['age']) ?>"
                                         data-year="<?= htmlspecialchars($user['year']) ?>"
                                         data-sect="<?= htmlspecialchars($user['sect']) ?>"
+                                        data-advicer="<?= htmlspecialchars($user['advicer']) ?>"
                                         data-mail="<?= htmlspecialchars($user['email']) ?>">
                                         <i class="fas fa-edit"></i>
                                     </button>
@@ -243,6 +247,7 @@ include('../includes/sidebar.php');
                             <p><strong>Age:</strong> <?= htmlspecialchars($user['age']) ?></p>
                             <p><strong>Year Level:</strong> <?= htmlspecialchars($user['year']) ?></p>
                             <p><strong>Section:</strong> <?= htmlspecialchars($user['sect']) ?></p>
+                            <p><strong>Advisor:</strong> <?= htmlspecialchars($user['advicer']) ?></p>
                             <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
                         </div>
                         <div class="d-flex gap-2 justify-content-center mt-3">
@@ -254,6 +259,7 @@ include('../includes/sidebar.php');
                                 data-age="<?= htmlspecialchars($user['age']) ?>"
                                 data-year="<?= htmlspecialchars($user['year']) ?>"
                                 data-sect="<?= htmlspecialchars($user['sect']) ?>"
+                                data-advicer="<?= htmlspecialchars($user['advicer']) ?>"
                                 data-mail="<?= htmlspecialchars($user['email']) ?>">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
@@ -305,6 +311,10 @@ include('../includes/sidebar.php');
                                 <input type="text" class="form-control" name="sect" id="sect" placeholder="Your Section" required>
                             </div>
                             <div class="form-group">
+                                <label for="advicer">Advisor</label>
+                                <input type="text" class="form-control" name="advicer" id="advicer" placeholder="Class Advisor" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="mail">Email</label>
                                 <input type="email" class="form-control" name="mail" id="mail" placeholder="Your Email" required>
                             </div>
@@ -349,6 +359,11 @@ include('../includes/sidebar.php');
                             <div class="form-group">
                                 <label for="edit-sect">Section</label>
                                 <input type="text" class="form-control" name="sect" id="edit-sect" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-advicer">Advisor</label>
+                                <input type="text" class="form-control" name="advicer" id="edit-advicer" required>
                             </div>
 
                             <div class="form-group">
@@ -405,6 +420,18 @@ include('../includes/sidebar.php');
     <script src="../student/editStudent.js"></script>
     <script src="../public/assets/js/resetpassword.js"></script>
     <script src="../public/assets/js/student.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var editModal = document.getElementById('editStudentModal');
+            editModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var advicer = button.getAttribute('data-advicer');
+                document.getElementById('edit-advicer').value = advicer;
+
+            });
+        });
+    </script>
 
 
 </body>

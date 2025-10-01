@@ -10,7 +10,7 @@ if (
 ) {
     $reserveId = $_GET['reserve_id'];
 
-    $stmt = $conn->prepare("UPDATE reservations SET STATUS = 'Approved' WHERE ID = ?");
+    $stmt = $conn->prepare("UPDATE reservations SET STATUS = 'Borrowed' WHERE ID = ?");
     $stmt->bind_param("i", $reserveId);
     if ($stmt->execute()) {
 

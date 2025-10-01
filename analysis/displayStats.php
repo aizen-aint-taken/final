@@ -77,10 +77,10 @@ include('../includes/sidebar.php');
                                 <i class="fas fa-file-download"></i>
                                 <span>Download Template</span>
                             </button>
-                            <button type="button" class="btn btn-outline-primary btn-enhanced" onclick="loadDeliveries()">
+                            <!-- <button type="button" class="btn btn-outline-primary btn-enhanced" onclick="loadDeliveries()">
                                 <i class="fas fa-sync-alt"></i>
                                 <span>Refresh Data</span>
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -91,17 +91,17 @@ include('../includes/sidebar.php');
                 <div class="card-header card-header-enhanced">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="card-title-enhanced">
-                            <i class="fas fa-table text-primary"></i>
-                            Delivery Records
+                            <i class="fas fa-table text-primary text-center"></i>
+                            Delivery Confirmations
                         </h3>
                         <div class="card-tools-enhanced">
                             <div class="search-section">
-                                <div class="input-group input-group-sm">
+                                <!-- <div class="input-group input-group-sm">
                                     <input type="text" class="form-control" id="searchInput" placeholder="Search deliveries...">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -587,17 +587,15 @@ include('../includes/sidebar.php');
         }
     }
 
-    // Export to Excel
     function exportToExcel() {
         window.location.href = 'displayStats.php?export=excel';
     }
 
-    // Download template
     function downloadTemplate() {
         window.location.href = '../admin/library_delivery_excel.php?action=template';
     }
 
-    // Show notifications
+
     function showNotification(message, type) {
         let alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
         let alertHtml = `
