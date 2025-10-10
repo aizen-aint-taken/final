@@ -1,5 +1,4 @@
 <?php
-
 ob_start();
 session_start();
 
@@ -11,14 +10,20 @@ if ($_SESSION['usertype'] !== 'u') {
 include("../config/conn.php");
 $studentId = $_SESSION['student_id'];
 
+// Get student name
+$nameQuery = $conn->prepare("SELECT name FROM users WHERE id = ?");
+$nameQuery->bind_param("i", $studentId);
+$nameQuery->execute();
+$nameResult = $nameQuery->get_result();
+$studentName = $nameResult->fetch_assoc()['name'] ?? 'Student';
+$nameQuery->close();
+
+// Handle AJAX request for reservations
 if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     header('Content-Type: application/json');
 
-
-
-
     $query = "SELECT 
-                R.ReserveDate AS RESERVEDATE,
+                DATE(R.ReserveDate) AS RESERVEDATE,  -- ✅ only date
                 B.Title AS BOOK_TITLE,
                 R.STATUS
               FROM reservations R 
@@ -43,7 +48,6 @@ if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequ
             $data[] = $row;
         }
 
-
         $stmt->close();
         echo json_encode(['success' => true, 'data' => $data]);
     } catch (Exception $e) {
@@ -53,10 +57,11 @@ if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequ
     exit;
 }
 
+// Notifications for due dates
 $notificationsQuery = "
     SELECT 
         B.Title as BOOK_TITLE,
-        R.DueDate,
+        DATE(R.DueDate) AS DueDate,  -- ✅ only date
         DATEDIFF(R.DueDate, CURDATE()) as DAYS_REMAINING
     FROM reservations R
     INNER JOIN books B ON R.BookID = B.BookID
@@ -73,39 +78,16 @@ $notificationStmt->execute();
 $notifications = $notificationStmt->get_result();
 $notificationStmt->close();
 
-
-if ($notifications->num_rows == 0) {
-    $debug_query = "
-        SELECT 
-            B.Title as BOOK_TITLE,
-            R.DueDate,
-            R.STATUS,
-            DATEDIFF(R.DueDate, CURDATE()) as days_diff
-        FROM reservations R
-        INNER JOIN books B ON R.BookID = B.BookID
-        WHERE R.StudentID = $studentId
-    ";
-    $debug_result = $conn->query($debug_query);
-    echo "<!-- All reservations for this user: -->";
-    while ($row = $debug_result->fetch_assoc()) {
-        echo "<!-- 
-            Book: {$row['BOOK_TITLE']},
-            Due: {$row['DueDate']},
-            Status: {$row['STATUS']},
-            Days diff: {$row['days_diff']}
-        -->";
-    }
-}
-
+// Main reservation records
 $reservationsQuery = "
     SELECT
         U.name AS USERNAME,
         U.email AS EMAIL,
-        R.ReserveDate AS RESERVEDATE,
-        DATE_ADD(R.ReserveDate, INTERVAL 7 DAY) AS DUEDATE,
+        DATE(R.ReserveDate) AS RESERVEDATE,  -- ✅ only date
+        DATE_ADD(DATE(R.ReserveDate), INTERVAL 7 DAY) AS DUEDATE,  -- ✅ only date
         B.Title AS BOOK_TITLE,
         R.STATUS AS STATUS
-    FROM `reservations` AS R
+    FROM reservations AS R
     INNER JOIN users AS U ON R.StudentID = U.id
     INNER JOIN books AS B ON R.BookID = B.BookID
     WHERE U.id = ?
@@ -125,30 +107,6 @@ $stmt->execute();
 $reservations = $stmt->get_result();
 $stmt->close();
 
-if ($notifications->num_rows == 0) {
-    $debug_query = "
-        SELECT 
-            B.Title as BOOK_TITLE,
-            R.DueDate,
-            R.STATUS,
-            DATEDIFF(R.DueDate, CURDATE()) as days_diff
-        FROM reservations R
-        INNER JOIN books B ON R.BookID = B.BookID
-        WHERE R.StudentID = $studentId
-    ";
-    $debug_result = $conn->query($debug_query);
-    echo "<!-- All reservations for this user: -->";
-    while ($row = $debug_result->fetch_assoc()) {
-        echo "<!-- 
-            Book: {$row['BOOK_TITLE']},
-            Due: {$row['DueDate']},
-            Status: {$row['STATUS']},
-            Days diff: {$row['days_diff']}
-        -->";
-    }
-}
-
-
 function getStatusBadgeClass($status)
 {
     switch ($status) {
@@ -165,6 +123,7 @@ function getStatusBadgeClass($status)
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -222,11 +181,11 @@ function getStatusBadgeClass($status)
                 $qrResult = $qrStmt->get_result();
                 $qrCount = $qrResult->fetch_assoc()['cnt'];
                 $qrStmt->close();
-                if ($qrCount > 3): ?>
-                    <div class="alert alert-info">You have more than 3 borrowed books. Please present this QR code to the admin when returning your books.</div>
+                if ($qrCount >= 1): ?>
+                    <div class="alert alert-info">You have an active borrowed book(s). Please present this QR code to the admin when returning your books.</div>
                     <img src="generate_qr.php?<?= time() ?>" alt="Your QR Code" style="max-width: 150px;" />
                 <?php else: ?>
-                    <div class="alert alert-secondary">QR code will be available when you have more than 3 active borrowed books.</div>
+                    <div class="alert alert-secondary">QR code will be available when you have an active borrowed book(s).</div>
                 <?php endif; ?>
             </div>
 
@@ -273,13 +232,15 @@ function getStatusBadgeClass($status)
             <!-- Desktop View -->
             <div class="card shadow-lg d-none d-lg-block">
                 <div class="card-header bg-primary text-white text-center">
-                    <h2 class="fw-bold">Student Books List</h2>
+                    <h2 class="fw-bold"><?= htmlspecialchars($studentName) ?>'s Books List</h2>
                 </div>
                 <div class="card-body">
                     <table id="reservationTable" class="table table-striped table-hover text-center align-middle">
                         <thead class="table-primary">
                             <tr>
-                                <th scope="col">Reserved Date</th>
+                                <th scope="col">Borrowed Date
+                                    || YY-MM-DD
+                                </th>
                                 <th scope="col">Book Title</th>
                                 <th scope="col">Status</th>
                             </tr>

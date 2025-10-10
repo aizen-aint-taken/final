@@ -214,13 +214,13 @@ function getActivityFeed($conn)
     // Get recent returns
     $returnQuery = "SELECT 
                       CONCAT('✅ ', u.name, ' returned \"', b.Title, '\"') as activity,
-                      r.ReturnDate as activity_time,
+                      r.ReturnedDate as activity_time,
                       'return' as type
                     FROM reservations r
                     JOIN books b ON r.BookID = b.BookID
                     JOIN users u ON r.StudentID = u.id
-                    WHERE r.STATUS = 'Returned' AND r.ReturnDate IS NOT NULL
-                    ORDER BY r.ReturnDate DESC
+                    WHERE r.STATUS = 'Returned' AND r.ReturnedDate IS NOT NULL
+                    ORDER BY r.ReturnedDate DESC
                     LIMIT 5";
 
     $result = $conn->query($returnQuery);

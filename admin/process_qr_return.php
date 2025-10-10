@@ -17,7 +17,7 @@ if (!isset($input['student_id']) || !isset($input['books']) || !is_array($input[
 $studentId = $input['student_id'];
 $books = $input['books'];
 
-
+// Fetch student name
 $studentName = null;
 $studentStmt = $conn->prepare("SELECT name FROM users WHERE id = ?");
 $studentStmt->bind_param("i", $studentId);
@@ -29,41 +29,74 @@ if ($row = $studentResult->fetch_assoc()) {
 $studentStmt->close();
 
 $updated = 0;
+$alreadyReturned = 0;
+
 foreach ($books as $book) {
     if (!isset($book['title']) || !isset($book['due_date'])) continue;
 
-    $stmt = $conn->prepare("SELECT id FROM reservations R INNER JOIN books B ON R.BookID = B.BookID WHERE R.StudentID = ? AND B.Title = ? AND R.DueDate = ? AND R.STATUS = 'Borrowed'");
+    // Find reservation by title + due date
+    $stmt = $conn->prepare("SELECT id, STATUS FROM reservations R 
+                            INNER JOIN books B ON R.BookID = B.BookID 
+                            WHERE R.StudentID = ? AND B.Title = ? AND R.DueDate = ?");
     $stmt->bind_param("iss", $studentId, $book['title'], $book['due_date']);
     $stmt->execute();
     $result = $stmt->get_result();
+
     if ($row = $result->fetch_assoc()) {
         $reservationId = $row['id'];
+        $status = $row['STATUS'];
 
-        $update = $conn->prepare("UPDATE reservations SET STATUS = 'Returned' WHERE id = ?");
-        $update->bind_param("i", $reservationId);
-        $update->execute();
-        $update->close();
+        if ($status === 'Borrowed') {
 
+            date_default_timezone_set('Asia/Manila');
+            $returnedDate = date('Y-m-d H:i:s');
+            $update = $conn->prepare("UPDATE reservations SET STATUS = 'Returned', ReturnedDate = ? WHERE id = ?");
+            $update->bind_param("si", $returnedDate, $reservationId);
+            $update->execute();
+            $update->close();
 
-        $bookIdStmt = $conn->prepare("SELECT B.BookID FROM reservations R INNER JOIN books B ON R.BookID = B.BookID WHERE R.id = ?");
-        $bookIdStmt->bind_param("i", $reservationId);
-        $bookIdStmt->execute();
-        $bookIdResult = $bookIdStmt->get_result();
-        if ($bookIdRow = $bookIdResult->fetch_assoc()) {
-            $bookId = $bookIdRow['BookID'];
-            $incStock = $conn->prepare("UPDATE books SET Stock = Stock + 1 WHERE BookID = ?");
-            $incStock->bind_param("i", $bookId);
-            $incStock->execute();
-            $incStock->close();
+            // Increase book stock
+            $bookIdStmt = $conn->prepare("SELECT B.BookID FROM reservations R 
+                                          INNER JOIN books B ON R.BookID = B.BookID 
+                                          WHERE R.id = ?");
+            $bookIdStmt->bind_param("i", $reservationId);
+            $bookIdStmt->execute();
+            $bookIdResult = $bookIdStmt->get_result();
+            if ($bookIdRow = $bookIdResult->fetch_assoc()) {
+                $bookId = $bookIdRow['BookID'];
+                $incStock = $conn->prepare("UPDATE books SET Stock = Stock + 1 WHERE BookID = ?");
+                $incStock->bind_param("i", $bookId);
+                $incStock->execute();
+                $incStock->close();
+            }
+            $bookIdStmt->close();
+
+            $updated++;
+        } elseif ($status === 'Returned') {
+            $alreadyReturned++;
         }
-        $bookIdStmt->close();
-        $updated++;
     }
+
     $stmt->close();
 }
 
+
 if ($updated > 0) {
-    echo json_encode(['success' => true, 'message' => "Marked $updated book(s) as returned.", 'student_name' => $studentName]);
+    echo json_encode([
+        'success' => true,
+        'message' => "Marked $updated book(s) as returned.",
+        'student_name' => $studentName
+    ]);
+} elseif ($alreadyReturned > 0) {
+    echo json_encode([
+        'success' => false,
+        'message' => "This book(s) is/are already returned by $studentName.",
+        'student_name' => $studentName
+    ]);
 } else {
-    echo json_encode(['success' => false, 'message' => 'No matching reservations found or already returned.', 'student_name' => $studentName]);
+    echo json_encode([
+        'success' => false,
+        'message' => 'No matching borrowing book(s) found for this QR code.',
+        'student_name' => $studentName
+    ]);
 }

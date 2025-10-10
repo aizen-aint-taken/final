@@ -292,7 +292,7 @@
         </li>
         <li class="nav-item">
           <a href="../admin/reservations.php" class="nav-link">
-            <i class="fas fa-calendar-check mr-1"></i> Reservations
+            <i class="fas fa-calendar-check mr-1"></i> Borrowed Books
           </a>
         </li>
 

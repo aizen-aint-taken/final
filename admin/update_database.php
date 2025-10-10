@@ -1,5 +1,5 @@
 <?php
-// Database update script to add created_date column for import tracking
+
 session_start();
 
 // Check authentication
@@ -10,7 +10,6 @@ if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['a', 'sa'
 
 include('../config/conn.php');
 
-// Check if created_date column exists
 $checkColumn = $conn->query("SHOW COLUMNS FROM books LIKE 'created_date'");
 
 if ($checkColumn->num_rows == 0) {
@@ -20,8 +19,7 @@ if ($checkColumn->num_rows == 0) {
     if ($addColumn) {
         echo "✅ Successfully added created_date column to books table.<br>";
 
-        // Update existing books with estimated import dates (optional)
-        // This sets created_date to NULL for existing books, which will be treated as manual entries
+
         echo "📝 Existing books will be marked as manual entries (created_date = NULL).<br>";
         echo "🎯 New Excel imports will have proper timestamps.<br>";
     } else {
@@ -31,7 +29,7 @@ if ($checkColumn->num_rows == 0) {
     echo "✅ created_date column already exists.<br>";
 }
 
-// Check if we need to create an inventory_transactions table for future use
+
 $checkTransTable = $conn->query("SHOW TABLES LIKE 'inventory_transactions'");
 
 if ($checkTransTable->num_rows == 0) {

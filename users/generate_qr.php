@@ -1,6 +1,8 @@
 <?php
+
 session_start();
 include("../config/conn.php");
+
 
 header('Content-Type: image/png');
 
@@ -26,9 +28,9 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-if (count($books) <= 3) {
+if (count($books) < 1) {
     http_response_code(400);
-    echo 'QR code only available if you have more than 3 active borrowings.';
+    echo 'QR code only available if you have active an borrowing books(s).';
     exit;
 }
 
@@ -37,6 +39,7 @@ $data = [
     'books' => $books
 ];
 $qrData = json_encode($data);
+
 
 require_once '../vendor/autoload.php';
 

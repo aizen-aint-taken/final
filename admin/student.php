@@ -188,7 +188,7 @@ include('../includes/sidebar.php');
                         <th>AGE</th>
                         <th>YEAR LEVEL</th>
                         <th>SECTION</th>
-                        <th>Advicer</th>
+                        <th>ADVISER</th>
                         <th>EMAIL</th>
                         <th>ACTIONS</th>
                     </tr>

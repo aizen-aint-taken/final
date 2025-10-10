@@ -9,6 +9,7 @@ if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['sa', 'a'
     exit;
 }
 
+
 $studentId = isset($_SESSION['student_id']) ? $_SESSION['student_id'] : null;
 $selectedUserId = isset($_GET['user_id']) ? $_GET['user_id'] : 'all';
 $selectedStatus = isset($_GET['status']) ? $_GET['status'] : 'all';
@@ -21,14 +22,15 @@ $query = "
         U.name AS USERNAME,
         U.advicer AS ADVICER,
         DATE_FORMAT(R.ReserveDate, '%m-%d-%Y') AS RESERVEDATE,
-       
         B.Title AS BOOK_TITLE,
         COALESCE(R.STATUS, 'Pending') AS STATUS,
         R.DueDate,
+        DATE_FORMAT(R.ReturnedDate, '%m-%d-%Y %h:%i %p') AS RETURNEDDATE,
         DATEDIFF(R.DueDate, CURDATE()) AS DaysLeft
-    FROM `reservations` AS R
+    FROM reservations AS R
     INNER JOIN users AS U ON R.StudentID = U.id
-    INNER JOIN books AS B ON R.BookID = B.BookID";
+    INNER JOIN books AS B ON R.BookID = B.BookID
+";
 
 $conditions = [];
 $params = [];
@@ -194,11 +196,12 @@ include('../includes/sidebar.php');
                                     <label for="selectAllDesktop" class="form-check-label ms-1">Select All</label>
                                 </th>
                                 <th><i class="fas fa-user me-2"></i>Student Name</th>
-                                <th><i class="fa-solid fa-chalkboard-user"></i>Advicer</th>
+                                <th><i class="fa-solid fa-chalkboard-user"></i>Adviser</th>
                                 <th><i class="fas fa-calendar me-2"></i>Borrowed Date | DD-MM-YY</th>
                                 <th><i class="fas fa-book me-2"></i>Book Title</th>
                                 <th><i class="fas fa-tasks me-2"></i>Status</th>
-                                <th><i class="fas fa-calendar-check me-2"></i>Return Date</th>
+                                <th><i class="fas fa-clock me-2"></i>Returned Date & Time</th>
+                                <th><i class="fas fa-calendar-check me-2"></i>Due Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -214,6 +217,9 @@ include('../includes/sidebar.php');
                                     <td data-label="Student Name"><?= htmlspecialchars($reserve['USERNAME']) ?></td>
                                     <td data-label="Advicer"><?= htmlspecialchars($reserve['ADVICER']) ?></td>
                                     <td data-label="Date Borrowed"><?= htmlspecialchars($reserve['RESERVEDATE']) ?></td>
+
+
+
                                     <td data-label="Book Title"><?= htmlspecialchars($reserve['BOOK_TITLE']) ?></td>
                                     <td data-label="Status">
                                         <select class="form-select status-dropdown" data-id="<?= $reserve['ReserveID'] ?>" data-previous="<?= $reserve['STATUS'] ?>">
@@ -243,6 +249,18 @@ include('../includes/sidebar.php');
                                                 min="<?= date('Y-m-d') ?>">
                                         <?php endif; ?>
                                     </td>
+
+                                    <td data-label="Returned Date & Time">
+                                        <?php
+
+
+                                        if ($reserve['RETURNEDDATE'] && $reserve['RETURNEDDATE'] !== '0000-00-00 00:00:00' && $reserve['RETURNEDDATE'] !== 'NULL' && $reserve['RETURNEDDATE'] !== null): ?>
+                                            <?= htmlspecialchars($reserve['RETURNEDDATE']) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">Not yet returned</span>
+                                        <?php endif; ?>
+                                    </td>
+
                                     <td data-label="Date to Return">
                                         <?php
                                         if ($reserve['DueDate']) {

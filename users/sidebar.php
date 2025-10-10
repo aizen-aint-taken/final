@@ -42,7 +42,7 @@
                 <div class="nav-icon">
                     <i class="fas fa-bookmark"></i>
                 </div>
-                <span class="nav-text">My Reservations</span>
+                <span class="nav-text">My Books Lists</span>
                 <div class="nav-badge" id="reservationCount"></div>
                 <div class="nav-indicator"></div>
             </a>
