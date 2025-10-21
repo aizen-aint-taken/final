@@ -18,6 +18,14 @@ $nameResult = $nameQuery->get_result();
 $studentName = $nameResult->fetch_assoc()['name'] ?? 'Student';
 $nameQuery->close();
 
+// Check how many books the user currently has borrowed
+$borrowedStmt = $conn->prepare("SELECT COUNT(*) as borrowed_count FROM reservations WHERE StudentID = ? AND STATUS = 'Borrowed'");
+$borrowedStmt->bind_param("i", $studentId);
+$borrowedStmt->execute();
+$borrowedResult = $borrowedStmt->get_result();
+$borrowedCount = $borrowedResult->fetch_assoc()['borrowed_count'];
+$borrowedStmt->close();
+
 // Handle AJAX request for reservations
 if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     header('Content-Type: application/json');
@@ -52,7 +60,7 @@ if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequ
         echo json_encode(['success' => true, 'data' => $data]);
     } catch (Exception $e) {
         error_log("Error: " . $e->getMessage());
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        echo json_encode(['success' => false, 'error', $e->getMessage()]);
     }
     exit;
 }
@@ -66,7 +74,7 @@ $notificationsQuery = "
     FROM reservations R
     INNER JOIN books B ON R.BookID = B.BookID
     WHERE R.StudentID = ?
-    AND R.STATUS = 'Approved'
+    AND R.STATUS = 'Borrowed'
     AND DATEDIFF(R.DueDate, CURDATE()) <= 7
     AND DATEDIFF(R.DueDate, CURDATE()) > 0
     ORDER BY R.DueDate ASC
@@ -77,6 +85,25 @@ $notificationStmt->bind_param("i", $studentId);
 $notificationStmt->execute();
 $notifications = $notificationStmt->get_result();
 $notificationStmt->close();
+
+// Check for overdue books
+$overdueQuery = "
+    SELECT 
+        B.Title as BOOK_TITLE,
+        DATE(R.DueDate) AS DueDate
+    FROM reservations R
+    INNER JOIN books B ON R.BookID = B.BookID
+    WHERE R.StudentID = ?
+    AND R.STATUS = 'Borrowed'
+    AND DATEDIFF(CURDATE(), R.DueDate) > 0
+    ORDER BY R.DueDate ASC
+";
+
+$overdueStmt = $conn->prepare($overdueQuery);
+$overdueStmt->bind_param("i", $studentId);
+$overdueStmt->execute();
+$overdueBooks = $overdueStmt->get_result();
+$overdueStmt->close();
 
 // Main reservation records
 $reservationsQuery = "
@@ -145,13 +172,21 @@ function getStatusBadgeClass($status)
 
     <div class="content-wrapper">
         <div class="container">
+            <!-- Add borrowed books counter -->
+            <div class="alert alert-info">
+                <strong>Borrowed Books:</strong> You currently have <strong><?php echo $borrowedCount; ?>/8</strong> books borrowed.
+                <?php if ($borrowedCount >= 8): ?>
+                    <span class="text-danger">You have reached the maximum borrowing limit.</span>
+                <?php endif; ?>
+            </div>
+
             <div class="filter-container mb-4">
                 <label for="form-select" class="filter-label mb-2">
                     <i class="fas fa-filter me-2"></i>Select by Status
                 </label>
                 <div class="d-flex gap-2">
                     <select class="select form-select" name="status" id="form-select">
-                        <option value="All">All Reservations</option>
+                        <option value="All">All Status</option>
                         <option value="Borrowed">
                             <i class="fas fa-check-circle"></i> Borrowed
                         </option>
@@ -191,7 +226,7 @@ function getStatusBadgeClass($status)
 
             <!-- Add this right after the filter container -->
             <div id="noStatusMessage" class="alert alert-warning mt-3" style="display: none;">
-                No reservations found for the selected filter.
+                No status found for the selected filter.
             </div>
 
             <!-- Notifications Section -->
@@ -206,7 +241,7 @@ function getStatusBadgeClass($status)
                                 <thead>
                                     <tr>
                                         <th>BOOK TITLE</th>
-                                        <th>DUE DATE</th>
+                                        <th>DUE DATE | YYYY-MM-DD </th>
                                         <th>DAYS REMAINING</th>
                                     </tr>
                                 </thead>
@@ -229,6 +264,40 @@ function getStatusBadgeClass($status)
                 </div>
             <?php endif; ?>
 
+
+            <!-- Overdue Books Notification -->
+            <?php if ($overdueBooks->num_rows > 0): ?>
+                <div class="alert alert-danger mt-3">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Overdue Books</h5>
+                    <p>You have <?= $overdueBooks->num_rows ?> book(s) that are past their due date. You're Books are on/over Due Date librarian won let you borrow unless you return your book.</p>
+                    <div class="table-responsive">
+                        <table class="table table-danger">
+                            <thead>
+                                <tr>
+                                    <th>BOOK TITLE</th>
+                                    <th>OVERDUE DATE | YYYY-MM-DD</th>
+                                    <th>DAYS OVERDUE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $overdueBooks->data_seek(0); // Reset pointer
+                                while ($overdue = $overdueBooks->fetch_assoc()):
+                                    $daysOverdue = (new DateTime())->diff(new DateTime($overdue['DueDate']))->days;
+                                ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($overdue['BOOK_TITLE']) ?></td>
+                                        <td><?= htmlspecialchars($overdue['DueDate']) ?></td>
+                                        <td><?= $daysOverdue ?> days</td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+
             <!-- Desktop View -->
             <div class="card shadow-lg d-none d-lg-block">
                 <div class="card-header bg-primary text-white text-center">
@@ -239,7 +308,7 @@ function getStatusBadgeClass($status)
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col">Borrowed Date
-                                    || YY-MM-DD
+                                    || YYYY-MM-DD
                                 </th>
                                 <th scope="col">Book Title</th>
                                 <th scope="col">Status</th>

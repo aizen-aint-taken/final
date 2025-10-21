@@ -313,7 +313,7 @@
             </span>
             <div class="dropdown-divider"></div>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item text-danger" data-toggle="modal" data-target="#logoutModal">
+            <a href="logout.php" class="dropdown-item text-danger" data-toggle="modal" data-target="#logoutModal">
               <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
           </div>

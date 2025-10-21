@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (data.length === 0) {
 
-            tableBody.html('<tr><td colspan="3" class="text-center">No reservations found</td></tr>');
+            tableBody.html('<tr><td colspan="3" class="text-center">No active status found</td></tr>');
             mobileContainer.empty();
             noStatusMessage.show();
         } else {

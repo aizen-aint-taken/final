@@ -23,6 +23,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] :
 $offset = ($page - 1) * $booksPerPage;
 
 
+// ... existing code ...
 $stmt = $conn->prepare("SELECT b.*, 
     COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
 FROM books b ORDER BY b.Stock DESC, b.Title ASC LIMIT ? OFFSET ?");
@@ -51,6 +52,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
     $stmt->execute();
     $books = $stmt->get_result();
 }
+// ... existing code ...
 ?>
 
 <!DOCTYPE html>
@@ -214,7 +216,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                         <th>Source of Acquisition</th>
                         <th>Published Date</th>
                         <th>Subject</th>
-                        <th>Available</th>
+                        <th>No. of Copies</th>
                         <th>Currently Borrowed</th>
                         <th>Actions</th>
                     </tr>
@@ -235,11 +237,20 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                 <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
                                 <td><?= htmlspecialchars($book['Subject']) ?></td>
                                 <td>
-                                    <?php if ($book['Stock'] > 0): ?>
-                                        <span class="badge bg-success"><?= htmlspecialchars($book['Stock']) ?></span>
+                                    <?php if (isset($book['stock_update']) && $book['stock_update'] !== null): ?>
+                                        <?php if ($book['stock_update'] > 0): ?>
+                                            <span class="badge bg-success"><?= htmlspecialchars($book['stock_update']) ?>/<?= htmlspecialchars($book['Stock']) ?></span>
+                                        <?php else: ?>
+                                            <span class="badge bg-danger">0/<?= htmlspecialchars($book['Stock']) ?></span>
+                                            <br><small class="text-muted fst-italic">Book not currently available</small>
+                                        <?php endif; ?>
                                     <?php else: ?>
-                                        <span class="badge bg-danger">0</span>
-                                        <br><small class="text-muted fst-italic">Book not currently available</small>
+                                        <?php if ($book['Stock'] > 0): ?>
+                                            <span class="badge bg-success"><?= htmlspecialchars($book['Stock']) ?>/<?= htmlspecialchars($book['Stock']) ?></span>
+                                        <?php else: ?>
+                                            <span class="badge bg-danger">0/<?= htmlspecialchars($book['Stock']) ?></span>
+                                            <br><small class="text-muted fst-italic">Book not currently available</small>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -260,7 +271,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                             data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
                                             data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
                                             data-language="<?= htmlspecialchars($book['Subject']) ?>"
-                                            data-stock="<?= htmlspecialchars($book['Stock']) ?>">
+                                            data-stock="<?= htmlspecialchars(isset($book['stock_update']) ? $book['stock_update'] : $book['Stock']) ?>">
                                             <i class="bi bi-pencil-square fs-5"></i>
                                         </button>
 
@@ -319,11 +330,20 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                 <strong>Published Date:</strong> <?= htmlspecialchars($book['PublishedDate']) ?><br>
                                 <strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?><br>
                                 <strong>Stock:</strong>
-                                <?php if ($book['Stock'] > 0): ?>
-                                    <span class="badge bg-success"><?= htmlspecialchars($book['Stock']) ?></span>
+                                <?php if (isset($book['stock_update']) && $book['stock_update'] !== null): ?>
+                                    <?php if ($book['stock_update'] > 0): ?>
+                                        <span class="badge bg-success"><?= htmlspecialchars($book['stock_update']) ?>/<?= htmlspecialchars($book['Stock']) ?></span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger">0/<?= htmlspecialchars($book['Stock']) ?></span>
+                                        <br><small class="text-muted fst-italic">Book not currently available</small>
+                                    <?php endif; ?>
                                 <?php else: ?>
-                                    <span class="badge bg-danger">0</span>
-                                    <br><small class="text-muted fst-italic">Book not currently available</small>
+                                    <?php if ($book['Stock'] > 0): ?>
+                                        <span class="badge bg-success"><?= htmlspecialchars($book['Stock']) ?>/<?= htmlspecialchars($book['Stock']) ?></span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger">0/<?= htmlspecialchars($book['Stock']) ?></span>
+                                        <br><small class="text-muted fst-italic">Book not currently available</small>
+                                    <?php endif; ?>
                                 <?php endif; ?><br>
                                 <strong>Currently Borrowed:</strong>
                                 <span class="badge <?= $book['currently_borrowed'] > 0 ? 'bg-warning text-dark' : 'bg-secondary' ?>">
@@ -339,7 +359,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                                     data-source="<?= htmlspecialchars($book['Source of Acquisition']) ?>"
                                     data-published="<?= htmlspecialchars($book['PublishedDate']) ?>"
                                     data-language="<?= htmlspecialchars($book['Subject']) ?>"
-                                    data-stock="<?= htmlspecialchars($book['Stock']) ?>">
+                                    data-stock="<?= htmlspecialchars(isset($book['stock_update']) ? $book['stock_update'] : $book['Stock']) ?>">
                                     <i class="bi bi-pencil-square fs-5"></i>
                                 </button>
                                 <button class="btn btn-danger btn-sm mb-2 delete-btn" data-id="<?= htmlspecialchars($book['BookID']) ?>"

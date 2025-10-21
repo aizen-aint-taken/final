@@ -16,21 +16,20 @@ if (isset($_POST['return'])) {
     $name = $_SESSION['username'];
     $returnDate = date('Y-m-d H:i:s');
 
-    $stmt = $conn->prepare("SELECT * FROM reservations WHERE BookID = ? AND StudentID = ? AND ReturnDate IS NULL");
+    $stmt = $conn->prepare("SELECT * FROM reservations WHERE BookID = ? AND StudentID = ? AND STATUS = 'Borrowed'");
     $stmt->bind_param("ii", $bookID, $studentID);
     $stmt->execute();
     $stmt->store_result();
-    var_dump($stmt);
 
     if ($stmt->num_rows > 0) {
 
-        $stmt = $conn->prepare("UPDATE reservations SET ReturnDate = ? WHERE BookID = ? AND StudentID = ?");
+        $stmt = $conn->prepare("UPDATE reservations SET ReturnDate = ?, STATUS = 'Returned' WHERE BookID = ? AND StudentID = ?");
         $stmt->bind_param("sii", $returnDate, $bookID, $studentID);
 
         if ($stmt->execute()) {
 
 
-            $stmt = $conn->prepare("UPDATE books SET Stock = Stock + 1 WHERE BookID = ?");
+            $stmt = $conn->prepare("UPDATE books SET stock_update = stock_update + 1 WHERE BookID = ?");
             $stmt->bind_param("i", $bookID);
             $stmt->execute();
 
@@ -60,7 +59,7 @@ if (isset($_POST['return'])) {
             $_SESSION['error'] = "Failed to return the book.";
         }
     } else {
-        $_SESSION['error'] = "No reservation found for this book.";
+        $_SESSION['error'] = "No borrowed book found for this book.";
     }
 
     header("Location: index.php");

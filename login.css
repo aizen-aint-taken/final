@@ -5,15 +5,25 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: #000;
-            overflow: hidden;
-        }
+      /* ... existing code ... */
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-clip: border-box;
+    background-origin: padding-box;
+}
 
         .background-wrapper {
             position: fixed;

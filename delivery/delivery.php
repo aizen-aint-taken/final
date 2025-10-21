@@ -154,7 +154,7 @@ include('../includes/sidebar.php');
                                             <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                         <th class="sortable text-center" data-sort="date">
-                                            <i class="fas fa-calendar"></i> Date of Delivery | YY-MM-DD
+                                            <i class="fas fa-calendar"></i> Date of Delivery | YYYY-MM-DD
                                             <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                         <th class="sortable" data-sort="site">

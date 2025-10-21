@@ -64,7 +64,7 @@ foreach ($books as $book) {
             $bookIdResult = $bookIdStmt->get_result();
             if ($bookIdRow = $bookIdResult->fetch_assoc()) {
                 $bookId = $bookIdRow['BookID'];
-                $incStock = $conn->prepare("UPDATE books SET Stock = Stock + 1 WHERE BookID = ?");
+                $incStock = $conn->prepare("UPDATE books SET stock_update = stock_update + 1 WHERE BookID = ?");
                 $incStock->bind_param("i", $bookId);
                 $incStock->execute();
                 $incStock->close();

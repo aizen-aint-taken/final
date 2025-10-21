@@ -22,21 +22,24 @@ if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
     $searchTerm = trim($_GET['search']);
     $searchPattern = "%{$searchTerm}%";
 
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0 AND (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?)");
+    // Modified to show all books, not just those with Stock > 0
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?)");
     $stmt->bind_param("sssss", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern);
     $stmt->execute();
     $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 AND (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?) ORDER BY BookID LIMIT ? OFFSET ?");
+    // Modified to show all books, not just those with Stock > 0
+    $stmt = $conn->prepare("SELECT *, COALESCE(stock_update, Stock) as display_stock FROM books WHERE (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?) ORDER BY display_stock DESC, BookID ASC LIMIT ? OFFSET ?");
     $stmt->bind_param("sssssii", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $resultsPerPage, $offset);
     $stmt->execute();
     $books = $stmt->get_result();
 } else {
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Stock > 0");
+    // Modified to show all books, not just those with Stock > 0
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books");
     $stmt->execute();
     $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
 
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Stock > 0 ORDER BY BookID LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT *, COALESCE(stock_update, Stock) as display_stock FROM books ORDER BY display_stock DESC, BookID ASC LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $resultsPerPage, $offset);
     $stmt->execute();
     $books = $stmt->get_result();
@@ -60,12 +63,15 @@ $reservations = $stmt->get_result();
 
 if (isset($_POST['filter'])) {
     $booksFilter = $_POST['booksFilter'];
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Subject = ? LIMIT ? OFFSET ?");
+    // Modified to show all books in filter, not just those with Stock > 0
+    $stmt = $conn->prepare("SELECT *, COALESCE(stock_update, Stock) as display_stock FROM books WHERE Subject = ? ORDER BY display_stock DESC, BookID ASC LIMIT ? OFFSET ?");
     $stmt->bind_param("sii", $booksFilter, $resultsPerPage, $offset);
     $stmt->execute();
     $books = $stmt->get_result();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -254,21 +260,29 @@ if (isset($_POST['filter'])) {
                                         <td><?= htmlspecialchars($book['Source of Acquisition']) ?></td>
                                         <td><?= htmlspecialchars($book['PublishedDate']) ?></td>
                                         <td><?= htmlspecialchars($book['Subject']) ?></td>
-                                        <td class="book-stock">
-                                            <span class="availability-badge available">
-                                                <i class="fas fa-check-circle me-1"></i>
-                                                <?= htmlspecialchars($book['Stock']) ?> copies
-                                            </span>
+                                        <td class="book-stock text-center">
+                                            <?php if ($book['display_stock'] > 0): ?>
+                                                <span class="badge bg-success"><?= htmlspecialchars($book['display_stock']) ?></span>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">0</span>
+                                                <div><small class="text-muted fst-italic">Book not currently available</small></div>
+                                            <?php endif; ?>
                                         </td>
-                                        <td>
+
+                                        <td class="text-center">
                                             <button type="button" class="btn btn-primary btn-sm reserve-btn"
-                                                data-bs-toggle="modal" data-bs-target="#modalId"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalId"
                                                 data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                                 data-title="<?= htmlspecialchars($book['Title']) ?>"
-                                                data-author="<?= htmlspecialchars($book['Author']) ?>">
-                                                <i class="fas fa-bookmark me-1"></i>Borrow
-                                            </button>
+                                                data-author="<?= htmlspecialchars($book['Author']) ?>"
+                                                <?= $book['display_stock'] <= 0 ? 'disabled' : '' ?>>
+                                                <i class="fas fa-bookmark me-1 
+    <?= $book['display_stock'] > 0 ? 'text-muted' : 'text-danger' ?>">
+                                                </i>Borrow
+
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -288,12 +302,14 @@ if (isset($_POST['filter'])) {
                                     </div>
                                     <div class="card-body">
                                         <div class="book-header">
-
                                             <div class="availability-status">
-                                                <span class="availability-badge available">
-                                                    <i class="fas fa-check-circle"></i>
-                                                    <?= htmlspecialchars($book['Stock']) ?> available
-                                                </span>
+                                                <?php if ($book['display_stock'] > 0): ?>
+                                                    <small>No.of Copies</small>
+                                                    <span class="badge bg-success"><?= htmlspecialchars($book['display_stock']) ?> </span>
+                                                <?php else: ?>
+                                                    <span class="badge bg-danger">0</span>
+                                                    <br><small class="text-muted fst-italic">Book not currently available</small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
 
@@ -315,11 +331,17 @@ if (isset($_POST['filter'])) {
                                         </div>
 
                                         <button type="button" class="btn btn-primary w-100 reserve-btn-mobile"
+                                            <?php if ($book['display_stock'] <= 0): ?>disabled<?php endif; ?>
                                             data-bs-toggle="modal" data-bs-target="#modalId"
                                             data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                             data-title="<?= htmlspecialchars($book['Title']) ?>"
                                             data-author="<?= htmlspecialchars($book['Author']) ?>">
-                                            <i class="fas fa-bookmark me-2"></i>Borrow This Book
+                                            <i class="fas fa-bookmark me-2"></i>
+                                            <?php if ($book['display_stock'] > 0): ?>
+                                                Borrow This Book
+                                            <?php else: ?>
+                                                Unavailable
+                                            <?php endif; ?>
                                         </button>
                                     </div>
                                 </div>
@@ -394,7 +416,7 @@ if (isset($_POST['filter'])) {
                             <div class="info-icon">
                                 <i class="fas fa-info-circle text-primary"></i>
                             </div>
-                            <p class="mb-3">You are about to reserve the following book:</p>
+                            <p class="mb-3">You are about to borrow the following book:</p>
                         </div>
 
                         <form action="reserve.php" method="POST" class="reservation-form">
@@ -419,7 +441,7 @@ if (isset($_POST['filter'])) {
                                     <i class="fas fa-exclamation-triangle text-warning"></i>
                                 </div>
                                 <div>
-                                    <strong>Note:</strong> Please review your reservation details before confirming.
+                                    <strong>Note:</strong> Please review the Book details before borrowing.
                                 </div>
                             </div>
 

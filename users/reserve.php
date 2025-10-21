@@ -16,8 +16,23 @@ if (isset($_POST['reserve'])) {
     $reserveDate = date('Y-m-d H:i:s');
     date_default_timezone_set("Asia/Manila");
 
+    // Check how many books the user currently has borrowed
+    $borrowedStmt = $conn->prepare("SELECT COUNT(*) as borrowed_count FROM reservations WHERE StudentID = ? AND STATUS = 'Borrowed'");
+    $borrowedStmt->bind_param("i", $studentID);
+    $borrowedStmt->execute();
+    $borrowedResult = $borrowedStmt->get_result();
+    $borrowedCount = $borrowedResult->fetch_assoc()['borrowed_count'];
+    $borrowedStmt->close();
 
-    $stmt = $conn->prepare("SELECT Stock FROM books WHERE BookID = ?");
+    // Limit to 8 borrowed books per user
+    if ($borrowedCount >= 8) {
+        $_SESSION['error'] = "You have reached the maximum limit of 8 borrowed books. Please return some books before borrowing more.";
+        header("Location: index.php");
+        exit;
+    }
+
+    // Check stock using stock_update if available, otherwise fallback to Stock
+    $stmt = $conn->prepare("SELECT COALESCE(stock_update, Stock) as available_stock FROM books WHERE BookID = ?");
     $stmt->bind_param("i", $bookID);
     $stmt->execute();
     $stmt->bind_result($stock);
@@ -26,15 +41,12 @@ if (isset($_POST['reserve'])) {
 
     if ($stock > 0) {
 
-        $stmt = $conn->prepare("INSERT INTO reservations (BookID, StudentID, ReserveDate) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO reservations (BookID, StudentID, ReserveDate, STATUS) VALUES (?, ?, ?, 'Pending')");
         $stmt->bind_param("iis", $bookID, $studentID, $reserveDate);
 
         if ($stmt->execute()) {
 
-            $stmt = $conn->prepare("UPDATE books SET Stock = Stock - 1 WHERE BookID = ?");
-            $stmt->bind_param("i", $bookID);
-            $stmt->execute();
-
+            // Do NOT decrement stock here - only reserve the book, admin will approve later
 
             $server   = 'broker.hivemq.com';
             $port     = 1883;
@@ -70,7 +82,7 @@ if (isset($_POST['reserve'])) {
             $stmt->bind_param("sss", $_POST['book_title'], $_POST['book_author'], $name);
             $stmt->execute();
 
-            $_SESSION['success'] = "Reservation successful!";
+            $_SESSION['success'] = "Reservation successful! Please wait for admin approval.";
         } else {
             $_SESSION['error'] = "Failed to reserve the book.";
         }
@@ -78,6 +90,6 @@ if (isset($_POST['reserve'])) {
         $_SESSION['error'] = "Book is out of stock.";
     }
 
-    header("Location:   index.php");
+    header("Location: index.php");
     exit;
 }

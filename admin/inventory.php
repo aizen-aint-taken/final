@@ -56,6 +56,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $borrowerHistory = getDetailedBorrowerHistory($conn);
             echo json_encode(['success' => true, 'data' => $borrowerHistory]);
             exit;
+
+        case 'get_most_borrowed_books':
+            $mostBorrowedBooks = getMostBorrowedBooks($conn);
+            echo json_encode(['success' => true, 'data' => $mostBorrowedBooks]);
+            exit;
+
+        case 'get_import_delivery_stamps':
+            $importDeliveryStamps = getImportDeliveryStamps($conn);
+            echo json_encode(['success' => true, 'data' => $importDeliveryStamps]);
+            exit;
     }
 }
 
@@ -318,6 +328,78 @@ function getDetailedBorrowerHistory($conn)
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
+// New function to get most borrowed books
+function getMostBorrowedBooks($conn)
+{
+    $query = "SELECT 
+                b.Title, 
+                b.Author, 
+                COUNT(r.BookID) as borrow_count,
+                b.Stock,
+                CASE 
+                    WHEN b.Stock > 5 THEN 'Available'
+                    WHEN b.Stock > 0 THEN 'Limited'
+                    ELSE 'Out of Stock'
+                END as status
+              FROM books b
+              LEFT JOIN reservations r ON b.BookID = r.BookID
+              WHERE r.STATUS IN ('Borrowed', 'Returned')
+              GROUP BY b.BookID, b.Title, b.Author, b.Stock
+              ORDER BY borrow_count DESC, b.Title ASC
+              LIMIT 5";
+
+    $result = $conn->query($query);
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+}
+
+// New function to get import/delivery history stamps
+function getImportDeliveryStamps($conn)
+{
+    $stamps = [];
+
+    // Get recent book imports with more details
+    $importQuery = "SELECT 
+                      'import' as type,
+                      DATE(created_date) as date,
+                      COUNT(*) as count,
+                      GROUP_CONCAT(DISTINCT `Source of Acquisition`) as details,
+                      GROUP_CONCAT(DISTINCT Title SEPARATOR '; ') as titles
+                    FROM books 
+                    WHERE created_date IS NOT NULL
+                    GROUP BY DATE(created_date)
+                    ORDER BY created_date DESC
+                    LIMIT 5";
+
+    $importResult = $conn->query($importQuery);
+    if ($importResult) {
+        while ($row = $importResult->fetch_assoc()) {
+            $stamps['imports'][] = $row;
+        }
+    }
+
+    // Get recent deliveries with book titles and quantities
+    $deliveryQuery = "SELECT 
+                        'delivery' as type,
+                        ld.date_of_delivery as date,
+                        ld.quantity_delivered as count,
+                        ld.name_of_school_delivery_site as details,
+                        b.Title as titles
+                      FROM library_deliveries ld
+                      LEFT JOIN books b ON ld.BookID = b.BookID
+                      WHERE ld.date_of_delivery IS NOT NULL
+                      ORDER BY ld.date_of_delivery DESC
+                      LIMIT 5";
+
+    $deliveryResult = $conn->query($deliveryQuery);
+    if ($deliveryResult) {
+        while ($row = $deliveryResult->fetch_assoc()) {
+            $stamps['deliveries'][] = $row;
+        }
+    }
+
+    return $stamps;
+}
+
 include('../includes/header.php');
 include('../includes/sidebar.php');
 ?>
@@ -334,7 +416,7 @@ include('../includes/sidebar.php');
                         <div class="d-flex justify-content-center align-items-center">
                             <div class="page-title-section text-center">
                                 <h1 class="page-title">📊 Library Inventory Management</h1>
-                                <p class="page-subtitle">Comprehensive overview of books, reservations, deliveries, and stock levels</p>
+                                <p class="page-subtitle">Comprehensive overview of books, deliveries, and stock levels</p>
                             </div>
                         </div>
                     </div>
@@ -342,7 +424,7 @@ include('../includes/sidebar.php');
             </div>
 
             <!-- Statistics Cards -->
-            <div class="row mb-4" id="statsCards">
+            <div class="row mb-5" id="statsCards">
                 <!-- Cards will be loaded via JavaScript -->
             </div>
 
@@ -364,7 +446,7 @@ include('../includes/sidebar.php');
                                 <div class="col-md-3">
                                     <button class="btn btn-success btn-block quick-action-btn" onclick="window.location='../admin/reservations.php'">
                                         <i class="fas fa-eye"></i><br>
-                                        👀 View Reservations
+                                        👀 View Borrowed Books
                                     </button>
                                 </div>
                                 <div class="col-md-3">
@@ -414,7 +496,7 @@ include('../includes/sidebar.php');
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link enhanced-tab-link" id="deliveries-tab" data-bs-toggle="pill" data-bs-target="#deliveries" type="button" role="tab">
                                         <div class="tab-content-wrapper">
-                                            <a href="../analysis/displayStats.php" style="text-decoration: none;" class="tab-link">
+                                            <a href="../delivery/delivery.php" style="text-decoration: none;" class="tab-link">
                                                 <i class="fas fa-truck tab-icon"></i>
                                                 <span class="tab-text"> Deliveries</span>
                                             </a>
@@ -435,8 +517,8 @@ include('../includes/sidebar.php');
                 <!-- Overview Tab -->
                 <div class="tab-pane fade show active" id="overview" role="tabpanel">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
                                 <div class="card-header">
                                     <h5><i class="fas fa-chart-bar"></i> Stock Distribution</h5>
                                 </div>
@@ -447,14 +529,70 @@ include('../includes/sidebar.php');
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
                                 <div class="card-header">
                                     <h5><i class="fas fa-chart-doughnut"></i> Borrowing Status</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-container">
                                         <canvas id="reservationChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Most Borrowed Books and Import/Delivery Stamps -->
+                    <div class="row">
+                        <!-- Most Borrowed Books Card -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-gradient-primary text-white">
+                                    <h5 class="mb-0"><i class="fas fa-trophy"></i> 🏆 Most Borrowed Books</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="mostBorrowedTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rank</th>
+                                                    <th>Book Title</th>
+                                                    <th>Borrows</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Data will be loaded via JavaScript -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Imports Card -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-gradient-success text-white">
+                                    <h5 class="mb-0"><i class="fas fa-file-import"></i> 📥 Book Imports</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="activity-feed" id="bookImportStamps">
+                                        <!-- Data will be loaded via JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Library Deliveries Card -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-gradient-info text-white">
+                                    <h5 class="mb-0"><i class="fas fa-truck"></i> 🚚 Library Deliveries</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="activity-feed" id="libraryDeliveryStamps">
+                                        <!-- Data will be loaded via JavaScript -->
                                     </div>
                                 </div>
                             </div>
@@ -754,3 +892,4 @@ include('../includes/sidebar.php');
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script src="../public/assets/js/inventory.js"></script>
+<script src="../public/assets/js/custom-inventory.js"></script>

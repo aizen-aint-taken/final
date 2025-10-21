@@ -52,7 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateStmt->execute();
         $updateStmt->close();
 
-        if ($newStatus === 'Returned' && $previousStatus === 'Borrowed') {
+        // Handle stock updates based on status transitions
+        if ($newStatus === 'Borrowed' && $previousStatus === 'Pending') {
+            // When approving a reservation (Pending -> Borrowed), decrement stock_update
             $bookStmt = $conn->prepare("SELECT BookID FROM reservations WHERE id = ?");
             $bookStmt->bind_param("i", $reservationId);
             $bookStmt->execute();
@@ -60,7 +62,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $bookId = $result->fetch_assoc()['BookID'];
             $bookStmt->close();
 
-            $stockStmt = $conn->prepare("UPDATE books SET Stock = Stock + 1 WHERE BookID = ?");
+            $stockStmt = $conn->prepare("UPDATE books SET stock_update = stock_update - 1 WHERE BookID = ?");
+            $stockStmt->bind_param("i", $bookId);
+            $stockStmt->execute();
+            $stockStmt->close();
+        } elseif ($newStatus === 'Returned' && $previousStatus === 'Borrowed') {
+            // When returning a book (Borrowed -> Returned), increment stock_update
+            $bookStmt = $conn->prepare("SELECT BookID FROM reservations WHERE id = ?");
+            $bookStmt->bind_param("i", $reservationId);
+            $bookStmt->execute();
+            $result = $bookStmt->get_result();
+            $bookId = $result->fetch_assoc()['BookID'];
+            $bookStmt->close();
+
+            $stockStmt = $conn->prepare("UPDATE books SET stock_update = stock_update + 1 WHERE BookID = ?");
+            $stockStmt->bind_param("i", $bookId);
+            $stockStmt->execute();
+            $stockStmt->close();
+        } elseif ($newStatus === 'Pending' && $previousStatus === 'Borrowed') {
+            // When reverting from Borrowed to Pending, increment stock_update
+            $bookStmt = $conn->prepare("SELECT BookID FROM reservations WHERE id = ?");
+            $bookStmt->bind_param("i", $reservationId);
+            $bookStmt->execute();
+            $result = $bookStmt->get_result();
+            $bookId = $result->fetch_assoc()['BookID'];
+            $bookStmt->close();
+
+            $stockStmt = $conn->prepare("UPDATE books SET stock_update = stock_update + 1 WHERE BookID = ?");
             $stockStmt->bind_param("i", $bookId);
             $stockStmt->execute();
             $stockStmt->close();

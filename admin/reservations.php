@@ -197,7 +197,7 @@ include('../includes/sidebar.php');
                                 </th>
                                 <th><i class="fas fa-user me-2"></i>Student Name</th>
                                 <th><i class="fa-solid fa-chalkboard-user"></i>Adviser</th>
-                                <th><i class="fas fa-calendar me-2"></i>Borrowed Date | DD-MM-YY</th>
+                                <th><i class="fas fa-calendar me-2"></i>Borrowed Date | DD-MM-YYYY</th>
                                 <th><i class="fas fa-book me-2"></i>Book Title</th>
                                 <th><i class="fas fa-tasks me-2"></i>Status</th>
                                 <th><i class="fas fa-clock me-2"></i>Returned Date & Time</th>

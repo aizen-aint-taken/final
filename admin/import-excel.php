@@ -36,7 +36,7 @@ if (isset($_POST['import'])) {
         }
 
         // Process data
-        $values = [];
+        $allValues = [];
         $placeholders = [];
         $updates = [];
         $sourceOfAcquisitionLists = ["Government", "Private", "Donated", "Other", "Purchased"];
@@ -47,7 +47,7 @@ if (isset($_POST['import'])) {
             [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock] = $row;
 
             if (empty($title) || empty($author) || empty($publisher) || empty($sourceOfAcquisition) || empty($publishDate) || empty($language) || !is_numeric($stock)) {
-                $_SESSION['error'][] = "Invalid data in row: " . $sourceOfAcquisition . implode(", ", $row);
+                $_SESSION['error'][] = "Invalid data in row: " . implode(", ", $row);
                 continue;
             }
 
@@ -69,13 +69,21 @@ if (isset($_POST['import'])) {
             if (isset($existingBooks[$key])) {
                 $newStock = $existingBooks[$key]['stock'] + $stock;
                 $bookId = $existingBooks[$key]['id'];
-                $updates[] = "UPDATE books SET Stock = $newStock WHERE BookID = $bookId";
+                $updates[] = "UPDATE books SET Stock = $newStock, stock_update = COALESCE(stock_update, Stock) WHERE BookID = $bookId";
                 $_SESSION['success'][] = "Updated stock for existing book: $title";
                 continue;
             }
 
-            $values = array_merge($values, [$title, $author, $publisher, $sourceOfAcquisition, $publishDate, $language, $stock]);
-            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, NOW())";
+            // For new books, we need 8 values: Title, Author, Publisher, Source, PublishDate, Subject, Stock, stock_update
+            $allValues[] = $title;
+            $allValues[] = $author;
+            $allValues[] = $publisher;
+            $allValues[] = $sourceOfAcquisition;
+            $allValues[] = $publishDate;
+            $allValues[] = $language;
+            $allValues[] = (string)$stock; // Stock
+            $allValues[] = (string)$stock; // stock_update (same as initial stock)
+            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?)";
         }
 
         foreach ($updates as $updateSql) {
@@ -85,30 +93,42 @@ if (isset($_POST['import'])) {
         }
 
         if (!empty($placeholders)) {
-            $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock, created_date) VALUES " . implode(", ", $placeholders);
+            // Remove the NOW() from the INSERT and handle created_date separately
+            $sql = "INSERT INTO books (Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock, stock_update) VALUES " . implode(", ", $placeholders);
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('s', count($values)), ...$values);
 
-            if ($stmt->execute()) {
-                $_SESSION['success'][] = "Books imported successfully with import tracking.";
+            // Create the type string for bind_param - 8 strings per book (all values are strings)
+            $types = str_repeat('ssssssss', count($placeholders)); // 8 's' per book
+            if (count($allValues) > 0) {
+                $stmt->bind_param($types, ...$allValues);
 
-                // Reorder all BookIDs sequentially
-                $conn->query("SET @new_id = 0;");
-                $conn->query("
-                    UPDATE books
-                    SET BookID = (@new_id := @new_id + 1)
-                    ORDER BY BookID;
-                ");
+                if ($stmt->execute()) {
+                    $_SESSION['success'][] = "Books imported successfully with import tracking.";
 
-                // Reset AUTO_INCREMENT to next available ID
-                $result = $conn->query("SELECT COUNT(*) AS total FROM books");
-                $row = $result->fetch_assoc();
-                $nextId = $row['total'] + 1;
-                $conn->query("ALTER TABLE books AUTO_INCREMENT = $nextId");
-            } else {
-                $_SESSION['error'][] = "Error: " . $stmt->error;
+                    // Now update the created_date for all newly inserted books
+                    $conn->query("UPDATE books SET created_date = NOW() WHERE created_date IS NULL");
+
+                    // Reorder all BookIDs sequentially
+                    $conn->query("SET @new_id = 0;");
+                    $conn->query("
+                        UPDATE books
+                        SET BookID = (@new_id := @new_id + 1)
+                        ORDER BY BookID;
+                    ");
+
+                    // Reset AUTO_INCREMENT to next available ID
+                    $result = $conn->query("SELECT COUNT(*) AS total FROM books");
+                    $row = $result->fetch_assoc();
+                    $nextId = $row['total'] + 1;
+                    $conn->query("ALTER TABLE books AUTO_INCREMENT = $nextId");
+                } else {
+                    $_SESSION['error'][] = "Error: " . $stmt->error;
+                }
             }
         }
+
+        // Ensure all books have stock_update initialized
+        $conn->query("UPDATE books SET stock_update = Stock WHERE stock_update IS NULL");
 
         header('location:index.php');
         exit;
