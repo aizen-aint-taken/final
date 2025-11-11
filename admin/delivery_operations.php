@@ -75,7 +75,7 @@ function listDeliveryRecords()
     $query = "SELECT ld.DeliveryID, ld.BookID, b.Title, b.Author, ld.title_and_grade_level, 
                      ld.quantity_delivered, ld.quantity_allocated, ld.date_of_delivery, 
                      ld.name_of_school_delivery_site, ld.created_at
-              FROM Library_Deliveries ld
+              FROM library_deliveries ld
               INNER JOIN books b ON ld.BookID = b.BookID
               ORDER BY ld.date_of_delivery DESC, ld.created_at DESC";
 
@@ -121,7 +121,7 @@ function getDeliveryRecord()
     $stmt = $conn->prepare("SELECT ld.DeliveryID, ld.BookID, b.Title, b.Author, ld.title_and_grade_level, 
                                    ld.quantity_delivered, ld.quantity_allocated, ld.date_of_delivery, 
                                    ld.name_of_school_delivery_site 
-                            FROM Library_Deliveries ld
+                            FROM library_deliveries ld
                             INNER JOIN books b ON ld.BookID = b.BookID
                             WHERE ld.DeliveryID = ?");
     $stmt->bind_param("i", $deliveryId);
@@ -166,7 +166,7 @@ function addDeliveryRecord()
         $conn->begin_transaction();
 
         // Check for duplicate delivery records
-        $checkStmt = $conn->prepare("SELECT DeliveryID FROM Library_Deliveries WHERE BookID = ? AND title_and_grade_level = ? AND date_of_delivery = ?");
+        $checkStmt = $conn->prepare("SELECT DeliveryID FROM library_deliveries WHERE BookID = ? AND title_and_grade_level = ? AND date_of_delivery = ?");
         $checkStmt->bind_param("iss", $bookId, $titleAndGradeLevel, $deliveryDate);
         $checkStmt->execute();
         $duplicateResult = $checkStmt->get_result();
@@ -176,7 +176,7 @@ function addDeliveryRecord()
             return;
         }
 
-        $stmt = $conn->prepare("INSERT INTO Library_Deliveries (BookID, title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO library_deliveries (BookID, title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("isiiss", $bookId, $titleAndGradeLevel, $quantityDelivered, $quantityAllocated, $deliveryDate, $deliverySite);
 
         if ($stmt->execute()) {
@@ -221,7 +221,7 @@ function updateDeliveryRecord()
     try {
         $conn->begin_transaction();
 
-        $stmt = $conn->prepare("UPDATE Library_Deliveries SET title_and_grade_level = ?, quantity_delivered = ?, quantity_allocated = ?, date_of_delivery = ?, name_of_school_delivery_site = ? WHERE DeliveryID = ?");
+        $stmt = $conn->prepare("UPDATE library_deliveries SET title_and_grade_level = ?, quantity_delivered = ?, quantity_allocated = ?, date_of_delivery = ?, name_of_school_delivery_site = ? WHERE DeliveryID = ?");
         $stmt->bind_param("siissi", $titleAndGradeLevel, $quantityDelivered, $quantityAllocated, $deliveryDate, $deliverySite, $deliveryId);
 
         if ($stmt->execute()) {
@@ -251,7 +251,7 @@ function deleteDeliveryRecord()
         $conn->begin_transaction();
 
         // Delete the delivery record completely
-        $stmt = $conn->prepare("DELETE FROM Library_Deliveries WHERE DeliveryID = ?");
+        $stmt = $conn->prepare("DELETE FROM library_deliveries WHERE DeliveryID = ?");
         $stmt->bind_param("i", $deliveryId);
 
         if ($stmt->execute()) {
@@ -335,8 +335,7 @@ function importDeliveryData()
                 continue;
             }
 
-            // Note: Main books table doesn't need delivery-specific columns
-            // Delivery data is stored in Library_Deliveries table
+
             $imported++;
         }
 
@@ -373,7 +372,7 @@ function exportDeliveryData()
                      ld.quantity_delivered, ld.quantity_allocated,
                      ld.date_of_delivery, ld.name_of_school_delivery_site,
                      b.Title, b.Author
-              FROM Library_Deliveries ld
+              FROM library_deliveries ld
               INNER JOIN books b ON ld.BookID = b.BookID";
 
     if (!$includeEmpty) {
@@ -487,7 +486,7 @@ function quickAddDeliveryRecord()
         $titleAndGradeLevel = $title . ($gradeLevel ? ' - ' . $gradeLevel : '');
 
         // 🚚 Check for duplicate delivery records
-        $checkDeliveryStmt = $conn->prepare("SELECT DeliveryID FROM Library_Deliveries WHERE BookID = ? AND title_and_grade_level = ? AND date_of_delivery = ?");
+        $checkDeliveryStmt = $conn->prepare("SELECT DeliveryID FROM library_deliveries WHERE BookID = ? AND title_and_grade_level = ? AND date_of_delivery = ?");
         $checkDeliveryStmt->bind_param("iss", $bookId, $titleAndGradeLevel, $deliveryDate);
         $checkDeliveryStmt->execute();
         $duplicateDeliveryResult = $checkDeliveryStmt->get_result();
@@ -499,7 +498,7 @@ function quickAddDeliveryRecord()
         }
 
         // 🎯 Insert delivery record
-        $insertDeliveryStmt = $conn->prepare("INSERT INTO Library_Deliveries (BookID, title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?, ?)");
+        $insertDeliveryStmt = $conn->prepare("INSERT INTO library_deliveries (BookID, title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?, ?)");
         $insertDeliveryStmt->bind_param("isiiss", $bookId, $titleAndGradeLevel, $quantityDelivered, $quantityAllocated, $deliveryDate, $deliverySite);
 
         if ($insertDeliveryStmt->execute()) {
@@ -607,7 +606,7 @@ function bulkImportDeliveryData()
             }
 
             // 🚚 Check for duplicate delivery records
-            $checkDeliveryStmt = $conn->prepare("SELECT DeliveryID FROM Library_Deliveries WHERE BookID = ? AND title_and_grade_level = ? AND date_of_delivery = ?");
+            $checkDeliveryStmt = $conn->prepare("SELECT DeliveryID FROM Library_deliveries WHERE BookID = ? AND title_and_grade_level = ? AND date_of_delivery = ?");
             $checkDeliveryStmt->bind_param("iss", $bookId, $titleAndGradeLevel, $deliveryDate);
             $checkDeliveryStmt->execute();
             $duplicateDeliveryResult = $checkDeliveryStmt->get_result();
@@ -623,7 +622,7 @@ function bulkImportDeliveryData()
                     $existingDelivery = $duplicateDeliveryResult->fetch_assoc();
                     $deliveryId = $existingDelivery['DeliveryID'];
 
-                    $updateDeliveryStmt = $conn->prepare("UPDATE Library_Deliveries SET quantity_delivered = ?, quantity_allocated = ?, date_of_delivery = ?, name_of_school_delivery_site = ? WHERE DeliveryID = ?");
+                    $updateDeliveryStmt = $conn->prepare("UPDATE library_deliveries SET quantity_delivered = ?, quantity_allocated = ?, date_of_delivery = ?, name_of_school_delivery_site = ? WHERE DeliveryID = ?");
                     $updateDeliveryStmt->bind_param("iissi", $quantityDelivered, $quantityAllocated, $deliveryDate, $deliverySite, $deliveryId);
 
                     if ($updateDeliveryStmt->execute()) {
@@ -636,7 +635,7 @@ function bulkImportDeliveryData()
                 }
             } else {
                 // 🎯 Insert new delivery record
-                $insertDeliveryStmt = $conn->prepare("INSERT INTO Library_Deliveries (BookID, title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?, ?)");
+                $insertDeliveryStmt = $conn->prepare("INSERT INTO library_deliveries (BookID, title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?, ?)");
                 $insertDeliveryStmt->bind_param("isiiss", $bookId, $titleAndGradeLevel, $quantityDelivered, $quantityAllocated, $deliveryDate, $deliverySite);
 
                 if ($insertDeliveryStmt->execute()) {

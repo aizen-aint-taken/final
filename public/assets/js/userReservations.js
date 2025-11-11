@@ -62,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <tr>
                     <td>${item.RESERVEDATE}</td>
                     <td>${item.BOOK_TITLE}</td>
+                    <td>${item.RETURNEDDATE}</td>
+                    
                     <td><span class="badge ${getStatusBadgeClass(item.STATUS)}">${item.STATUS}</span></td>
                 </tr>
             `).join('');
@@ -75,9 +77,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            <strong>Reserved Date:</strong><br>
+                            <strong>Borrowed Date:</strong><br>
                             ${item.RESERVEDATE}
                         </p>
+                        <p class="card-text">
+                            <strong>Returned Date:</strong><br>
+                            ${item.RETURNEDDATE}
+                        </p>
+
+                        
                         <span class="badge ${getStatusBadgeClass(item.STATUS)}">
                             ${item.STATUS}
                         </span>

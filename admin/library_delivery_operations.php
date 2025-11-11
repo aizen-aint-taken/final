@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'fetch_deliveries':
             try {
-                $stmt = $conn->query("SELECT * FROM Library_Deliveries ORDER BY DeliveryID DESC");
+                $stmt = $conn->query("SELECT * FROM library_deliveries ORDER BY DeliveryID DESC");
                 $deliveries = $stmt->fetch_all(MYSQLI_ASSOC);
                 echo json_encode(['success' => true, 'data' => $deliveries]);
             } catch (Exception $e) {
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     exit;
                 }
 
-                $stmt = $conn->prepare("INSERT INTO Library_Deliveries (title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO library_deliveries (title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("siiss", $title_grade, $qty_delivered, $qty_allocated, $delivery_date, $delivery_site);
 
                 if ($stmt->execute()) {
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     }
                 }
 
-                $stmt = $conn->prepare("UPDATE Library_Deliveries SET title_and_grade_level=?, quantity_delivered=?, quantity_allocated=?, date_of_delivery=?, name_of_school_delivery_site=? WHERE DeliveryID=?");
+                $stmt = $conn->prepare("UPDATE library_deliveries SET title_and_grade_level=?, quantity_delivered=?, quantity_allocated=?, date_of_delivery=?, name_of_school_delivery_site=? WHERE DeliveryID=?");
                 $stmt->bind_param("siissi", $title_grade, $qty_delivered, $qty_allocated, $delivery_date, $delivery_site, $delivery_id);
 
                 if ($stmt->execute()) {
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                 $delivery_id = (int)$_POST['delivery_id'];
 
-                $stmt = $conn->prepare("DELETE FROM Library_Deliveries WHERE DeliveryID=?");
+                $stmt = $conn->prepare("DELETE FROM library_deliveries WHERE DeliveryID=?");
                 $stmt->bind_param("i", $delivery_id);
 
                 if ($stmt->execute()) {
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                 $delivery_id = (int)$_POST['delivery_id'];
 
-                $stmt = $conn->prepare("SELECT * FROM Library_Deliveries WHERE DeliveryID=?");
+                $stmt = $conn->prepare("SELECT * FROM library_deliveries WHERE DeliveryID=?");
                 $stmt->bind_param("i", $delivery_id);
                 $stmt->execute();
                 $result = $stmt->get_result();
@@ -158,15 +158,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         case 'get_stats':
             try {
                 // Get total deliveries
-                $total_stmt = $conn->query("SELECT COUNT(*) as total FROM Library_Deliveries");
+                $total_stmt = $conn->query("SELECT COUNT(*) as total FROM library_deliveries");
                 $total_result = $total_stmt->fetch_assoc();
 
                 // Get total quantity delivered
-                $qty_stmt = $conn->query("SELECT SUM(quantity_delivered) as total_delivered, SUM(quantity_allocated) as total_allocated FROM Library_Deliveries");
+                $qty_stmt = $conn->query("SELECT SUM(quantity_delivered) as total_delivered, SUM(quantity_allocated) as total_allocated FROM library_deliveries");
                 $qty_result = $qty_stmt->fetch_assoc();
 
                 // Get deliveries by site
-                $site_stmt = $conn->query("SELECT name_of_school_delivery_site, COUNT(*) as count FROM Library_Deliveries GROUP BY name_of_school_delivery_site ORDER BY count DESC");
+                $site_stmt = $conn->query("SELECT name_of_school_delivery_site, COUNT(*) as count FROM library_deliveries GROUP BY name_of_school_delivery_site ORDER BY count DESC");
                 $site_data = [];
                 while ($row = $site_stmt->fetch_assoc()) {
                     $site_data[] = $row;

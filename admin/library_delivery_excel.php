@@ -14,13 +14,69 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-// Handle Excel Export
+// Handle Excel Export with dynamic filtering
 if (isset($_GET['action']) && $_GET['action'] === 'export') {
     try {
-        $result = $conn->query("SELECT title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site, created_at FROM Library_Deliveries ORDER BY created_at DESC");
+        // Build dynamic query based on filters
+        $query = "SELECT title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site, created_at FROM library_deliveries WHERE 1=1";
+        $params = [];
+        $types = "";
+
+        // Date range filter
+        if (!empty($_GET['start_date'])) {
+            $query .= " AND date_of_delivery >= ?";
+            $params[] = $_GET['start_date'];
+            $types .= "s";
+        }
+        if (!empty($_GET['end_date'])) {
+            $query .= " AND date_of_delivery <= ?";
+            $params[] = $_GET['end_date'];
+            $types .= "s";
+        }
+
+        // School/Delivery site filter
+        if (!empty($_GET['delivery_site'])) {
+            $query .= " AND name_of_school_delivery_site LIKE ?";
+            $params[] = "%" . $_GET['delivery_site'] . "%";
+            $types .= "s";
+        }
+
+        // Grade level filter
+        if (!empty($_GET['grade_level'])) {
+            $query .= " AND title_and_grade_level LIKE ?";
+            $params[] = "%" . $_GET['grade_level'] . "%";
+            $types .= "s";
+        }
+
+        // Quantity filter (only records with deliveries)
+        if (isset($_GET['has_delivery']) && $_GET['has_delivery'] === '1') {
+            $query .= " AND quantity_delivered > 0";
+        }
+
+        // Sorting
+        $sortColumn = $_GET['sort_by'] ?? 'created_at';
+        $sortOrder = $_GET['sort_order'] ?? 'DESC';
+
+        $allowedColumns = ['title_and_grade_level', 'quantity_delivered', 'quantity_allocated', 'date_of_delivery', 'name_of_school_delivery_site', 'created_at'];
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'created_at';
+        }
+        if (!in_array(strtoupper($sortOrder), ['ASC', 'DESC'])) {
+            $sortOrder = 'DESC';
+        }
+
+        $query .= " ORDER BY $sortColumn $sortOrder";
+
+        // Execute query with parameters
+        $stmt = $conn->prepare($query);
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows === 0) {
-            $_SESSION['error'][] = "No delivery records found to export.";
+            $_SESSION['error'][] = "No delivery records found matching the selected filters.";
             header("Location: ../delivery/delivery.php");
             exit;
         }
@@ -35,6 +91,31 @@ if (isset($_GET['action']) && $_GET['action'] === 'export') {
             ->setSubject("Library Delivery Records")
             ->setDescription("Export of library delivery confirmation data");
 
+        // Dynamic sheet title based on filters
+        $sheetTitle = "Deliveries";
+        if (!empty($_GET['start_date']) || !empty($_GET['end_date'])) {
+            $sheetTitle .= " (" . ($_GET['start_date'] ?? 'All') . " to " . ($_GET['end_date'] ?? 'All') . ")";
+        }
+        $sheet->setTitle(substr($sheetTitle, 0, 31)); // Excel limit is 31 characters
+
+        // Add filter summary at the top
+        $filterRow = 1;
+        if (!empty($_GET['start_date']) || !empty($_GET['end_date']) || !empty($_GET['delivery_site']) || !empty($_GET['grade_level'])) {
+            $sheet->setCellValue('A1', 'Export Filters:');
+            $sheet->getStyle('A1')->getFont()->setBold(true);
+            $filterRow = 2;
+
+            $filters = [];
+            if (!empty($_GET['start_date'])) $filters[] = "From: " . $_GET['start_date'];
+            if (!empty($_GET['end_date'])) $filters[] = "To: " . $_GET['end_date'];
+            if (!empty($_GET['delivery_site'])) $filters[] = "Site: " . $_GET['delivery_site'];
+            if (!empty($_GET['grade_level'])) $filters[] = "Grade: " . $_GET['grade_level'];
+            if (isset($_GET['has_delivery']) && $_GET['has_delivery'] === '1') $filters[] = "With Deliveries Only";
+
+            $sheet->setCellValue('B1', implode(' | ', $filters));
+            $filterRow = 3;
+        }
+
         // Set headers
         $headers = [
             "Title and Grade Level",
@@ -45,19 +126,24 @@ if (isset($_GET['action']) && $_GET['action'] === 'export') {
             "Record Created"
         ];
 
-        $sheet->fromArray([$headers], NULL, 'A1');
+        $headerRow = $filterRow;
+        $sheet->fromArray([$headers], NULL, "A$headerRow");
 
         // Style headers
-        $headerRange = 'A1:F1';
+        $headerRange = "A$headerRow:F$headerRow";
         $sheet->getStyle($headerRange)->getFont()->setBold(true);
         $sheet->getStyle($headerRange)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setRGB('D3D3D3');
+            ->getStartColor()->setRGB('4CAF50');
+        $sheet->getStyle($headerRange)->getFont()->getColor()->setRGB('FFFFFF');
         $sheet->getStyle($headerRange)->getBorders()->getAllBorders()
             ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-        // Add data
-        $rowIndex = 2;
+        // Add data with statistics
+        $rowIndex = $headerRow + 1;
+        $totalDelivered = 0;
+        $totalAllocated = 0;
+
         while ($row = $result->fetch_assoc()) {
             $data = [
                 $row['title_and_grade_level'],
@@ -69,21 +155,61 @@ if (isset($_GET['action']) && $_GET['action'] === 'export') {
             ];
             $sheet->fromArray([$data], NULL, "A$rowIndex");
 
+            // Add conditional formatting for quantities
+            $qtyDeliveredCell = "B$rowIndex";
+            $qtyAllocatedCell = "C$rowIndex";
+
+            if ($row['quantity_delivered'] > 0) {
+                $sheet->getStyle($qtyDeliveredCell)->getFont()->getColor()->setRGB('006400'); // Dark green
+            }
+
+            if ($row['quantity_delivered'] < $row['quantity_allocated']) {
+                $sheet->getStyle($qtyDeliveredCell)->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setRGB('FFF9C4'); // Light yellow
+            }
+
             // Style data rows with borders
             $dataRange = "A$rowIndex:F$rowIndex";
             $sheet->getStyle($dataRange)->getBorders()->getAllBorders()
                 ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
+            $totalDelivered += $row['quantity_delivered'];
+            $totalAllocated += $row['quantity_allocated'];
             $rowIndex++;
         }
+
+        // Add summary row
+        $summaryRow = $rowIndex + 1;
+        $sheet->setCellValue("A$summaryRow", "TOTAL");
+        $sheet->setCellValue("B$summaryRow", $totalDelivered);
+        $sheet->setCellValue("C$summaryRow", $totalAllocated);
+        $sheet->setCellValue("D$summaryRow", "Records: " . ($rowIndex - $headerRow - 1));
+
+        $summaryRange = "A$summaryRow:F$summaryRow";
+        $sheet->getStyle($summaryRange)->getFont()->setBold(true);
+        $sheet->getStyle($summaryRange)->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setRGB('E0E0E0');
+        $sheet->getStyle($summaryRange)->getBorders()->getAllBorders()
+            ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM);
 
         // Auto-size columns
         foreach (range('A', 'F') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 
+        // Freeze header row
+        $sheet->freezePane("A" . ($headerRow + 1));
+
+        // Generate dynamic filename
+        $filename = 'library_deliveries_';
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
+            $filename .= $_GET['start_date'] . '_to_' . $_GET['end_date'] . '_';
+        }
+        $filename .= date('Y-m-d_H-i-s') . '.xlsx';
+
         // Set response headers
-        $filename = 'library_deliveries_export_' . date('Y-m-d_H-i-s') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
@@ -103,36 +229,30 @@ if (isset($_GET['action']) && $_GET['action'] === 'export') {
     }
 }
 
-// Handle Excel Import
+// Handle Excel Import (keeping your existing import code)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && isset($_FILES['excel_file'])) {
     try {
         $uploadedFile = $_FILES['excel_file'];
 
-        // Check for upload errors
         if ($uploadedFile['error'] !== UPLOAD_ERR_OK) {
             throw new Exception('File upload error: ' . $uploadedFile['error']);
         }
 
-        // Validate file type
         $fileExtension = strtolower(pathinfo($uploadedFile['name'], PATHINFO_EXTENSION));
         if (!in_array($fileExtension, ['xlsx', 'xls'])) {
             throw new Exception('Invalid file type. Please upload .xlsx or .xls files only.');
         }
 
-        // Check file size (limit to 5MB)
         if ($uploadedFile['size'] > 5 * 1024 * 1024) {
             throw new Exception('File size too large. Maximum size is 5MB.');
         }
 
-        // Load spreadsheet
         $spreadsheet = IOFactory::load($uploadedFile['tmp_name']);
         $sheet = $spreadsheet->getActiveSheet();
         $data = $sheet->toArray();
 
-        // Remove header row
         $headers = array_shift($data);
 
-        // Validate headers
         $expectedHeaders = ['Title and Grade Level', 'Quantity Delivered', 'Quantity Allocated', 'Date of Delivery', 'Name of School/Delivery Site'];
         $headerMatch = true;
         for ($i = 0; $i < count($expectedHeaders); $i++) {
@@ -153,15 +273,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
         $conn->begin_transaction();
 
         foreach ($data as $rowIndex => $row) {
-            $actualRowNum = $rowIndex + 2; // +2 because we removed header and arrays are 0-indexed
+            $actualRowNum = $rowIndex + 2;
 
-            // Skip completely empty rows
             if (empty(array_filter($row))) {
                 continue;
             }
 
             try {
-                // Validate required fields
                 $title_grade = trim($row[0] ?? '');
                 $qty_delivered = is_numeric($row[1]) ? (int)$row[1] : 0;
                 $qty_allocated = is_numeric($row[2]) ? (int)$row[2] : 0;
@@ -173,12 +291,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
                 }
 
                 if (empty($delivery_site)) {
-                    $delivery_site = 'MAHARLIKA NHS'; // Default value
+                    $delivery_site = 'MAHARLIKA NHS';
                 }
 
-                // Validate and format date
                 if (!empty($delivery_date)) {
-                    // Try to parse various date formats
                     $date_obj = null;
                     $dateFormats = ['Y-m-d', 'm/d/Y', 'd/m/Y', 'Y-m-d H:i:s', 'm-d-Y', 'd-m-Y'];
 
@@ -194,11 +310,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
                         throw new Exception("Row $actualRowNum: Invalid date format. Use YYYY-MM-DD format");
                     }
                 } else {
-                    $delivery_date = date('Y-m-d'); // Default to today
+                    $delivery_date = date('Y-m-d');
                 }
 
-                // Insert data (without BookID since it's nullable)
-                $stmt = $conn->prepare("INSERT INTO Library_Deliveries (title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO Library_deliveries (title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("siiss", $title_grade, $qty_delivered, $qty_allocated, $delivery_date, $delivery_site);
 
                 if ($stmt->execute()) {
@@ -210,7 +325,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
                 $errorCount++;
                 $errors[] = "Row $actualRowNum: " . $e->getMessage();
 
-                // Stop processing if too many errors
                 if ($errorCount > 50) {
                     $errors[] = "Too many errors. Import stopped.";
                     break;
@@ -226,7 +340,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
             $_SESSION['success'] = ["📊 Import completed: {$successCount} records imported successfully"];
 
             if ($errorCount > 0) {
-                $_SESSION['error'] = array_slice($errors, 0, 10); // Show only first 10 errors
+                $_SESSION['error'] = array_slice($errors, 0, 10);
                 if (count($errors) > 10) {
                     $_SESSION['error'][] = "... and " . (count($errors) - 10) . " more errors.";
                 }
@@ -244,19 +358,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_excel']) && is
 }
 
 // Handle template download
+// Handle template download with actual database data
 if (isset($_GET['action']) && $_GET['action'] === 'template') {
     try {
+        // Fetch actual data from database
+        $result = $conn->query("SELECT title_and_grade_level, quantity_delivered, quantity_allocated, date_of_delivery, name_of_school_delivery_site FROM library_deliveries ORDER BY title_and_grade_level ASC");
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Set document properties
         $spreadsheet->getProperties()
             ->setCreator("Maharlika Library System")
             ->setTitle("Library Deliveries Import Template")
             ->setSubject("Template for importing library delivery data")
-            ->setDescription("Use this template to import library delivery records");
+            ->setDescription("Use this template to import library delivery records - Contains current database records");
 
-        // Set headers
         $headers = [
             "Title and Grade Level",
             "Quantity Delivered",
@@ -267,19 +383,32 @@ if (isset($_GET['action']) && $_GET['action'] === 'template') {
 
         $sheet->fromArray([$headers], NULL, 'A1');
 
-        // Add sample data
-        $sampleData = [
-            ["G4 - English", 25, 25, "2024-01-15", "MAHARLIKA NHS"],
-            ["G7 - Math", 30, 30, "2024-01-16", "MAHARLIKA NHS"],
-            ["SHS - Personal Development", 50, 50, "2024-01-17", "MAHARLIKA NHS"],
-            ["G4 - Filipino", 0, 0, "", "MAHARLIKA NHS"],
-            ["G4 - Science", 0, 0, "", "MAHARLIKA NHS"]
-        ];
-
+        // Add actual data from database
         $rowIndex = 2;
-        foreach ($sampleData as $row) {
-            $sheet->fromArray([$row], NULL, "A$rowIndex");
-            $rowIndex++;
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $data = [
+                    $row['title_and_grade_level'],
+                    $row['quantity_delivered'],
+                    $row['quantity_allocated'],
+                    $row['date_of_delivery'],
+                    $row['name_of_school_delivery_site']
+                ];
+                $sheet->fromArray([$data], NULL, "A$rowIndex");
+                $rowIndex++;
+            }
+        } else {
+            // If no data exists, add sample rows as guidance
+            $sampleData = [
+                ["G11 - English", 0, 0, "", "MAHARLIKA NHS"],
+                ["G7 - Math", 0, 0, "", "MAHARLIKA NHS"],
+                ["SHS - Personal Development", 0, 0, "", "MAHARLIKA NHS"]
+            ];
+
+            foreach ($sampleData as $row) {
+                $sheet->fromArray([$row], NULL, "A$rowIndex");
+                $rowIndex++;
+            }
         }
 
         // Style headers
@@ -290,8 +419,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'template') {
             ->getStartColor()->setRGB('4CAF50');
         $sheet->getStyle($headerRange)->getFont()->getColor()->setRGB('FFFFFF');
 
-        // Add borders to all data
-        $dataRange = "A1:E$rowIndex";
+        // Add borders
+        $dataRange = "A1:E" . ($rowIndex - 1);
         $sheet->getStyle($dataRange)->getBorders()->getAllBorders()
             ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
@@ -300,10 +429,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'template') {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 
-        // Add instructions in comments
-        $sheet->getComment('A1')->getText()->createTextRun('Fill in the delivery information for each book/grade level combination. Leave Quantity fields as 0 if no delivery occurred.');
+        // Add instruction comment
+        $sheet->getComment('A1')->getText()->createTextRun('This template contains your current delivery records. You can edit them and re-import, or add new rows.');
 
-        $filename = 'library_delivery_template.xlsx';
+        $filename = 'library_delivery_template_' . date('Y-m-d_H-i-s') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
@@ -317,7 +446,5 @@ if (isset($_GET['action']) && $_GET['action'] === 'template') {
         exit;
     }
 }
-
-// If no action specified, redirect back
 header('Location: ../delivery/delivery.php');
 exit;

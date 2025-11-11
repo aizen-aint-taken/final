@@ -65,52 +65,38 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Continuous fixing with intervals
     setInterval(ultraFixModalBackdrop, 100);
-    
-    // Modal event listeners with aggressive backdrop fixing
+
     const modal = document.getElementById('modalId');
     if (modal) {
-        modal.addEventListener('show.bs.modal', event => {
-            try {
-                const button = event.relatedTarget;
-                const bookId = button.getAttribute('data-id');
-                const bookTitle = button.getAttribute('data-title');
-                const bookAuthor = button.getAttribute('data-author');
+    modal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
+    const bookId = button.getAttribute('data-id');
+    const bookTitle = button.getAttribute('data-title');
+    const bookAuthor = button.getAttribute('data-author');
+    const bookPublisher = button.getAttribute('data-publisher'); 
+    const PublishedDate = button.getAttribute('data-publisheddate'); 
+    
 
-                // Set modal z-index to ensure it's on top
-                modal.style.zIndex = '1055';
-                
-                // Populate modal fields
-                const bookIdInput = document.getElementById('reserveBookId');
-                const bookTitleInput = document.getElementById('reserveBookTitle');
-                const bookAuthorInput = document.getElementById('reserveBookAuthor');
-                
-                if (bookIdInput) bookIdInput.value = bookId || '';
-                if (bookTitleInput) bookTitleInput.value = bookTitle || '';
-                if (bookAuthorInput) bookAuthorInput.value = bookAuthor || '';
-                
-                console.log('Modal opened with book:', { bookId, bookTitle, bookAuthor });
-                
-                // Ultra aggressive backdrop fix when modal is showing
-                setTimeout(ultraFixModalBackdrop, 50);
-                setTimeout(ultraFixModalBackdrop, 200);
-                setTimeout(ultraFixModalBackdrop, 500);
-            } catch (error) {
-                console.error('Error handling modal show:', error);
-            }
-        });
+    document.getElementById('reserveBookId').value = bookId || '';
+    document.getElementById('reserveBookTitle').value = bookTitle || '';
+    document.getElementById('reserveBookAuthor').value = bookAuthor || '';
+    document.getElementById('reserveBookPublisher').value = bookPublisher || '';
+    document.getElementById('reserveBookPublishedDate').value = PublishedDate || '';
+});
+
         
-        // Ensure modal is clickable when shown
+       
         modal.addEventListener('shown.bs.modal', () => {
             modal.style.pointerEvents = 'auto';
             modal.querySelector('.modal-content').style.pointerEvents = 'auto';
-            // Ultra aggressive backdrop fix after modal is fully shown
+            
             setTimeout(ultraFixModalBackdrop, 50);
             setTimeout(ultraFixModalBackdrop, 200);
             setTimeout(ultraFixModalBackdrop, 500);
             setTimeout(ultraFixModalBackdrop, 1000);
         });
         
-        // Fix backdrop on modal hide
+      
         modal.addEventListener('hide.bs.modal', () => {
             setTimeout(ultraFixModalBackdrop, 50);
         });
@@ -129,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutModal.addEventListener('shown.bs.modal', () => {
             logoutModal.style.pointerEvents = 'auto';
             logoutModal.querySelector('.modal-content').style.pointerEvents = 'auto';
-            // Ultra aggressive backdrop fix after modal is fully shown
+           
             setTimeout(ultraFixModalBackdrop, 50);
             setTimeout(ultraFixModalBackdrop, 200);
             setTimeout(ultraFixModalBackdrop, 500);
@@ -141,11 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Enhanced search functionality
     const searchBar = document.getElementById('searchBar');
     const searchForm = searchBar.closest('form');
 
-    // Handle form submission
     searchForm.addEventListener('submit', function(e) {
         if (!searchBar.value.trim()) {
             e.preventDefault();
@@ -153,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Enhanced real-time search with animations
+    
     searchBar.addEventListener('input', function() {
         const searchValue = this.value.toLowerCase().trim();
         const tableRows = document.querySelectorAll('#booksTable tbody tr');

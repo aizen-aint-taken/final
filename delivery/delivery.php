@@ -65,7 +65,7 @@ include('../includes/sidebar.php');
                                 <i class="fas fa-plus-circle"></i>
                                 <span>Add New Delivery</span>
                             </button>
-                            <button type="button" class="btn btn-success btn-enhanced" onclick="exportToExcel()">
+                            <button type="button" class="btn btn-success btn-enhanced" data-toggle="modal" data-target="#exportFilterModal">
                                 <i class="fas fa-file-excel"></i>
                                 <span>Export to Excel</span>
                             </button>
@@ -77,10 +77,6 @@ include('../includes/sidebar.php');
                                 <i class="fas fa-file-download"></i>
                                 <span>Download Template</span>
                             </button>
-                            <!-- <button type="button" class="btn btn-outline-primary btn-enhanced" onclick="loadDeliveries()">
-                                <i class="fas fa-sync-alt"></i>
-                                <span>Refresh Data</span>
-                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -96,12 +92,6 @@ include('../includes/sidebar.php');
                         </h3>
                         <div class="card-tools-enhanced">
                             <div class="search-section">
-                                <!-- <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Search deliveries...">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -340,6 +330,134 @@ include('../includes/sidebar.php');
     </div>
 </div>
 
+<!-- Export Filter Modal -->
+<div class="modal fade" id="exportFilterModal" tabindex="-1" aria-labelledby="exportFilterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-enhanced">
+            <div class="modal-header modal-header-enhanced bg-gradient-success">
+                <h5 class="modal-title" id="exportFilterModalLabel">
+                    <i class="fas fa-file-excel"></i> Export Delivery Records
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-body-enhanced">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> <strong>Filter Options:</strong> Select filters below to export specific records, or leave empty to export all data.
+                </div>
+
+                <form id="exportFilterForm">
+                    <div class="form-section">
+                        <div class="section-title">
+                            <i class="fas fa-calendar-alt"></i> Date Range
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-enhanced">
+                                    <label for="export_start_date" class="form-label-enhanced">
+                                        <i class="fas fa-calendar-day"></i> From Date
+                                    </label>
+                                    <input type="date" class="form-control form-control-enhanced" id="export_start_date" name="start_date">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-enhanced">
+                                    <label for="export_end_date" class="form-label-enhanced">
+                                        <i class="fas fa-calendar-day"></i> To Date
+                                    </label>
+                                    <input type="date" class="form-control form-control-enhanced" id="export_end_date" name="end_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="section-title">
+                            <i class="fas fa-filter"></i> Additional Filters
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-enhanced">
+                                    <label for="export_delivery_site" class="form-label-enhanced">
+                                        <i class="fas fa-school"></i> Delivery Site
+                                    </label>
+                                    <select class="form-control form-control-enhanced" id="export_delivery_site" name="delivery_site">
+                                        <option value="">All Sites</option>
+                                        <option value="MAHARLIKA NHS">MAHARLIKA NHS</option>
+                                        <option value="BISLIG CENTRAL ELEMENTARY SCHOOL">BISLIG CENTRAL ELEMENTARY SCHOOL</option>
+                                        <option value="BISLIG NATIONAL HIGH SCHOOL">BISLIG NATIONAL HIGH SCHOOL</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-enhanced">
+                                    <label for="export_grade_level" class="form-label-enhanced">
+                                        <i class="fas fa-graduation-cap"></i> Grade Level (contains)
+                                    </label>
+                                    <input type="text" class="form-control form-control-enhanced" id="export_grade_level" name="grade_level" placeholder="e.g., G7, Grade 4, SHS">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-enhanced">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="export_has_delivery" name="has_delivery" value="1">
+                                <label class="custom-control-label" for="export_has_delivery">
+                                    <i class="fas fa-truck"></i> Only include records with deliveries (Qty Delivered > 0)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="section-title">
+                            <i class="fas fa-sort"></i> Sorting Options
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-enhanced">
+                                    <label for="export_sort_by" class="form-label-enhanced">
+                                        <i class="fas fa-sort-amount-down"></i> Sort By
+                                    </label>
+                                    <select class="form-control form-control-enhanced" id="export_sort_by" name="sort_by">
+                                        <option value="created_at">Date Created</option>
+                                        <option value="date_of_delivery">Delivery Date</option>
+                                        <option value="title_and_grade_level">Title/Grade Level</option>
+                                        <option value="quantity_delivered">Quantity Delivered</option>
+                                        <option value="name_of_school_delivery_site">Delivery Site</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-enhanced">
+                                    <label for="export_sort_order" class="form-label-enhanced">
+                                        <i class="fas fa-sort"></i> Sort Order
+                                    </label>
+                                    <select class="form-control form-control-enhanced" id="export_sort_order" name="sort_order">
+                                        <option value="DESC">Newest First (DESC)</option>
+                                        <option value="ASC">Oldest First (ASC)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal-footer-enhanced">
+                <button type="button" class="btn btn-secondary btn-enhanced" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-outline-success btn-enhanced" onclick="exportWithFilters(true)">
+                    <i class="fas fa-download"></i> Export All (No Filters)
+                </button>
+                <button type="button" class="btn btn-success btn-enhanced" onclick="exportWithFilters(false)">
+                    <i class="fas fa-file-excel"></i> Export with Filters
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Import Modal -->
 <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -439,25 +557,25 @@ include('../includes/sidebar.php');
 
                     if (!response.data || response.data.length === 0) {
                         console.log('📝 No records - showing empty message');
-                        tbody.append('<tr><td colspan=\"6\" class=\"text-center text-muted\">No delivery records found</td></tr>');
+                        tbody.append('<tr><td colspan="6" class="text-center text-muted">No delivery records found</td></tr>');
                     } else {
                         console.log('📊 Building table rows...');
 
                         $.each(response.data, function(index, delivery) {
                             console.log('📋 Processing record ' + (index + 1) + ':', delivery);
 
-                            var row = '<tr style=\"border: 1px solid black;\">' +
-                                '<td style=\"border: 1px solid black;\">' + (delivery.title_and_grade_level || '') + '</td>' +
-                                '<td style=\"border: 1px solid black;\">' + (delivery.quantity_delivered || '') + '</td>' +
-                                '<td style=\"border: 1px solid black;\">' + (delivery.quantity_allocated || '') + '</td>' +
-                                '<td style=\"border: 1px solid black;\">' + (delivery.date_of_delivery || '') + '</td>' +
-                                '<td style=\"border: 1px solid black;\">' + (delivery.name_of_school_delivery_site || '') + '</td>' +
-                                '<td style=\"border: 1px solid black;\">' +
-                                '<button class=\"btn btn-sm btn-warning\" onclick=\"editDelivery(' + delivery.DeliveryID + ')\">' +
-                                '<i class=\"fas fa-edit\"></i> ✏️' +
+                            var row = '<tr style="border: 1px solid black;">' +
+                                '<td style="border: 1px solid black;">' + (delivery.title_and_grade_level || '') + '</td>' +
+                                '<td style="border: 1px solid black;">' + (delivery.quantity_delivered || '') + '</td>' +
+                                '<td style="border: 1px solid black;">' + (delivery.quantity_allocated || '') + '</td>' +
+                                '<td style="border: 1px solid black;">' + (delivery.date_of_delivery || '') + '</td>' +
+                                '<td style="border: 1px solid black;">' + (delivery.name_of_school_delivery_site || '') + '</td>' +
+                                '<td style="border: 1px solid black;">' +
+                                '<button class="btn btn-sm btn-warning" onclick="editDelivery(' + delivery.DeliveryID + ')">' +
+                                '<i class="fas fa-edit"></i> ✏️' +
                                 '</button> ' +
-                                '<button class=\"btn btn-sm btn-danger\" onclick=\"deleteDelivery(' + delivery.DeliveryID + ')\">' +
-                                '<i class=\"fas fa-trash\"></i> 🗑️' +
+                                '<button class="btn btn-sm btn-danger" onclick="deleteDelivery(' + delivery.DeliveryID + ')">' +
+                                '<i class="fas fa-trash"></i> 🗑️' +
                                 '</button>' +
                                 '</td>' +
                                 '</tr>';
@@ -488,7 +606,7 @@ include('../includes/sidebar.php');
                 showNotification(errorMsg, 'error');
 
                 // Show debug info in table
-                tbody.html('<tr><td colspan=\"6\" class=\"text-center text-danger\">Error loading data. Check console for details.</td></tr>');
+                tbody.html('<tr><td colspan="6" class="text-center text-danger">Error loading data. Check console for details.</td></tr>');
             }
         });
     }
@@ -587,14 +705,38 @@ include('../includes/sidebar.php');
         }
     }
 
-    function exportToExcel() {
-        window.location.href = 'delivery.php?export=excel';
+    // Export with filters function
+    function exportWithFilters(exportAll) {
+        let url = '../admin/library_delivery_excel.php?action=export';
+
+        if (!exportAll) {
+            // Build query string from form inputs
+            const startDate = $('#export_start_date').val();
+            const endDate = $('#export_end_date').val();
+            const deliverySite = $('#export_delivery_site').val();
+            const gradeLevel = $('#export_grade_level').val();
+            const hasDelivery = $('#export_has_delivery').is(':checked') ? '1' : '';
+            const sortBy = $('#export_sort_by').val();
+            const sortOrder = $('#export_sort_order').val();
+
+            // Add parameters to URL
+            if (startDate) url += '&start_date=' + encodeURIComponent(startDate);
+            if (endDate) url += '&end_date=' + encodeURIComponent(endDate);
+            if (deliverySite) url += '&delivery_site=' + encodeURIComponent(deliverySite);
+            if (gradeLevel) url += '&grade_level=' + encodeURIComponent(gradeLevel);
+            if (hasDelivery) url += '&has_delivery=' + hasDelivery;
+            if (sortBy) url += '&sort_by=' + encodeURIComponent(sortBy);
+            if (sortOrder) url += '&sort_order=' + encodeURIComponent(sortOrder);
+        }
+
+        // Close modal and redirect to export
+        $('#exportFilterModal').modal('hide');
+        window.location.href = url;
     }
 
     function downloadTemplate() {
         window.location.href = '../admin/library_delivery_excel.php?action=template';
     }
-
 
     function showNotification(message, type) {
         let alertClass = type === 'success' ? 'alert-success' : 'alert-danger';

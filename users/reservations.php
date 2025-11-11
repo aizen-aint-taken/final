@@ -110,8 +110,9 @@ $reservationsQuery = "
     SELECT
         U.name AS USERNAME,
         U.email AS EMAIL,
-        DATE(R.ReserveDate) AS RESERVEDATE,  -- ✅ only date
-        DATE_ADD(DATE(R.ReserveDate), INTERVAL 7 DAY) AS DUEDATE,  -- ✅ only date
+        DATE(R.ReserveDate) AS RESERVEDATE,         -- only date
+        DATE_ADD(DATE(R.ReserveDate), INTERVAL 7 DAY) AS DUEDATE,  -- only date
+        DATE(R.ReturnedDate) AS RETURNEDDATE,      -- new column
         B.Title AS BOOK_TITLE,
         R.STATUS AS STATUS
     FROM reservations AS R
@@ -119,6 +120,7 @@ $reservationsQuery = "
     INNER JOIN books AS B ON R.BookID = B.BookID
     WHERE U.id = ?
 ";
+
 
 if (isset($_GET['status']) && !empty($_GET['status']) && $_GET['status'] !== 'All') {
     $status = $_GET['status'];
@@ -310,8 +312,10 @@ function getStatusBadgeClass($status)
                                 <th scope="col">Borrowed Date
                                     || YYYY-MM-DD
                                 </th>
+                                <th>Returned Date || YYYY-MM-DD </th>
                                 <th scope="col">Book Title</th>
                                 <th scope="col">Status</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -322,7 +326,17 @@ function getStatusBadgeClass($status)
                             ?>
                                 <tr>
                                     <td><?= htmlspecialchars($row['RESERVEDATE']) ?></td>
+                                    <td>
+                                        <?php if (!empty($row['RETURNEDDATE'])): ?>
+                                            <?= htmlspecialchars($row['RETURNEDDATE']) ?>
+                                        <?php else: ?>
+                                            <span style="color: red; font-weight: bold;">Not yet returned</span>
+                                        <?php endif; ?>
+                                    </td>
+
+
                                     <td><?= htmlspecialchars($row['BOOK_TITLE']) ?></td>
+
                                     <td>
                                         <span class="badge <?= getStatusBadgeClass($row['STATUS']) ?>">
                                             <?= htmlspecialchars($row['STATUS']) ?>
@@ -334,6 +348,8 @@ function getStatusBadgeClass($status)
                     </table>
                 </div>
             </div>
+
+
 
             <!-- Mobile View -->
             <div class="d-lg-none" id="mobileReservations">
@@ -347,6 +363,9 @@ function getStatusBadgeClass($status)
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../public/assets/js/userReservations.js"></script>
 
+    <script>
+
+    </script>
 
 
 </body>

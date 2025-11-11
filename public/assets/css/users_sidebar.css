@@ -156,7 +156,7 @@
     font-weight: 500;
 }
 
-.nav-icon {
+/* .nav-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -166,7 +166,27 @@
     border-radius: 10px;
     margin-right: 1rem;
     transition: all 0.3s ease;
+} */
+
+/* New */
+/* .nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+    line-height: 1;
+} */
+
+/* .nav-icon i {
+    font-size: 1.1rem;
 }
+ */
 
 .nav-text {
     flex: 1;

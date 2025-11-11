@@ -1,10 +1,8 @@
-
+// ... existing code ...
 $(function() {
-    
-    setTimeout(function() {
-        loadMostBorrowedBooks();
-        loadImportDeliveryStamps();
-    }, 100);
+    // Initialize all required data loads
+    loadMostBorrowedBooks();
+    loadImportDeliveryStamps();
 });
 
 function loadMostBorrowedBooks() {
@@ -34,7 +32,6 @@ function loadMostBorrowedBooks() {
         }
     }, 'json');
 }
-
 
 function loadImportDeliveryStamps() {
     $.post('', {

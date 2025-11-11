@@ -62,6 +62,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 echo json_encode(['success' => true, 'data' => $dashboardData]);
                 break;
 
+            // New cases for inventory charts and alerts
+            case 'get_stock_distribution':
+                $data = getStockDistribution($conn);
+                echo json_encode(['success' => true, 'data' => $data]);
+                break;
+
+            case 'get_borrowing_status':
+                $data = getBorrowingStatus($conn);
+                echo json_encode(['success' => true, 'data' => $data]);
+                break;
+
+            case 'get_alerts_notifications':
+                $data = getAlertsNotifications($conn);
+                echo json_encode(['success' => true, 'data' => $data]);
+                break;
+
             default:
                 echo json_encode(['success' => false, 'error' => 'Invalid action']);
                 break;
@@ -111,15 +127,7 @@ function getMonthlyTrends($conn)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Return sample data if no records found
-    return [
-        ['month' => 'Jan', 'reservations' => 12, 'returns' => 8],
-        ['month' => 'Feb', 'reservations' => 19, 'returns' => 15],
-        ['month' => 'Mar', 'reservations' => 15, 'returns' => 12],
-        ['month' => 'Apr', 'reservations' => 25, 'returns' => 20],
-        ['month' => 'May', 'reservations' => 22, 'returns' => 18],
-        ['month' => 'Jun', 'reservations' => 18, 'returns' => 16]
-    ];
+    return []; // Return empty array instead of static data
 }
 
 // User Activity Stats Function
@@ -184,7 +192,7 @@ function getTopBorrowedBooks($conn)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    return [];
+    return []; // Return empty array instead of static data
 }
 
 // Activity Feed Function
@@ -320,6 +328,60 @@ function refreshDashboardData($conn)
         'analytics' => getAnalyticsData($conn),
         'timestamp' => time()
     ];
+}
+
+// Stock Distribution Function - Fully dynamic
+function getStockDistribution($conn)
+{
+    $query = "SELECT Subject, SUM(Stock) as total_stock FROM books WHERE Subject IS NOT NULL AND Subject != '' GROUP BY Subject ORDER BY total_stock DESC";
+    $result = $conn->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    return []; // Return empty array instead of static data
+}
+
+// Borrowing Status Function - Fully dynamic
+function getBorrowingStatus($conn)
+{
+    $query = "SELECT STATUS, COUNT(*) as total FROM reservations WHERE STATUS IS NOT NULL GROUP BY STATUS";
+    $result = $conn->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    return []; // Return empty array instead of static data
+}
+
+// Alerts and Notifications Function - Fully dynamic
+function getAlertsNotifications($conn)
+{
+    $alerts = [];
+
+    // Low stock books
+    $lowStockQuery = "SELECT BookID, Title, Stock FROM books WHERE Stock > 0 AND Stock < 5 ORDER BY Stock ASC LIMIT 5";
+    $lowStockResult = $conn->query($lowStockQuery);
+    $alerts['low_stock'] = $lowStockResult ? $lowStockResult->fetch_all(MYSQLI_ASSOC) : [];
+
+    // Overdue books
+    $overdueQuery = "SELECT b.Title, u.name as student_name, DATEDIFF(CURDATE(), r.DueDate) as days_overdue 
+                     FROM reservations r 
+                     JOIN books b ON r.BookID = b.BookID 
+                     JOIN users u ON r.StudentID = u.id 
+                     WHERE r.STATUS = 'Borrowed' AND r.DueDate < CURDATE() 
+                     ORDER BY r.DueDate ASC LIMIT 5";
+    $overdueResult = $conn->query($overdueQuery);
+    $alerts['overdue'] = $overdueResult ? $overdueResult->fetch_all(MYSQLI_ASSOC) : [];
+
+    // Recently added books (last 7 days)
+    $recentQuery = "SELECT Title, Stock FROM books WHERE created_date >= DATE_SUB(NOW(), INTERVAL 7 DAY) AND created_date IS NOT NULL ORDER BY created_date DESC LIMIT 5";
+    $recentResult = $conn->query($recentQuery);
+    $alerts['recent_additions'] = $recentResult ? $recentResult->fetch_all(MYSQLI_ASSOC) : [];
+
+    return $alerts;
 }
 
 // Log activity function (for future use)

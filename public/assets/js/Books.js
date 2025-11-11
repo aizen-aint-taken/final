@@ -5,12 +5,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var filterForm = document.getElementById('filterForm');
     if (filterForm) {
         filterForm.addEventListener('submit', function(event) {
-            var select = document.getElementById('booksFilter');
-            if (!select || select.value === 'Select Subject' || select.value === '') {
-                event.preventDefault();
-                alert('Please select a subject.');
-            }
+            
         });
+        
+        var subjectSelect = document.getElementById('booksFilter');
+        if (subjectSelect) {
+            subjectSelect.addEventListener('change', function() {
+                // Submit form for any selection, including "All Subjects" (empty value)
+                filterForm.submit();
+            });
+        }
     }
 
     // Delete button modal population
@@ -114,45 +118,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // Handle real-time search with delay
+        let searchTimeout;
         searchInput.addEventListener('input', function(e) {
-            var searchTerm = e.target.value.toLowerCase().trim();
-            var rows = Array.from(tableBody.querySelectorAll('tr:not(.no-results-row)'));
-            var hasVisibleRows = false;
-
-            // Remove any previous 'no results' row
-            removeNoResultsRow();
-
-            rows.forEach(function(row) {
-                var cells = row.getElementsByTagName('td');
-                var rowText = '';
-                if (cells.length > 0) {
-                    rowText = [
-                        cells[1] ? cells[1].textContent : '',
-                        cells[2] ? cells[2].textContent : '',
-                        cells[3] ? cells[3].textContent : '',
-                        cells[6] ? cells[6].textContent : ''
-                    ].join(' ').toLowerCase();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                var searchTerm = e.target.value.toLowerCase().trim();
+                
+                // If search term is empty, reload the page to show all books
+                if (searchTerm === '') {
+                    window.location.href = 'Books.php';
+                    return;
                 }
-                if (searchTerm === '' || rowText.includes(searchTerm)) {
-                    row.style.display = '';
-                    hasVisibleRows = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            if (!hasVisibleRows) {
-                var colCount = 9; // Adjust if your table has a different number of columns
-                var noResultsRow = document.createElement('tr');
-                noResultsRow.className = 'no-results-row';
-                var td = document.createElement('td');
-                td.colSpan = colCount;
-                td.className = 'text-center';
-                td.style.background = 'rgba(255,255,255,0.7)';
-                td.innerHTML = '<i class="bi bi-info-circle"></i> No books found matching your search criteria';
-                noResultsRow.appendChild(td);
-                tableBody.appendChild(noResultsRow);
-            }
+                
+                // Redirect to search results page
+                window.location.href = 'Books.php?search=' + encodeURIComponent(searchTerm);
+            }, 500); // 500ms delay to avoid too many requests
         });
     }
 });
@@ -161,6 +142,7 @@ function clearSearch() {
     var searchInput = document.getElementById('Search');
     if (searchInput) {
         searchInput.value = '';
-        searchInput.dispatchEvent(new Event('input'));
+        // Redirect to main page when clearing search
+        window.location.href = 'Books.php';
     }
 }

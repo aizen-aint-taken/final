@@ -1,54 +1,32 @@
 <?php
-
 session_start();
-
-
-error_log("Session contents: " . print_r($_SESSION, true));
-
-
-if (!isset($_SESSION['usertype']) || !in_array($_SESSION['usertype'], ['a', 'sa'])) {
-    header('Location: ../index.php');
-    exit;
-}
-
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
-include('../config/conn.php');
+include("../config/conn.php");
 
 if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
-    error_log("No user session found - redirecting to login");
     header('location: ../index.php');
     exit;
 }
-
-if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['a', 'sa'])) {
-    error_log("Invalid role: " . (isset($_SESSION['role']) ? $_SESSION['role'] : 'not set'));
-    header('location: ../index.php');
-    exit;
-}
-
-
-
 
 $subject = isset($_GET['subject']) ? $_GET['subject'] : '';
 
 
 if ($subject) {
-    $stmt = $conn->prepare("SELECT * FROM books WHERE Genre = :subject");
-    $stmt->execute(['subject' => $subject]);
+    $stmt = $conn->prepare("SELECT * FROM books WHERE Subject = ?");
+    $stmt->bind_param("s", $subject);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $books = $result->fetch_all(MYSQLI_ASSOC);
 } else {
     $stmt = $conn->query("SELECT * FROM books");
+    $books = $stmt->fetch_all(MYSQLI_ASSOC);
 }
-
-$books = $stmt->fetch_all();
 
 include('../includes/header.php');
 include('../includes/sidebar.php');
 
 ?>
+
+<link rel="icon" type="image/png" href="/maharlika/logo.jpg">
 
 
 <div class="content-wrapper" style="padding-top: 40px;">

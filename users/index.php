@@ -18,8 +18,11 @@ $resultsPerPage = 5;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($currentPage - 1) * $resultsPerPage;
 
-if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
-    $searchTerm = trim($_GET['search']);
+// Check if we have a search term or filter
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+$booksFilter = isset($_GET['subject']) ? $_GET['subject'] : '';
+
+if (!empty($searchTerm)) {
     $searchPattern = "%{$searchTerm}%";
 
     // Modified to show all books, not just those with Stock > 0
@@ -31,6 +34,18 @@ if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
     // Modified to show all books, not just those with Stock > 0
     $stmt = $conn->prepare("SELECT *, COALESCE(stock_update, Stock) as display_stock FROM books WHERE (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR `Source of Acquisition` LIKE ? OR Subject LIKE ?) ORDER BY display_stock DESC, BookID ASC LIMIT ? OFFSET ?");
     $stmt->bind_param("sssssii", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $resultsPerPage, $offset);
+    $stmt->execute();
+    $books = $stmt->get_result();
+} else if (!empty($booksFilter)) {
+    // Handle subject filter with pagination
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Subject = ?");
+    $stmt->bind_param("s", $booksFilter);
+    $stmt->execute();
+    $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
+
+    // Modified to show all books in filter, not just those with Stock > 0
+    $stmt = $conn->prepare("SELECT *, COALESCE(stock_update, Stock) as display_stock FROM books WHERE Subject = ? ORDER BY display_stock DESC, BookID ASC LIMIT ? OFFSET ?");
+    $stmt->bind_param("sii", $booksFilter, $resultsPerPage, $offset);
     $stmt->execute();
     $books = $stmt->get_result();
 } else {
@@ -60,15 +75,6 @@ $stmt = $conn->prepare("SELECT U.name AS USERNAME, R.ReserveDate AS RESERVEDATE,
 $stmt->bind_param("i", $studentId);
 $stmt->execute();
 $reservations = $stmt->get_result();
-
-if (isset($_POST['filter'])) {
-    $booksFilter = $_POST['booksFilter'];
-    // Modified to show all books in filter, not just those with Stock > 0
-    $stmt = $conn->prepare("SELECT *, COALESCE(stock_update, Stock) as display_stock FROM books WHERE Subject = ? ORDER BY display_stock DESC, BookID ASC LIMIT ? OFFSET ?");
-    $stmt->bind_param("sii", $booksFilter, $resultsPerPage, $offset);
-    $stmt->execute();
-    $books = $stmt->get_result();
-}
 ?>
 
 
@@ -169,21 +175,21 @@ if (isset($_POST['filter'])) {
                                     <div class="card-body">
                                         <!-- Filter Form -->
                                         <div class="filter-row mb-4">
-                                            <form action="index.php" method="post" class="mb-0">
+                                            <form action="index.php" method="GET" class="mb-0">
                                                 <label for="booksFilter" class="form-label">Select by Subject</label>
                                                 <div class="input-group input-group-lg modern-input-group">
                                                     <span class="input-group-text">
                                                         <i class="fas fa-filter text-primary"></i>
                                                     </span>
-                                                    <select name="booksFilter" id="booksFilter" class="form-control">
-                                                        <option selected disabled hidden>Choose a subject...</option>
+                                                    <select name="subject" id="booksFilter" class="form-control">
+                                                        <option value="">All Subjects</option>
                                                         <?php foreach ($filterBooks as $book): ?>
-                                                            <option value="<?= htmlspecialchars($book['Subject']) ?>">
+                                                            <option value="<?= htmlspecialchars($book['Subject']) ?>" <?= (isset($_GET['subject']) && $_GET['subject'] == $book['Subject']) ? 'selected' : '' ?>>
                                                                 <?= htmlspecialchars($book['Subject']) ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
-                                                    <button type="submit" name="filter" class="btn btn-primary px-4">
+                                                    <button type="submit" class="btn btn-primary px-4">
                                                         <i class="fas fa-check me-2"></i>Select Subject
                                                     </button>
                                                 </div>
@@ -276,9 +282,11 @@ if (isset($_POST['filter'])) {
                                                 data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                                 data-title="<?= htmlspecialchars($book['Title']) ?>"
                                                 data-author="<?= htmlspecialchars($book['Author']) ?>"
-                                                <?= $book['display_stock'] <= 0 ? 'disabled' : '' ?>>
-                                                <i class="fas fa-bookmark me-1 
-    <?= $book['display_stock'] > 0 ? 'text-muted' : 'text-danger' ?>">
+                                                data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
+                                                data-publisheddate=" <?= htmlspecialchars($book['PublishedDate']) ?> ">
+                                                <?= $book['display_stock'] <= 0 ? 'disabled' : '' ?>
+                                                <i class=" fas fa-bookmark me-1
+                                                <?= $book['display_stock'] > 0 ? 'text-muted' : 'text-danger' ?>">
                                                 </i>Borrow
 
                                         </td>
@@ -329,13 +337,15 @@ if (isset($_POST['filter'])) {
                                                 <span><strong>Subject:</strong> <?= htmlspecialchars($book['Subject']) ?></span>
                                             </div>
                                         </div>
-
                                         <button type="button" class="btn btn-primary w-100 reserve-btn-mobile"
                                             <?php if ($book['display_stock'] <= 0): ?>disabled<?php endif; ?>
                                             data-bs-toggle="modal" data-bs-target="#modalId"
                                             data-id="<?= htmlspecialchars($book['BookID']) ?>"
                                             data-title="<?= htmlspecialchars($book['Title']) ?>"
-                                            data-author="<?= htmlspecialchars($book['Author']) ?>">
+                                            data-author="<?= htmlspecialchars($book['Author']) ?>"
+                                            data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
+
+                                            data-publisheddate=" <?= htmlspecialchars($book['PublishedDate']) ?>">
                                             <i class="fas fa-bookmark me-2"></i>
                                             <?php if ($book['display_stock'] > 0): ?>
                                                 Borrow This Book
@@ -343,6 +353,8 @@ if (isset($_POST['filter'])) {
                                                 Unavailable
                                             <?php endif; ?>
                                         </button>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -353,9 +365,18 @@ if (isset($_POST['filter'])) {
                     <nav class="mt-4">
                         <ul class="pagination justify-content-center">
                             <?php if ($totalPages > 1): ?>
+                                <?php
+                                // Build query string for pagination links
+                                $queryString = '';
+                                if (!empty($searchTerm)) {
+                                    $queryString = '&search=' . urlencode($searchTerm);
+                                } else if (!empty($booksFilter)) {
+                                    $queryString = '&subject=' . urlencode($booksFilter);
+                                }
+                                ?>
                                 <?php if ($currentPage > 1): ?>
                                     <li class="page-item">
-                                        <a class="page-link" href="index.php?page=<?= ($currentPage - 1) ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Previous</a>
+                                        <a class="page-link" href="index.php?page=<?= ($currentPage - 1) ?><?= $queryString ?>">Previous</a>
                                     </li>
                                 <?php endif; ?>
 
@@ -364,7 +385,7 @@ if (isset($_POST['filter'])) {
                                 $endPage = min($totalPages, $currentPage + 2);
 
                                 if ($startPage > 1) {
-                                    echo '<li class="page-item"><a class="page-link" href="index.php?page=1' . (isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '') . '">1</a></li>';
+                                    echo '<li class="page-item"><a class="page-link" href="index.php?page=1' . $queryString . '">1</a></li>';
                                     if ($startPage > 2) {
                                         echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                                     }
@@ -373,7 +394,7 @@ if (isset($_POST['filter'])) {
                                 for ($i = $startPage; $i <= $endPage; $i++):
                                 ?>
                                     <li class="page-item <?= ($i == $currentPage) ? 'active' : '' ?>">
-                                        <a class="page-link" href="index.php?page=<?= $i ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">
+                                        <a class="page-link" href="index.php?page=<?= $i ?><?= $queryString ?>">
                                             <?= $i ?>
                                         </a>
                                     </li>
@@ -384,13 +405,13 @@ if (isset($_POST['filter'])) {
                                     if ($endPage < $totalPages - 1) {
                                         echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                                     }
-                                    echo '<li class="page-item"><a class="page-link" href="index.php?page=' . $totalPages . (isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '') . '">' . $totalPages . '</a></li>';
+                                    echo '<li class="page-item"><a class="page-link" href="index.php?page=' . $totalPages . $queryString . '">' . $totalPages . '</a></li>';
                                 }
                                 ?>
 
                                 <?php if ($currentPage < $totalPages): ?>
                                     <li class="page-item">
-                                        <a class="page-link" href="index.php?page=<?= ($currentPage + 1) ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Next</a>
+                                        <a class="page-link" href="index.php?page=<?= ($currentPage + 1) ?><?= $queryString ?>">Next</a>
                                     </li>
                                 <?php endif; ?>
                             <?php endif; ?>
@@ -418,7 +439,7 @@ if (isset($_POST['filter'])) {
                             </div>
                             <p class="mb-3">You are about to borrow the following book:</p>
                         </div>
-
+                        <!-- add og bag o na detalye sa libro  -->
                         <form action="reserve.php" method="POST" class="reservation-form">
                             <input type="hidden" name="book_id" id="reserveBookId">
 
@@ -435,6 +456,21 @@ if (isset($_POST['filter'])) {
                                 </label>
                                 <input type="text" name="book_author" class="form-control" id="reserveBookAuthor" readonly>
                             </div>
+
+                            <div class="form-group mb-4">
+                                <label for="reserveBookPublisher" class="form-label">
+                                    <i class="fas fa-newspaper me-2"></i>Publisher
+                                </label>
+                                <input type="text" name="book_publisher" class="form-control" id="reserveBookPublisher" readonly>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="reserveBookPublisher" class="form-label">
+                                    <i class="fas fa-newspaper me-2"></i>Published Date
+                                </label>
+                                <input type="text" name="book_publisher" class="form-control" id="reserveBookPublishedDate" readonly>
+                            </div>
+
 
                             <div class="reservation-note">
                                 <div class="note-icon">

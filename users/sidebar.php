@@ -1,4 +1,5 @@
 <div class="sidebar user-sidebar modern-sidebar" id="sidebar">
+
     <div class="sidebar-header">
         <div class="sidebar-logo" style="display: flex; align-items: center; gap: 0.75rem;">
             <div class="logo-container">
@@ -28,16 +29,19 @@
         </div>
     </div>
 
-    <div class="nav-links">
+    <div class="nav-links ">
+
+        <!-- Above -->
         <div class="nav-section">
             <small class="nav-section-title">MAIN MENU</small>
             <a href="index.php" class="nav-link-item <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">
                 <div class="nav-icon">
-                    <i class="fas fa-home"></i>
+                    <i class="fa-solid fa-house-user"></i>
                 </div>
                 <span class="nav-text">Browse Books</span>
                 <div class="nav-indicator"></div>
             </a>
+
             <a href="reservations.php" class="nav-link-item <?= basename($_SERVER['PHP_SELF']) == 'reservations.php' ? 'active' : '' ?>">
                 <div class="nav-icon">
                     <i class="fas fa-bookmark"></i>
@@ -48,6 +52,7 @@
             </a>
         </div>
 
+        <!-- Below  -->
         <div class="nav-section">
             <small class="nav-section-title">ACCOUNT</small>
             <a href="logout.php" class="nav-link-item logout-link" data-bs-toggle="modal" data-bs-target="#logoutModal">
@@ -59,7 +64,6 @@
             </a>
         </div>
     </div>
-
 
 </div>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>

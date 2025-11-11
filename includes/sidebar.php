@@ -70,7 +70,7 @@ function isSuperAdmin()
 
         <!-- Notifications Section -->
         <li class="nav-item has-treeview" id="notifications-section">
-          <a href="#" class="nav-link" id="notifications-toggle">
+          <a href="notifbell.php" class="nav-link" id="notifications-toggle">
             <i class="nav-icon fas fa-bell"></i>
             <p>
               Notifications
@@ -80,29 +80,7 @@ function isSuperAdmin()
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview" id="notifications-dropdown" style="display: none;">
-            <li class="nav-header">📔 Recent Notifications</li>
-            <?php
-            $notifications_result->data_seek(0); // Reset result pointer
-            while ($row = $notifications_result->fetch_assoc()): ?>
-              <li class="nav-item">
-                <div class="nav-link notification-item-sidebar">
-                  <div class="notification-content">
-                    <div style="font-size: 12px; font-weight: 600;">📚 <?= htmlspecialchars($row['title']) ?></div>
-                    <div style="font-size: 11px; color: #666; margin-top: 2px;">👤 <?= htmlspecialchars($row['name']) ?></div>
-                    <div style="font-size: 10px; color: #999; margin-top: 2px;">🕒 <?= date('M j, g:i A', strtotime($row['created_at'])) ?></div>
-                  </div>
-                </div>
-              </li>
-            <?php endwhile; ?>
-            <?php if ($notifications_result->num_rows === 0): ?>
-              <li class="nav-item">
-                <div class="nav-link text-center text-muted">
-                  📭 No notifications
-                </div>
-              </li>
-            <?php endif; ?>
-          </ul>
+
         </li>
 
         <li class="nav-item">
