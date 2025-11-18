@@ -18,72 +18,24 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
 }
 
 
-$booksPerPage = 5;
+$booksPerPage = 10;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $booksPerPage;
 
-// Initialize search term
-$searchTerm = '';
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $searchTerm = trim($_GET['search']);
-}
 
-// Initialize subject filter
-$booksFilter = '';
-if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
-    $booksFilter = trim($_POST['booksFilter']);
-} elseif (isset($_GET['subject']) && !empty($_GET['subject'])) {
-    $booksFilter = trim($_GET['subject']);
-}
+// ... existing code ...
+$stmt = $conn->prepare("SELECT b.*, 
+    COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
+FROM books b ORDER BY b.Stock DESC, b.Title ASC LIMIT ? OFFSET ?");
+$stmt->bind_param("ii", $booksPerPage, $offset);
+$stmt->execute();
+$books = $stmt->get_result();
 
-// Build query based on search and filter
-if (!empty($searchTerm)) {
-    // Search across all books
-    $searchPattern = "%$searchTerm%";
-    $stmt = $conn->prepare("SELECT b.*, 
-        COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
-    FROM books b WHERE (b.Title LIKE ? OR b.Author LIKE ? OR b.Publisher LIKE ? OR b.Subject LIKE ? OR b.`Source of Acquisition` LIKE ?) 
-    ORDER BY b.Stock DESC, b.Title ASC LIMIT ? OFFSET ?");
-    $stmt->bind_param("ssssssii", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $booksPerPage, $offset);
-    $stmt->execute();
-    $books = $stmt->get_result();
 
-    // Get total count for pagination
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE (Title LIKE ? OR Author LIKE ? OR Publisher LIKE ? OR Subject LIKE ? OR `Source of Acquisition` LIKE ?)");
-    $stmt->bind_param("sssss", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern);
-    $stmt->execute();
-    $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
-    $totalPages = ceil($totalBooks / $booksPerPage);
-} elseif (!empty($booksFilter)) {
-    // Filter by subject
-    $stmt = $conn->prepare("SELECT b.*, 
-        COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
-    FROM books b WHERE b.Subject = ? ORDER BY b.Stock DESC, b.Title ASC LIMIT ? OFFSET ?");
-    $stmt->bind_param("sii", $booksFilter, $booksPerPage, $offset);
-    $stmt->execute();
-    $books = $stmt->get_result();
-
-    // Get total count for pagination
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books WHERE Subject = ?");
-    $stmt->bind_param("s", $booksFilter);
-    $stmt->execute();
-    $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
-    $totalPages = ceil($totalBooks / $booksPerPage);
-} else {
-    // Default: show all books
-    $stmt = $conn->prepare("SELECT b.*, 
-        COALESCE((SELECT COUNT(*) FROM reservations r WHERE r.BookID = b.BookID AND r.STATUS = 'Borrowed'), 0) as currently_borrowed 
-    FROM books b ORDER BY b.Stock DESC, b.Title ASC LIMIT ? OFFSET ?");
-    $stmt->bind_param("ii", $booksPerPage, $offset);
-    $stmt->execute();
-    $books = $stmt->get_result();
-
-    // Get total count for pagination
-    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM books");
-    $stmt->execute();
-    $totalBooks = $stmt->get_result()->fetch_assoc()['total'];
-    $totalPages = ceil($totalBooks / $booksPerPage);
-}
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM books");
+$stmt->execute();
+$totalBooks = $stmt->get_result()->fetch_assoc()['total'];
+$totalPages = ceil($totalBooks / $booksPerPage);
 
 
 $stmt = $conn->prepare("SELECT DISTINCT Subject FROM books");
@@ -100,6 +52,7 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
     $stmt->execute();
     $books = $stmt->get_result();
 }
+// ... existing code ...
 ?>
 
 <!DOCTYPE html>
@@ -187,29 +140,27 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
                             id="Search"
                             class="form-control"
                             placeholder="Search books by title, author, publisher, or subject..."
-                            aria-label="Search"
-                            value="<?= htmlspecialchars($searchTerm) ?>" />
+                            aria-label="Search" />
                         <button type="button" class="btn btn-outline-primary" onclick="clearSearch()">
                             <i class="bi bi-x-lg"></i> Clear
                         </button>
                     </div>
                 </div>
 
-
                 <!-- Filter Section -->
                 <div class="mb-4">
-                    <form method="get" id="filterForm">
+                    <form action="index.php" method="post" id="filterForm">
                         <label for="booksFilter" class="form-label">Filter By Subject</label>
                         <div class="input-group">
-                            <select name="subject" id="booksFilter" class="form-select">
-                                <option value="">All Subjects</option>
+                            <select name="booksFilter" id="booksFilter" class="form-select" required>
+                                <option value="" selected disabled>Select Subject</option>
                                 <?php foreach ($filterBooks as $subject): ?>
-                                    <option value="<?= htmlspecialchars($subject['Subject']) ?>" <?= ($booksFilter == $subject['Subject']) ? 'selected' : '' ?>>
+                                    <option value="<?= htmlspecialchars($subject['Subject']) ?>">
                                         <?= htmlspecialchars($subject['Subject']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" name="filter" class="btn btn-primary">
                                 <i class="fa-solid fa-magnifying-glass"></i>Search
                             </button>
                         </div>
@@ -345,17 +296,17 @@ if (isset($_POST['filter']) && !empty($_POST['booksFilter'])) {
         <!-- pagination -->
         <div class="pagination">
             <?php if ($page > 1): ?>
-                <a href="?page=1<?php if (!empty($searchTerm)) echo '&search=' . urlencode($searchTerm); ?><?php if (!empty($booksFilter)) echo '&subject=' . urlencode($booksFilter); ?>">&laquo; First</a>
-                <a href="?page=<?= $page - 1 ?><?php if (!empty($searchTerm)) echo '&search=' . urlencode($searchTerm); ?><?php if (!empty($booksFilter)) echo '&subject=' . urlencode($booksFilter); ?>">Previous</a>
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page=<?= $page - 1 ?>">Previous</a>
             <?php endif; ?>
 
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?page=<?= $i ?><?php if (!empty($searchTerm)) echo '&search=' . urlencode($searchTerm); ?><?php if (!empty($booksFilter)) echo '&subject=' . urlencode($booksFilter); ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
+                <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
             <?php endfor; ?>
 
             <?php if ($page < $totalPages): ?>
-                <a href="?page=<?= $page + 1 ?><?php if (!empty($searchTerm)) echo '&search=' . urlencode($searchTerm); ?><?php if (!empty($booksFilter)) echo '&subject=' . urlencode($booksFilter); ?>">Next</a>
-                <a href="?page=<?= $totalPages ?><?php if (!empty($searchTerm)) echo '&search=' . urlencode($searchTerm); ?><?php if (!empty($booksFilter)) echo '&subject=' . urlencode($booksFilter); ?>">Last &raquo;</a>
+                <a href="?page=<?= $page + 1 ?>">Next</a>
+                <a href="?page=<?= $totalPages ?>">Last &raquo;</a>
             <?php endif; ?>
         </div>
 

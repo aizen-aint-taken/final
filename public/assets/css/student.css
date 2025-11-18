@@ -121,6 +121,44 @@ body {
 #yearFilterSelect {
     width: 100%;
 }
+
+/* Online status indicators */
+.status-badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.status-badge.online {
+    background-color: #28a745;
+    color: #fff;
+    animation: pulse 2s infinite;
+}
+
+.status-badge.offline {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
@@ -141,4 +179,4 @@ body {
     #yearFilterForm {
         width: 100%;
     }
-} 
+}

@@ -56,9 +56,16 @@ function isSuperAdmin()
             <li class="nav-item">
               <a href="../admin/inventory.php" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>📊 Dashboard</p>
+                <p>📊 Books statistics</p>
               </a>
             </li>
+
+
+            <li class="nav-item">
+              <a href="../admin/yearly_inventory.php" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>📊 Yearly Inventory</p>
+              </a>
           </ul>
         </li>
 

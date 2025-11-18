@@ -69,7 +69,8 @@ if (isset($_POST['import'])) {
             if (isset($existingBooks[$key])) {
                 $newStock = $existingBooks[$key]['stock'] + $stock;
                 $bookId = $existingBooks[$key]['id'];
-                $updates[] = "UPDATE books SET Stock = $newStock, stock_update = COALESCE(stock_update, Stock) WHERE BookID = $bookId";
+                // Modified: Increment stock_update by the imported stock amount instead of just setting it to Stock
+                $updates[] = "UPDATE books SET Stock = $newStock, stock_update = COALESCE(stock_update, Stock) + $stock WHERE BookID = $bookId";
                 $_SESSION['success'][] = "Updated stock for existing book: $title";
                 continue;
             }
@@ -98,18 +99,15 @@ if (isset($_POST['import'])) {
 
             // Create the type string for bind_param - 8 strings per book (all values are strings)
             $types = str_repeat('ssssssss', count($placeholders)); // 8 's' per book
-            
+
             if (count($allValues) > 0) {
                 $stmt->bind_param($types, ...$allValues);
 
                 if ($stmt->execute()) {
                     $_SESSION['success'][] = "Books imported successfully with import tracking.";
 
-                 
+
                     $conn->query("UPDATE books SET created_date = NOW() WHERE created_date IS NULL");
-                    
-                    
-                    
                 } else {
                     $_SESSION['error'][] = "Error: " . $stmt->error;
                 }
@@ -127,4 +125,3 @@ if (isset($_POST['import'])) {
         exit;
     }
 }
-?>

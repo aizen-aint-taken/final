@@ -9,8 +9,11 @@ ini_set('display_errors', 1);
 
 require_once 'config/conn.php';
 
-
-
+// Generate a unique session token for tracking
+function generateSessionToken()
+{
+    return bin2hex(random_bytes(16));
+}
 
 if (isset($_SESSION['usertype'])) {
     if ($_SESSION['usertype'] === 'u') {
@@ -51,14 +54,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
                 if ($validate->num_rows == 1) {
                     $user = $validate->fetch_assoc();
                     if (password_verify($userpassword, $user['password'])) {
+                        // Regenerate session ID for security FIRST
+                        session_regenerate_id(true);
+
+                        // Generate session token for tracking
+                        $sessionToken = generateSessionToken();
+
+                        // Update webuser table with session token and session ID
+                        $sessionId = session_id();
+                        $updateStmt = $conn->prepare("UPDATE webuser SET session_status = ?, session_id = ? WHERE email = ?");
+                        $updateStmt->bind_param("sss", $sessionToken, $sessionId, $usermail);
+                        $updateStmt->execute();
+
                         // Set session variables
                         $_SESSION['user'] = $usermail;
                         $_SESSION['usertype'] = 'u';
                         $_SESSION['student_id'] = $user['id'];
                         $_SESSION['username'] = $user['name'];
-
-                        // Regenerate session ID for security
-                        session_regenerate_id(true);
+                        $_SESSION['session_status'] = $sessionToken;
 
                         header('location: users/index.php');
                         exit();
@@ -106,11 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
     }
 }
 ?>
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -128,6 +136,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
 
     <link rel="stylesheet" href="login.css">
     <style>
+        /* Dropdown Menu Styles */
+        .help-dropdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-menu {
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: none;
+            padding: 10px 0;
+            min-width: 200px;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            transition: all 0.2s ease;
+            color: #333;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #007bff;
+            padding-left: 25px;
+        }
+
+        .dropdown-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
         /* Loading Animation Styles */
         .loading-overlay {
             position: fixed;
@@ -172,13 +230,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
             }
         }
 
-        /* Disable form when loading */
         .form-disabled {
             pointer-events: none;
             opacity: 0.6;
         }
 
-        /* Enhanced button loading state */
         .btn-login.loading {
             position: relative;
             color: transparent;
@@ -198,12 +254,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
+
+        /* Modal Styles */
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
     </style>
 </head>
 
 <body>
     <div class="background-wrapper">
         <div class="background-image"></div>
+    </div>
+
+    <!-- Help Dropdown -->
+    <div class="help-dropdown dropdown">
+        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-circle-question"></i> Help
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                    <i class="fa-solid fa-circle-info"></i> About Us
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#tutorialModal">
+                    <i class="fa-solid fa-book-open"></i> Tutorial
+                </a>
+            </li>
+        </ul>
     </div>
 
     <!-- Loading Overlay -->
@@ -241,33 +336,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
         </form>
     </div>
 
-    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
-        <div class="modal-dialog">
+    <!-- About Us Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reset Password</h5>
+                    <h5 class="modal-title"><i class="fa-solid fa-circle-info me-2"></i>About MNHS Library System</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="reset_password.php" method="POST">
-                        <div class="form-group mb-3">
-                            <label for="resetEmail">Email Address</label>
-                            <input type="email" class="form-control" name="email" id="resetEmail" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="newPassword">New Password</label>
-                            <input type="password" class="form-control" name="new_password" id="newPassword" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="confirmPassword">Confirm New Password</label>
-                            <input type="password" class="form-control" name="confirm_password" id="confirmPassword" required>
-                        </div>
-                        <button type="submit" name="resetPassword" class="btn btn-primary w-100">Reset Password</button>
-                    </form>
+                    <h6 class="fw-bold mb-3">Our Mission</h6>
+                    <p>The MNHS Library System is dedicated to providing students and staff with easy access to educational resources and streamlined library management.</p>
+
+                    <h6 class="fw-bold mb-3 mt-4">Features</h6>
+                    <ul>
+                        <li>Digital book catalog and search</li>
+                        <li>Easy borrowing and return process</li>
+                        <li>Real-time availability tracking</li>
+                        <li>User-friendly interface</li>
+                        <li>Secure account management</li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Tutorial Modal -->
+    <div class="modal fade" id="tutorialModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-solid fa-book-open me-2"></i>How to Use the Library System</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="fw-bold mb-3">Getting Started (For Students)</h6>
+                    <ol>
+                        <li class="mb-3">
+                            <strong>Request for Account:</strong> Go to the Library and the Librarian will provide the login credentials for you
+                        </li>
+                        <li class="mb-3">
+                            <strong>Login:</strong> Enter your username or email and password to access the system.
+                        </li>
+                        <li class="mb-3">
+                            <strong>Browse Books:</strong> Use the search function to find books by title, author, publisher and etc.
+                            and in My Books list you can see your borrowed books and its status(pending, approved, returned or rejected).
+                        </li>
+                        <li class="mb-3">
+                            <strong>Borrow Books:</strong> Click on a book to view details and select "Borrow" if available.
+                        </li>
+                        <li class="mb-3">
+                            <strong>Return Books:</strong> Go to "My Books List Section Qr Code(Will be generated once the librarian approved your request).
+                        </li>
+
+                    </ol>
+
+                    <h6 class="fw-bold mb-3 mt-4">Tips</h6>
+                    <ul>
+                        <li>You can Borrow an 8 maximum books in total</li>
+                        <li>Use filters to narrow down search results</li>
+                        <li>You will have 7 days to return your borrowed Books</li>
+                        <li>Contact or Go to the librarian if you need assistance</li>
+                    </ul>
+
+                    <div class="alert alert-info mt-4">
+                        <i class="fa-solid fa-lightbulb me-2"></i>
+                        <strong>Need Help?</strong> Contact the library staff for personalized assistance.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -301,47 +447,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_id']) && isset(
             const loginId = document.querySelector('input[name="login_id"]').value.trim();
             const password = document.querySelector('input[name="password"]').value;
 
-            // Validate inputs
             if (!loginId || !password) {
                 e.preventDefault();
                 alert('Please fill in all fields!');
                 return false;
             }
 
-            // Show loading animation
             showLoading();
         });
 
         function showLoading() {
-            // Show overlay
             loadingOverlay.style.display = 'flex';
-
-            // Add loading class to button
             loginBtn.classList.add('loading');
             loginBtn.disabled = true;
-
-            // Disable form
             loginForm.classList.add('form-disabled');
         }
 
         function hideLoading() {
-            // Hide overlay
             loadingOverlay.style.display = 'none';
-
-            // Remove loading class from button
             loginBtn.classList.remove('loading');
             loginBtn.disabled = false;
-
-            // Enable form
             loginForm.classList.remove('form-disabled');
         }
-
-        // Hide loading if there's an error (page reloads)
-        <?php if (!empty($error) && $_SERVER['REQUEST_METHOD'] === 'POST') : ?>
-            document.addEventListener('DOMContentLoaded', function() {
-                hideLoading();
-            });
-        <?php endif; ?>
 
         // Forgot password modal form validation
         document.querySelector('#forgotPasswordModal form').addEventListener('submit', function(e) {

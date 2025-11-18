@@ -31,7 +31,8 @@ if (isset($_GET['status']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequ
     header('Content-Type: application/json');
 
     $query = "SELECT 
-                DATE(R.ReserveDate) AS RESERVEDATE,  -- ✅ only date
+                DATE(R.ReserveDate) AS RESERVEDATE,
+                DATE(R.ReturnedDate) AS RETURNEDDATE,  -- ✅ only date
                 B.Title AS BOOK_TITLE,
                 R.STATUS
               FROM reservations R 
@@ -359,13 +360,132 @@ function getStatusBadgeClass($status)
     </div>
 
 
-    <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../public/assets/js/userReservations.js"></script>
+
+
+    <script src="../public/assets/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
+
+            $(document).on('click', '#filterButton', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const status = $('#form-select').val();
+                const $button = $(this);
+                const originalHtml = $button.html();
+
+
+                $button.html('<span class="spinner-border spinner-border-sm me-2"></span>Filtering...');
+
+                $.ajax({
+                    url: window.location.pathname,
+                    method: 'GET',
+                    data: {
+                        status: status
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        if (!response.data) {
+                            console.error('Invalid response:', response);
+                            return;
+                        }
+
+                        $('#reservationTable tbody').empty();
+                        $('#mobileReservations').empty();
+                        $('#noStatusMessage').hide();
+
+
+                        updateViews(response.data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                        alert('An error occurred while filtering. Please try again.');
+                    },
+                    complete: function() {
+
+                        $button.html(originalHtml);
+                    }
+                });
+            });
+
+            function updateViews(data) {
+                const tableBody = $('#reservationTable tbody');
+                const mobileContainer = $('#mobileReservations');
+                const noStatusMessage = $('#noStatusMessage');
+
+                if (data.length === 0) {
+
+                    tableBody.html('<tr><td colspan="3" class="text-center">No active status found</td></tr>');
+                    mobileContainer.empty();
+                    noStatusMessage.show();
+                } else {
+
+                    noStatusMessage.hide();
+
+                    const rows = data.map(item => `
+                <tr>
+                    <td>${item.RESERVEDATE}</td>
+                    <td>${item.BOOK_TITLE}</td>
+                    <td>${item.RETURNEDDATE}</td>
+                    
+                    <td><span class="badge ${getStatusBadgeClass(item.STATUS)}">${item.STATUS}</span></td>
+                </tr>
+            `).join('');
+                    tableBody.html(rows);
+
+
+                    const mobileContent = data.map(item => `
+                <div class="card reservation-card mb-3 text-center">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title reservation-title mb-0">${item.BOOK_TITLE}</h5>
+                    </div>
+                    <div class="card-body">
+                            <p class="card-text">
+                                <strong>Borrowed Date:</strong><br>
+                                ${item.RESERVEDATE}
+                            </p>
+                     <p class="card-text">
+                            <strong>Returned Date:</strong><br>
+                             ${item.RETURNEDDATE ? item.RETURNEDDATE : '<em>Not yet returned</em>'}
+                    </p>
+
+
+                        <p class="card-text">Status: </p>
+                        <span class="badge ${getStatusBadgeClass(item.STATUS)}">
+                            ${item.STATUS}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+
+
+                    mobileContainer.html(mobileContent);
+                }
+            }
+        });
+
+        function getStatusBadgeClass(status) {
+            switch (status) {
+                case 'Borrowed':
+                    return 'badge-success';
+                case 'Rejected':
+                    return 'badge-danger';
+                case 'Returned':
+                    return 'badge-warning';
+                case 'Pending':
+                    return 'badge-secondary';
+                default:
+                    return 'badge-secondary';
+            }
+        }
     </script>
+
+
 
 
 </body>

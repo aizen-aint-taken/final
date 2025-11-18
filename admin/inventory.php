@@ -520,7 +520,7 @@ include('../includes/sidebar.php');
                         <div class="col-md-6 mb-4">
                             <div class="card h-100">
                                 <div class="card-header">
-                                    <h5><i class="fas fa-chart-bar"></i> Stock Distribution</h5>
+                                    <h5><i class="fas fa-chart-bar"></i> Total Books</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-container">
@@ -532,7 +532,7 @@ include('../includes/sidebar.php');
                         <div class="col-md-6 mb-4">
                             <div class="card h-100">
                                 <div class="card-header">
-                                    <h5><i class="fas fa-chart-doughnut"></i> Borrowing Status</h5>
+                                    <h5><i class="fas fa-chart-doughnut"></i> Borrowing Status (Borrowed Approved,Pending,Rejected)</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-container">
@@ -616,11 +616,18 @@ include('../includes/sidebar.php');
                     </div>
 
                     <div class="row mt-4">
+                        <!-- alerts and notif -->
                         <div class="col-md-8">
                             <div class="card enhanced-alerts-card">
                                 <div class="card-header bg-gradient-warning text-white">
                                     <h5 class="mb-0">
                                         <i class="fas fa-exclamation-triangle"></i> ⚠️ Alerts & Notifications
+                                        <select id="alertsFilter" class="form-control form-control-sm d-inline-block ml-2" style="width: auto; display: inline-block;" onchange="filterAlerts()">Filter
+                                            <option value="all">All Alerts</option>
+                                            <option value="low_stock">Low Stock</option>
+                                            <option value="overdue">Overdue Books</option>
+                                            <option value="recent">Recently Added</option>
+                                        </select>
                                         <button class="btn btn-sm btn-light float-right" onclick="refreshAlerts()">
                                             <i class="fas fa-sync-alt"></i> Refresh
                                         </button>
@@ -631,14 +638,22 @@ include('../includes/sidebar.php');
                                 </div>
                             </div>
                         </div>
+                        <!-- activities -->
                         <div class="col-md-4">
                             <div class="card enhanced-activity-card">
                                 <div class="card-header bg-gradient-success text-white">
                                     <h5 class="mb-0">
                                         <i class="fas fa-clock"></i> 🕰️ Recent Activity
-                                        <button class="btn btn-sm btn-light float-right" onclick="loadActivityFeed()">
-                                            <i class="fas fa-refresh"></i>
-                                        </button>
+                                        <div class="float-right">
+                                            <select id="activityFilter" class="form-control form-control-sm d-inline-block mr-2" style="width: auto;" onchange="filterActivityFeed()">
+                                                <option value="all">All Activities</option>
+                                                <option value="reservation">Borrowings</option>
+                                                <option value="return">Returns</option>
+                                            </select>
+                                            <button class="btn btn-sm btn-light" onclick="loadActivityFeed()">
+                                                <i class="fas fa-refresh"></i>
+                                            </button>
+                                        </div>
                                     </h5>
                                 </div>
                                 <div class="card-body" id="activityFeed" style="max-height: 300px; overflow-y: auto;">
@@ -646,6 +661,8 @@ include('../includes/sidebar.php');
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
 
@@ -1077,61 +1094,17 @@ include('../includes/sidebar.php');
         });
     }
 
+    // ... existing code ...
+
     // Alerts & Notifications
     function loadAlertsAndNotifications() {
         $.post('inventory_operations.php', {
             action: 'get_alerts_notifications'
         }, function(response) {
             if (response.success) {
-                let html = '';
-
-                // Low stock alerts
-                if (response.data.low_stock && response.data.low_stock.length > 0) {
-                    response.data.low_stock.forEach(function(book) {
-                        html += `
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>⚠️ Low Stock Alert:</strong> "${book.Title}" is running low (${book.Stock} copies remaining)
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    `;
-                    });
-                }
-
-                // Overdue books alerts
-                if (response.data.overdue && response.data.overdue.length > 0) {
-                    response.data.overdue.forEach(function(reservation) {
-                        html += `
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>🚨 Overdue Book:</strong> "${reservation.Title}" borrowed by ${reservation.student_name} is ${reservation.days_overdue} days overdue
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    `;
-                    });
-                }
-
-                // Recently added books
-                if (response.data.recent_additions && response.data.recent_additions.length > 0) {
-                    response.data.recent_additions.forEach(function(book) {
-                        html += `
-                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                            <strong>🆕 New Addition:</strong> "${book.Title}" was recently added to inventory (${book.Stock} copies)
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    `;
-                    });
-                }
-
-                if (html === '') {
-                    html = '<p class="text-muted text-center">No alerts or notifications at this time</p>';
-                }
-
-                $('#alertsContainer').html(html);
+                // Store the full alerts data for filtering
+                window.allAlerts = response.data;
+                displayAlertsAndNotifications(response.data);
             } else {
                 $('#alertsContainer').html('<p class="text-muted text-center">Error loading alerts</p>');
             }
@@ -1140,55 +1113,156 @@ include('../includes/sidebar.php');
         });
     }
 
+    // Display Alerts & Notifications with optional filtering
+    function displayAlertsAndNotifications(data) {
+        let html = '';
+
+        // Low stock alerts
+        if (data.low_stock && data.low_stock.length > 0) {
+            data.low_stock.forEach(function(book) {
+                html += `
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" data-alert-type="low_stock">
+                <strong>⚠️ Low Stock Alert:</strong> "${book.Title}" is running low (${book.Stock} copies remaining)
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+            });
+        }
+
+        // Overdue books alerts
+        if (data.overdue && data.overdue.length > 0) {
+            data.overdue.forEach(function(reservation) {
+                html += `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" data-alert-type="overdue">
+                <strong>🚨 Overdue Book:</strong> "${reservation.Title}" borrowed by ${reservation.student_name} is ${reservation.days_overdue} days overdue
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+            });
+        }
+
+        // Recently added books
+        if (data.recent_additions && data.recent_additions.length > 0) {
+            data.recent_additions.forEach(function(book) {
+                html += `
+            <div class="alert alert-info alert-dismissible fade show" role="alert" data-alert-type="recent">
+                <strong>🆕 New Addition:</strong> "${book.Title}" was recently added to inventory (${book.Stock} copies)
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+            });
+        }
+
+        if (html === '') {
+            html = '<p class="text-muted text-center">No alerts or notifications at this time</p>';
+        }
+
+        $('#alertsContainer').html(html);
+    }
+
+    // Filter alerts based on selection
+    function filterAlerts() {
+        const filterValue = $('#alertsFilter').val();
+
+        if (!window.allAlerts) {
+            loadAlertsAndNotifications(); // Load alerts if not already loaded
+            return;
+        }
+
+        if (filterValue === 'all') {
+            displayAlertsAndNotifications(window.allAlerts);
+        } else {
+            // Create a filtered version of the alerts data
+            const filteredAlerts = {
+                low_stock: filterValue === 'low_stock' ? window.allAlerts.low_stock : [],
+                overdue: filterValue === 'overdue' ? window.allAlerts.overdue : [],
+                recent_additions: filterValue === 'recent' ? window.allAlerts.recent_additions : []
+            };
+            displayAlertsAndNotifications(filteredAlerts);
+        }
+    }
+
+
+
     // Recent Activity Feed
     function loadActivityFeed() {
         $.post('inventory_operations.php', {
             action: 'get_activity_feed'
         }, function(response) {
             if (response.success) {
-                let html = '';
-
-                if (response.data && response.data.length > 0) {
-                    // Sort by activity time descending
-                    response.data.sort((a, b) => new Date(b.activity_time) - new Date(a.activity_time));
-
-                    response.data.forEach(function(activity) {
-                        let icon = activity.type === 'reservation' ? '📚' : '✅';
-                        let badgeClass = activity.type === 'reservation' ? 'badge-primary' : 'badge-success';
-
-                        const activityTime = new Date(activity.activity_time);
-                        const formattedTime = activityTime.toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        });
-                        const formattedDate = activityTime.toLocaleDateString();
-
-                        html += `
-                        <div class="activity-item">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                    <span class="badge ${badgeClass}">${icon}</span>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <p class="mb-1">${activity.activity}</p>
-                                    <small class="text-muted">${formattedDate} at ${formattedTime}</small>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="my-2">
-                    `;
-                    });
-                } else {
-                    html = '<p class="text-muted text-center">No recent activity</p>';
-                }
-
-                $('#activityFeed').html(html);
+                // Store the full activity data for filtering
+                window.allActivities = response.data;
+                displayActivityFeed(response.data);
             } else {
                 $('#activityFeed').html('<p class="text-muted text-center">Error loading activity feed</p>');
             }
         }, 'json').fail(function() {
             $('#activityFeed').html('<p class="text-muted text-center">Failed to load activity feed</p>');
         });
+    }
+
+    // Display activity feed with optional filtering
+    function displayActivityFeed(activities) {
+        let html = '';
+
+        if (activities && activities.length > 0) {
+            // Sort by activity time descending
+            activities.sort((a, b) => new Date(b.activity_time) - new Date(a.activity_time));
+
+            activities.forEach(function(activity) {
+                let icon = activity.type === 'reservation' ? '📚' : '✅';
+                let badgeClass = activity.type === 'reservation' ? 'badge-primary' : 'badge-success';
+
+                const activityTime = new Date(activity.activity_time);
+                const formattedTime = activityTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                const formattedDate = activityTime.toLocaleDateString();
+
+                html += `
+            <div class="activity-item">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <span class="badge ${badgeClass}">${icon}</span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="mb-1">${activity.activity}</p>
+                        <small class="text-muted">${formattedDate} at ${formattedTime}</small>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-2">
+        `;
+            });
+        } else {
+            html = '<p class="text-muted text-center">No recent activity</p>';
+        }
+
+        $('#activityFeed').html(html);
+    }
+
+    // Filter activity feed based on selection
+    function filterActivityFeed() {
+        const filterValue = $('#activityFilter').val();
+
+        if (!window.allActivities) {
+            loadActivityFeed(); // Load activities if not already loaded
+            return;
+        }
+
+        if (filterValue === 'all') {
+            displayActivityFeed(window.allActivities);
+        } else {
+            const filteredActivities = window.allActivities.filter(activity => activity.type === filterValue);
+            displayActivityFeed(filteredActivities);
+        }
     }
 
     // Real-time Indicators

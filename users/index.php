@@ -275,8 +275,10 @@ $reservations = $stmt->get_result();
                                             <?php endif; ?>
                                         </td>
 
+
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary btn-sm reserve-btn"
+                                                <?php if ($book['display_stock'] <= 0): ?>disabled<?php endif; ?>
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalId"
                                                 data-id="<?= htmlspecialchars($book['BookID']) ?>"
@@ -284,12 +286,11 @@ $reservations = $stmt->get_result();
                                                 data-author="<?= htmlspecialchars($book['Author']) ?>"
                                                 data-publisher="<?= htmlspecialchars($book['Publisher']) ?>"
                                                 data-publisheddate=" <?= htmlspecialchars($book['PublishedDate']) ?> ">
-                                                <?= $book['display_stock'] <= 0 ? 'disabled' : '' ?>
-                                                <i class=" fas fa-bookmark me-1
-                                                <?= $book['display_stock'] > 0 ? 'text-muted' : 'text-danger' ?>">
-                                                </i>Borrow
-
+                                                <i class="fas fa-bookmark me-1 <?= $book['display_stock'] > 0 ? 'text-muted' : 'text-danger' ?>"></i>
+                                                Borrow
+                                            </button>
                                         </td>
+
 
                                     </tr>
                                 <?php endforeach; ?>
@@ -619,6 +620,21 @@ $reservations = $stmt->get_result();
                     });
                 });
             })();
+
+            // Check authentication every 5 seconds
+            setInterval(function() {
+                fetch('../check_auth.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.logged_out) {
+                            alert('You have been logged out by an administrator.');
+                            window.location.href = '../index.php';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Auth check failed:', error);
+                    });
+            }, 5000);
         </script>
     </div>
 </body>

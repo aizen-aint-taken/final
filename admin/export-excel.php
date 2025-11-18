@@ -12,11 +12,9 @@ try {
     $result = $conn->query("SELECT Title, Author, Publisher, `Source of Acquisition`, PublishedDate, Subject, Stock FROM books");
 
 
-
-
     if ($result->num_rows === 0) {
         $_SESSION['error'][] = "No books found to export.";
-        header("location:index.php");
+        header("location:../categories/Books.php");
         exit;
     }
 
@@ -45,6 +43,6 @@ try {
     exit;
 } catch (Exception $e) {
     $_SESSION['error'][] = "Error exporting data: " . $e->getMessage();
-    header("location:index.php");
+    header("location:../categories/Books.php");
     exit;
 }

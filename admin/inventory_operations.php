@@ -78,6 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 echo json_encode(['success' => true, 'data' => $data]);
                 break;
 
+            // New case for yearly inventory
+            case 'get_yearly_inventory':
+                $year = isset($_POST['year']) ? intval($_POST['year']) : date('Y');
+                $data = getYearlyInventory($conn, $year);
+                echo json_encode(['success' => true, 'data' => $data, 'year' => $year]);
+                break;
+
             default:
                 echo json_encode(['success' => false, 'error' => 'Invalid action']);
                 break;
@@ -85,6 +92,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     } catch (Exception $e) {
         error_log("Inventory Operations Error: " . $e->getMessage());
         echo json_encode(['success' => false, 'error' => 'Internal server error']);
+    }
+}
+// Handle GET requests for exports
+else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
+    $action = $_GET['action'];
+
+    if ($action === 'export_yearly_inventory_excel') {
+        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+        exportYearlyInventoryToExcel($conn, $year);
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid request method']);
@@ -382,6 +398,91 @@ function getAlertsNotifications($conn)
     $alerts['recent_additions'] = $recentResult ? $recentResult->fetch_all(MYSQLI_ASSOC) : [];
 
     return $alerts;
+}
+
+// Yearly Inventory Function
+function getYearlyInventory($conn, $year = null)
+{
+    // If no year is provided, use the current year
+    if (!$year) {
+        $year = date('Y');
+    }
+
+    // Ensure year is not less than 2025
+    if ($year < 2025) {
+        $year = 2025;
+    }
+
+    $query = "SELECT 
+                b.Title,
+                b.Author,
+                b.Stock as preview_total,
+                COALESCE(br.borrowed_count, 0) as borrowed,
+                COALESCE(rt.returned_count, 0) as returned,
+                (b.Stock - COALESCE(br.borrowed_count, 0)) as current_total
+              FROM books b
+              LEFT JOIN (
+                SELECT BookID, COUNT(*) as borrowed_count
+                FROM reservations 
+                WHERE STATUS = 'Borrowed' 
+                AND YEAR(ReserveDate) = ?
+                GROUP BY BookID
+              ) br ON b.BookID = br.BookID
+              LEFT JOIN (
+                SELECT BookID, COUNT(*) as returned_count
+                FROM reservations 
+                WHERE STATUS = 'Returned'
+                AND YEAR(ReturnedDate) = ?
+                GROUP BY BookID
+              ) rt ON b.BookID = rt.BookID
+              ORDER BY b.Title ASC";
+
+    $stmt = $conn->prepare($query);
+    if ($stmt) {
+        $stmt->bind_param("ii", $year, $year);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+
+    return []; // Return empty array if no data
+}
+
+// Function to export yearly inventory to Excel
+function exportYearlyInventoryToExcel($conn, $year = null)
+{
+    // If no year is provided, use the current year
+    if (!$year) {
+        $year = date('Y');
+    }
+
+    // Get the yearly inventory data
+    $data = getYearlyInventory($conn, $year);
+
+    // Set headers for Excel export
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment; filename="yearly_inventory_report_' . $year . '.xls"');
+
+    // Output Excel content
+    echo "<table border='1'>";
+    echo "<tr><th>Title</th><th>Author</th><th>Preview Total</th><th>Borrowed</th><th>Returned</th><th>Current Total</th></tr>";
+
+    foreach ($data as $row) {
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['Title']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Author']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['preview_total']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['borrowed']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['returned']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['current_total']) . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+    exit;
 }
 
 // Log activity function (for future use)

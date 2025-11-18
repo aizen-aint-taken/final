@@ -44,7 +44,7 @@ include("../config/conn.php");
                     </div>
                     <div class="form-group">
                         <label for="editBookStock">Stock</label>
-                        <input type="number" class="form-control" name="stock" id="editBookStock" required>
+                        <input type="number" class="form-control" min="0" name="stock" id="editBookStock" required>
                     </div>
                     <button type="submit" name="update" class="btn btn-primary">Save Changes</button>
                 </form>

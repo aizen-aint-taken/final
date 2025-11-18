@@ -10,7 +10,41 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
     exit;
 }
 
+// Add this function to check if a student is online
+function isStudentOnline($conn, $studentEmail)
+{
+    $stmt = $conn->prepare("SELECT session_status FROM webuser WHERE email = ? AND usertype = 'u'");
+    $stmt->bind_param("s", $studentEmail);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        // A student is considered online if they have an active session
+        return !empty($row['session_status']);
+    }
+
+    return false;
+}
+
+
+// Handle force logout request
+if (isset($_POST['force_logout']) && isset($_POST['student_email'])) {
+    $studentEmail = $_POST['student_email'];
+
+    // Clear session status and session ID for the student
+    $stmt = $conn->prepare("UPDATE webuser SET session_status = NULL, session_id = NULL WHERE email = ? AND usertype = 'u'");
+    $stmt->bind_param("s", $studentEmail);
+    if ($stmt->execute()) {
+        $success_message = "Student has been logged out successfully.";
+    } else {
+        $error_message = "Failed to logout student.";
+    }
+
+    // Redirect to prevent resubmission on page refresh
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
 
 $years = $conn->query("SELECT DISTINCT year FROM users ORDER BY year DESC");
 
@@ -129,8 +163,6 @@ include('../includes/sidebar.php');
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -150,9 +182,28 @@ include('../includes/sidebar.php');
 
 <body>
     <div class="main-content">
+        <?php if (isset($success_message)): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $success_message ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $error_message ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <div class="page-header">
-            <h1 class="h3 mb- text-center">Student Management</h1>
-            <p class="mb-2 text-center">Manage student accounts and information</p>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h1 class="h3 mb-0 text-center">Student Management</h1>
+                    <p class="mb-0 text-center">Manage student accounts and information</p>
+                </div>
+
+            </div>
         </div>
         <div class="row mb-3">
             <div class="col-12 mb-2">
@@ -190,6 +241,7 @@ include('../includes/sidebar.php');
                         <th>SECTION</th>
                         <th>ADVISER</th>
                         <th>EMAIL</th>
+                        <th>STATUS</th>
                         <th>ACTIONS</th>
                     </tr>
                 </thead>
@@ -202,6 +254,13 @@ include('../includes/sidebar.php');
                             <td><?= htmlspecialchars($user['sect']) ?></td>
                             <td><?= htmlspecialchars($user['advicer']) ?></td>
                             <td><?= htmlspecialchars($user['email']) ?></td>
+                            <td>
+                                <?php if (isStudentOnline($conn, $user['email'])): ?>
+                                    <span class="badge bg-success status-badge online">Online</span>
+                                <?php else: ?>
+                                    <span class="badge bg-secondary status-badge">Offline</span>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <div class="d-flex gap-2">
                                     <button class="btn-edit"
@@ -224,6 +283,18 @@ include('../includes/sidebar.php');
                                         data-email="<?= htmlspecialchars($user['email']) ?>">
                                         <i class="fas fa-key"></i>
                                     </button>
+
+                                    <!-- Force Logout Button -->
+                                    <?php if (isStudentOnline($conn, $user['email'])): ?>
+                                        <form action="" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to logout this student?');">
+                                            <input type="hidden" name="force_logout" value="1">
+                                            <input type="hidden" name="student_email" value="<?= htmlspecialchars($user['email']) ?>">
+                                            <button type="submit" class="btn btn-warning btn-sm" title="Force Logout">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+
                                     <form action="../admin/deleteStudent.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="delete_id" value="<?= $user['id'] ?>">
                                         <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this student?');">
@@ -250,6 +321,14 @@ include('../includes/sidebar.php');
                             <p><strong>Section:</strong> <?= htmlspecialchars($user['sect']) ?></p>
                             <p><strong>Advisor:</strong> <?= htmlspecialchars($user['advicer']) ?></p>
                             <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+                            <p>
+                                <strong>Status:</strong>
+                                <?php if (isStudentOnline($conn, $user['email'])): ?>
+                                    <span class="badge bg-success status-badge online">Online</span>
+                                <?php else: ?>
+                                    <span class="badge bg-secondary status-badge">Offline</span>
+                                <?php endif; ?>
+                            </p>
                         </div>
                         <div class="d-flex gap-2 justify-content-center mt-3">
                             <button class="btn btn-warning btn-sm"
@@ -271,6 +350,18 @@ include('../includes/sidebar.php');
                                 data-email="<?= htmlspecialchars($user['email']) ?>">
                                 <i class="fas fa-key"></i> Password
                             </button>
+
+                            <!-- Force Logout Button for Mobile -->
+                            <?php if (isStudentOnline($conn, $user['email'])): ?>
+                                <form action="" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to logout this student?');">
+                                    <input type="hidden" name="force_logout" value="1">
+                                    <input type="hidden" name="student_email" value="<?= htmlspecialchars($user['email']) ?>">
+                                    <button type="submit" class="btn btn-warning btn-sm" title="Force Logout">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+
                             <form action="../admin/deleteStudent.php" method="POST" style="display:inline;">
                                 <input type="hidden" name="delete_id" value="<?= $user['id'] ?>">
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">
